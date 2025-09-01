@@ -1,0 +1,78 @@
+package view.command;
+
+
+import game.LadyBug;
+import game.board.GameBoard;
+import view.Command;
+import view.Result;
+import view.configuration.Configuration;
+import view.configuration.SetupExecuter;
+import view.configuration.loader.BoardLoader;
+import view.configuration.loader.BugsLoader;
+import view.configuration.loader.LoadingException;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.StringJoiner;
+
+
+/**
+ * A command that loads a game board and ladybugs configuration from a file.
+ * It uses {@link BoardLoader} to initialize the game board and {@link BugsLoader}
+ * to initialize the ladybugs from the file contents.
+ *
+ * @author ubpst
+ */
+public class LoadBoard implements Command<SetupExecuter<Configuration, ?>> {
+
+    private static final String ERROR_UNREADABLE_FILE = "unreadable file uploaded";
+
+    private final BoardLoader boardLoader;
+    private final BugsLoader bugsLoader;
+    private final Path path;
+
+    /**
+     * Creates a new {@code LoadBoard} command that loads a configuration from the given file path.
+     *
+     * @param path the path to the file containing the board and ladybug definitions
+     */
+    public LoadBoard(Path path) {
+        this.path = path;
+        this.boardLoader = new BoardLoader();
+        this.bugsLoader = new BugsLoader();
+    }
+
+    @Override
+    public Result execute(SetupExecuter<Configuration, ?> handle) {
+        List<String> fileLines;
+
+        try {
+            fileLines = Files.readAllLines(path);
+        } catch (IOException e) {
+            return Result.error(ERROR_UNREADABLE_FILE);
+        }
+
+        GameBoard gameBoard;
+        List<LadyBug> ladyBugs;
+
+        try {
+            gameBoard = this.boardLoader.load(fileLines);
+            ladyBugs = this.bugsLoader.load(fileLines);
+        } catch (LoadingException e) {
+            return Result.error(e.getMessage());
+        }
+
+        handle.configurate(gameBoard, ladyBugs);
+        return Result.success(displayLines(fileLines));
+    }
+
+    private String displayLines(List<String> lines) {
+        StringJoiner joiner = new StringJoiner(System.lineSeparator());
+        for (String line : lines) {
+            joiner.add(line);
+        }
+        return joiner.toString();
+    }
+}
