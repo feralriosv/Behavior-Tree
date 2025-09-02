@@ -1,6 +1,6 @@
-package karatrees;
+package program;
 
-import game.GameRunner;
+import model.GameRunner;
 import view.Arguments;
 import view.CLILadybugClient;
 

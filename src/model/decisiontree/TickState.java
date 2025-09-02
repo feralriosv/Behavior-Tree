@@ -1,4 +1,4 @@
-package game.decisionTree;
+package model.decisiontree;
 
 /**
  * Represents the possible states resulting from executing a tick in the decision tree.
@@ -11,5 +11,5 @@ public enum TickState {
     /** Indicates that the node execution failed. */
     FAILURE,
     /** Marks the entry point of a tick before execution begins. */
-    ENTRY;
+    ENTRY,
 }

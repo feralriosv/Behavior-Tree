@@ -1,9 +1,9 @@
 package view.command;
 
-import game.Game;
-import game.LadyBug;
-import game.value.Identifier;
-import game.value.Vector2D;
+import model.Game;
+import model.ladybug.LadyBug;
+import model.ladybug.Identifier;
+import model.ladybug.Vector2D;
 import view.Command;
 import view.Result;
 

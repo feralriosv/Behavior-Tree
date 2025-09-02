@@ -1,10 +1,10 @@
 package view;
 
-import game.LadyBug;
-import game.Facing;
-import game.board.Tile;
-import game.board.BoardView;
-import game.value.Vector2D;
+import model.ladybug.LadyBug;
+import model.ladybug.Facing;
+import model.board.Tile;
+import model.board.BoardView;
+import model.ladybug.Vector2D;
 
 import java.util.Collections;
 import java.util.List;

@@ -1,11 +1,12 @@
-package game;
+package model;
 
-import game.board.GameBoard;
-import game.board.Tile;
-import game.board.TileType;
-import game.decisionTree.DecisionTree;
-import game.value.Identifier;
-import game.value.Vector2D;
+import model.board.GameBoard;
+import model.board.Tile;
+import model.board.TileType;
+import model.decisiontree.DecisionTree;
+import model.ladybug.LadyBug;
+import model.ladybug.Identifier;
+import model.ladybug.Vector2D;
 import view.configuration.Configuration;
 
 import java.util.*;
@@ -109,7 +110,7 @@ public class Game {
      * @param bug the ladybug attempting to place a leaf
      * @return true if the leaf was successfully placed, false otherwise
      */
-    protected boolean placeLeaf(LadyBug bug) {
+    public boolean placeLeaf(LadyBug bug) {
         if (!bug.isCarryingLeaf()) {
             return false;
         }

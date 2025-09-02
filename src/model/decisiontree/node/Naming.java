@@ -1,4 +1,4 @@
-package game.value;
+package model.decisiontree.node;
 
 import java.util.Objects;
 

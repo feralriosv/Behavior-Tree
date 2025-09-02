@@ -1,6 +1,6 @@
-package game.board;
+package model.board;
 
-import game.value.Vector2D;
+import model.ladybug.Vector2D;
 
 /**
  * Represents the game board composed of a grid of {@link Tile}s.

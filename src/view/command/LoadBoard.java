@@ -1,8 +1,8 @@
 package view.command;
 
 
-import game.LadyBug;
-import game.board.GameBoard;
+import model.ladybug.LadyBug;
+import model.board.GameBoard;
 import view.Command;
 import view.Result;
 import view.configuration.Configuration;

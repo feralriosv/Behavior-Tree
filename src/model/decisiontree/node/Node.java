@@ -1,7 +1,7 @@
-package game.decisionTree;
+package model.decisiontree.node;
 
-import game.GameContext;
-import game.value.Naming;
+import model.GameContext;
+import model.decisiontree.TickResult;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,6 +20,7 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
     private final T nodeType;
     private final Naming naming;
     private final List<Node<?>> children;
+    private TickResult lastResult;
 
     /**
      * Creates a new node with the given identifier and type.
@@ -31,6 +32,24 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
         this.naming = nodeId;
         this.nodeType = nodeType;
         this.children = new ArrayList<>();
+        this.lastResult = null;
+    }
+
+    /**
+     * Checks whether this node has completed its evaluation.
+     * For composite nodes, this includes their children.
+     * For leaf nodes, this means it has produced a final result.
+     *
+     * @return true if this node (and its subnodes if any) are completed
+     */
+    public abstract boolean ticksCompleted();
+
+    protected void setLastResult(TickResult lastResult) {
+        this.lastResult = lastResult;
+    }
+
+    protected TickResult getLastResult() {
+        return this.lastResult;
     }
 
     /**
@@ -39,7 +58,7 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
      * @param context the game context in which this node is executed
      * @return a {@link TickResult} representing the outcome of execution
      */
-    public abstract TickResult tick(GameContext context);
+    public abstract void tick(GameContext context);
 
     /**
      * Adds a child node to this node.

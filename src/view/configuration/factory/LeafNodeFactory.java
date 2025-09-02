@@ -1,8 +1,8 @@
 package view.configuration.factory;
 
-import game.decisionTree.LeafType;
-import game.decisionTree.LeafNode;
-import game.value.Naming;
+import model.decisiontree.node.LeafType;
+import model.decisiontree.node.LeafNode;
+import model.decisiontree.node.Naming;
 import view.configuration.loader.TreeLoader;
 
 import java.util.Optional;

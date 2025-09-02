@@ -1,11 +1,13 @@
-package game;
+package model;
 
-import game.board.BoardView;
-import game.board.ReadOnlyBoard;
-import game.board.Tile;
-import game.board.TileType;
-import game.decisionTree.TickResult;
-import game.value.Vector2D;
+import model.board.BoardView;
+import model.board.ReadOnlyBoard;
+import model.board.Tile;
+import model.board.TileType;
+import model.decisiontree.TickResult;
+import model.ladybug.Facing;
+import model.ladybug.LadyBug;
+import model.ladybug.Vector2D;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +73,7 @@ public class GameContext {
      *
      * @return true if an action was executed, false otherwise
      */
-    public boolean shouldStop() {
+    public boolean wasActionExecuted() {
         return this.actionExecuted;
     }
 
@@ -91,7 +93,7 @@ public class GameContext {
      */
     public boolean isAtEdge() {
         Vector2D frontPosition = location().sum(getLadybugFacing().delta());
-        return this.boardView.isInside(frontPosition);
+        return !this.boardView.isInside(frontPosition);
     }
 
     /**

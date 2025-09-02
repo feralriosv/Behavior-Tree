@@ -1,7 +1,7 @@
 package view;
 
-import game.Game;
-import game.GameClient;
+import model.Game;
+import model.GameClient;
 import view.command.ModelKeyword;
 
 import java.io.InputStream;

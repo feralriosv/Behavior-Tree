@@ -1,9 +1,9 @@
 package view.configuration.loader;
 
-import game.board.GameBoard;
-import game.Facing;
-import game.board.Tile;
-import game.board.TileType;
+import model.board.GameBoard;
+import model.ladybug.Facing;
+import model.board.Tile;
+import model.board.TileType;
 
 import java.util.List;
 import java.util.Optional;

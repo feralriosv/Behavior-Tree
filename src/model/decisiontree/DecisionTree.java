@@ -1,7 +1,8 @@
-package game.decisionTree;
+package model.decisiontree;
 
-import game.GameContext;
-import game.LadyBug;
+import model.GameContext;
+import model.decisiontree.node.Node;
+import model.ladybug.LadyBug;
 
 import java.util.List;
 

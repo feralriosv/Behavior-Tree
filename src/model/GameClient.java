@@ -1,4 +1,4 @@
-package game;
+package model;
 
 /**
  * Provides the functionality for game clients.

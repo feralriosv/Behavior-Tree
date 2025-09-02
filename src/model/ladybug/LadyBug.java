@@ -1,7 +1,4 @@
-package game;
-
-import game.value.Identifier;
-import game.value.Vector2D;
+package model.ladybug;
 
 /**
  * Represents a ladybug in the game world.
@@ -34,7 +31,7 @@ public class LadyBug {
      *
      * @return true if the ladybug is carrying a leaf, false otherwise
      */
-    protected boolean isCarryingLeaf() {
+    public boolean isCarryingLeaf() {
         return this.carryingLeaf;
     }
 
@@ -43,7 +40,7 @@ public class LadyBug {
      *
      * @param carryingLeaf true if the ladybug should carry a leaf, false otherwise
      */
-    protected void setCarryingLeaf(boolean carryingLeaf) {
+    public void setCarryingLeaf(boolean carryingLeaf) {
         this.carryingLeaf = carryingLeaf;
     }
 
@@ -52,7 +49,7 @@ public class LadyBug {
      *
      * @param location the new position of the ladybug
      */
-    protected void setLocation(Vector2D location) {
+    public void setLocation(Vector2D location) {
         this.location = location;
     }
 
@@ -61,7 +58,7 @@ public class LadyBug {
      *
      * @return the next position in front of the ladybug
      */
-    protected Vector2D positionAhead() {
+    public Vector2D positionAhead() {
         return location.sum(facing.delta());
     }
 
@@ -70,8 +67,8 @@ public class LadyBug {
      *
      * @return true if the turn was applied successfully
      */
-    protected boolean turnLeft() {
-        this.facing = Facing.WEST;
+    public boolean turnLeft() {
+        this.facing = facing.left();
         return true;
     }
 
@@ -80,8 +77,8 @@ public class LadyBug {
      *
      * @return true if the turn was applied successfully
      */
-    protected boolean turnRight() {
-        this.facing = Facing.EAST;
+    public boolean turnRight() {
+        this.facing = facing.right();
         return true;
     }
 

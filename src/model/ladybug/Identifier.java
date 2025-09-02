@@ -1,7 +1,7 @@
-package game.value;
+package model.ladybug;
 
 /**
- * Represents a unique identifier for game entities such as {@code LadyBug}s or other objects.
+ * Represents a unique identifier for game {@code LadyBug}.
  *
  * @param value the integer value of this identifier
  * @author ubpst

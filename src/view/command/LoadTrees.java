@@ -1,6 +1,6 @@
 package view.command;
 
-import game.decisionTree.DecisionTree;
+import model.decisiontree.DecisionTree;
 import view.Command;
 import view.Result;
 import view.configuration.Configuration;

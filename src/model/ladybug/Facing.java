@@ -1,6 +1,4 @@
-package game;
-
-import game.value.Vector2D;
+package model.ladybug;
 
 /**
  * Represents the four possible facing directions of a {@link LadyBug} on the board.
@@ -81,6 +79,35 @@ public enum Facing {
      * @return a {@link Vector2D} representing the movement direction
      */
     public Vector2D delta() {
-        return new Vector2D(deltaX, deltaY);
+        return new Vector2D(deltaY, deltaX);
+    }
+
+
+    /**
+     * Returns the facing that results from turning left (counter-clockwise) relative to this facing.
+     *
+     * @return the facing after turning left
+     */
+    public Facing left() {
+        return switch (this) {
+            case NORTH -> WEST;
+            case WEST  -> SOUTH;
+            case SOUTH -> EAST;
+            case EAST  -> NORTH;
+        };
+    }
+
+    /**
+     * Returns the facing that results from turning right (clockwise) relative to this facing.
+     *
+     * @return the facing after turning right
+     */
+    public Facing right() {
+        return switch (this) {
+            case NORTH -> EAST;
+            case EAST  -> SOUTH;
+            case SOUTH -> WEST;
+            case WEST  -> NORTH;
+        };
     }
 }

@@ -1,6 +1,6 @@
 package view.command;
 
-import game.Game;
+import model.Game;
 import view.Arguments;
 import view.Command;
 import view.CommandProvider;

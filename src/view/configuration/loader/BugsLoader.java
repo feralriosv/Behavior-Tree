@@ -1,9 +1,9 @@
 package view.configuration.loader;
 
-import game.LadyBug;
-import game.Facing;
-import game.value.Identifier;
-import game.value.Vector2D;
+import model.ladybug.LadyBug;
+import model.ladybug.Facing;
+import model.ladybug.Identifier;
+import model.ladybug.Vector2D;
 
 import java.util.ArrayList;
 import java.util.Collections;

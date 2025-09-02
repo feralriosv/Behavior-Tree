@@ -1,10 +1,10 @@
 package view.command;
 
-import game.Game;
-import game.GameContext;
-import game.LadyBug;
-import game.decisionTree.TickResult;
-import game.decisionTree.DecisionTree;
+import model.Game;
+import model.GameContext;
+import model.ladybug.LadyBug;
+import model.decisiontree.TickResult;
+import model.decisiontree.DecisionTree;
 import view.BoardDisplayer;
 import view.Command;
 import view.Result;

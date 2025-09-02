@@ -1,4 +1,7 @@
-package game.decisionTree;
+package model.decisiontree;
+
+import model.decisiontree.node.CompositeNode;
+import model.decisiontree.node.Node;
 
 /**
  * Represents the result of executing a single tick of a node in the decision tree.
@@ -21,6 +24,10 @@ public class TickResult {
     public TickResult(TickState state, Node<?> node) {
         this.state = state;
         this.node = node;
+    }
+
+    public static TickResult entryResult(CompositeNode node) {
+        return new TickResult(TickState.ENTRY, node);
     }
 
     /**

@@ -1,7 +1,7 @@
 package view.configuration.factory;
 
-import game.decisionTree.Node;
-import game.value.Naming;
+import model.decisiontree.node.Node;
+import model.decisiontree.node.Naming;
 import view.configuration.loader.LoadingException;
 
 import java.util.Optional;

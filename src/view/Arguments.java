@@ -1,6 +1,6 @@
 package view;
 
-import game.value.Identifier;
+import model.ladybug.Identifier;
 
 import java.nio.file.Path;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package game.board;
+package model.board;
 
 /**
  * Represents a single tile on the game board.

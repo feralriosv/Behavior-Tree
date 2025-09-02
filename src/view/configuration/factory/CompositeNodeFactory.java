@@ -1,8 +1,8 @@
 package view.configuration.factory;
 
-import game.decisionTree.CompositeType;
-import game.decisionTree.CompositeNode;
-import game.value.Naming;
+import model.decisiontree.node.CompositeType;
+import model.decisiontree.node.CompositeNode;
+import model.decisiontree.node.Naming;
 import view.configuration.loader.LoadingException;
 
 import java.util.Optional;

@@ -1,6 +1,8 @@
-package game.decisionTree;
+package model.decisiontree.node;
 
-import game.GameContext;
+import model.GameContext;
+import model.decisiontree.TickResult;
+import model.decisiontree.TickState;
 
 import java.util.List;
 
@@ -61,60 +63,94 @@ public enum CompositeType implements NodeType<CompositeNode> {
         return this.label;
     }
 
-    private static TickState runFallback(GameContext gameContext, Node<?> self) {
-        for (Node<?> node : self.getChildren()) {
-            TickState state = node.tick(gameContext).getState();
-            if (state == TickState.SUCCESS) {
-                return TickState.SUCCESS;
+    private static TickState runFallback(GameContext context, CompositeNode self) {
+        boolean childSucceeded = false;
+
+        while (!self.localTicksCompleted()) {
+            TickResult result = self.tickNextChild(context);
+
+            if (result.getState() == TickState.SUCCESS) {
+                childSucceeded = true;
             }
 
-            if (gameContext.shouldStop()) {
+            if (context.wasActionExecuted()) {
                 return TickState.ENTRY;
             }
+
+            self.advancePointer();
         }
-        return TickState.FAILURE;
+
+        self.resetPointer();
+        return childSucceeded ? TickState.SUCCESS : TickState.FAILURE;
     }
 
-    private static TickState runSequence(GameContext gameContext, Node<?> self) {
-        for (Node<?> node : self.getChildren()) {
-            TickState tickState = node.tick(gameContext).getState();
-            if (tickState == TickState.FAILURE) {
+    private static TickState runSequence(GameContext context, CompositeNode self) {
+        while (!self.localTicksCompleted()) {
+            TickResult result = self.tickNextChild(context);
+
+            if (result.getState() == TickState.FAILURE) {
+                self.resetPointer();
                 return TickState.FAILURE;
             }
-            if (gameContext.shouldStop()) {
+
+            if (context.wasActionExecuted()) {
                 return TickState.ENTRY;
             }
+
+            self.advancePointer();
         }
+
+        self.resetPointer();
         return TickState.SUCCESS;
     }
 
     private static TickState runParallel(GameContext context, CompositeNode self) {
         List<Node<?>> children = self.getChildren();
-
         int successes = 0;
-        int remaining = children.size();
-        int parameter = self.getParameter();
 
-        for (Node<?> node : children) {
-            TickState state = node.tick(context).getState();
-            remaining--;
+        while (!self.localTicksCompleted()) {
+            int remainingTicks = children.size() - self.getLocalTickPointer();
+            TickResult result = self.tickNextChild(context);
 
-            if (state == TickState.SUCCESS) {
+            if (result.getState() == TickState.SUCCESS) {
                 successes++;
-                if (successes >= parameter) {
+
+                if (self.ticksCompleted() && successes >= self.getParameter()) {
+                    self.resetPointer();
                     return TickState.SUCCESS;
                 }
             }
 
-            if (successes + remaining < parameter) {
+            if (successes + (remainingTicks - 1) < self.getParameter()) {
+                self.resetPointer();
                 return TickState.FAILURE;
             }
 
-            if (context.shouldStop()) {
+            if (context.wasActionExecuted()) {
+                self.advancePointer();
                 return TickState.ENTRY;
             }
+
+            self.advancePointer();
         }
 
-        return successes >= parameter ? TickState.SUCCESS : TickState.FAILURE;
+        TickState finalState = (successes >= self.getParameter()) ? TickState.SUCCESS : TickState.FAILURE;
+        self.resetPointer();
+        return finalState;
+    }
+
+    /**
+     * Checks whether the given label corresponds to a defined composite type.
+     *
+     * @param label the label string to check
+     * @return true if the label matches a composite type, false otherwise
+     */
+    public static boolean isCompositeType(NodeType<?> label) {
+        for (CompositeType type : values()) {
+            if (type.label().equals(label.label()) || type.getSymbol().equals(label.label())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

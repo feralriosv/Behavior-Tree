@@ -1,8 +1,8 @@
 package view.configuration;
 
-import game.LadyBug;
-import game.board.GameBoard;
-import game.decisionTree.DecisionTree;
+import model.ladybug.LadyBug;
+import model.board.GameBoard;
+import model.decisiontree.DecisionTree;
 import view.CommandExecuter;
 import view.Keyword;
 import view.command.SetupKeyword;

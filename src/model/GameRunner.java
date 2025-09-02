@@ -1,4 +1,4 @@
-package game;
+package model;
 
 /**
  * Implements the procedure of the game. The procedure is designed to work event-based.

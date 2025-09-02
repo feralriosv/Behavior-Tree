@@ -1,7 +1,8 @@
-package game.decisionTree;
+package model.decisiontree.node;
 
-import game.GameContext;
-import game.value.Naming;
+import model.GameContext;
+import model.decisiontree.TickResult;
+import model.decisiontree.TickState;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -25,22 +26,21 @@ public class LeafNode extends Node<LeafType> {
     }
 
     @Override
-    public TickResult tick(GameContext context) {
+    public void tick(GameContext context) {
         TickState state = getNodeType().behavior(context, this);
-
         TickResult result = new TickResult(state, this);
+
         context.logResult(result);
+        setLastResult(result);
 
         if (LeafType.isActionType(getNodeType())) {
             context.markAction();
         }
-
-        return result;
     }
 
     @Override
-    public boolean addChild(Node<?> childNode) {
-        return false;
+    public boolean ticksCompleted() {
+        return getLastResult() != null;
     }
 
     @Override

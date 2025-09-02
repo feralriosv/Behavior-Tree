@@ -1,8 +1,8 @@
 package view.configuration;
 
-import game.board.GameBoard;
-import game.LadyBug;
-import game.decisionTree.DecisionTree;
+import model.board.GameBoard;
+import model.ladybug.LadyBug;
+import model.decisiontree.DecisionTree;
 
 import java.util.ArrayList;
 import java.util.Collections;

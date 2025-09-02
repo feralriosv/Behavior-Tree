@@ -1,7 +1,7 @@
 package view.command;
 
-import game.Game;
-import game.LadyBug;
+import model.Game;
+import model.ladybug.LadyBug;
 import view.Command;
 import view.Result;
 

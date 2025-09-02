@@ -3,7 +3,7 @@
  */
 package view;
 
-import game.Game;
+import model.Game;
 import view.configuration.Configuration;
 import view.configuration.SetupExecuter;
 
