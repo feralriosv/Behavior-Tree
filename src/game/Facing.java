@@ -7,7 +7,7 @@ import game.value.Vector2D;
  *
  * @author ubpst
  */
-public enum LadybugFacing {
+public enum Facing {
     /**
      * Facing north (upward).
      */
@@ -29,7 +29,7 @@ public enum LadybugFacing {
     private final int deltaX;
     private final int deltaY;
 
-    LadybugFacing(char symbol, int deltaX, int deltaY) {
+    Facing(char symbol, int deltaX, int deltaY) {
         this.symbol = symbol;
         this.deltaX = deltaX;
         this.deltaY = deltaY;
@@ -42,7 +42,7 @@ public enum LadybugFacing {
      * @return true if the symbol matches a facing, false otherwise
      */
     public static boolean isLadyBugFacing(char symbol) {
-        for (LadybugFacing facing : values()) {
+        for (Facing facing : values()) {
             if (facing.symbol == symbol) {
                 return true;
             }
@@ -65,8 +65,8 @@ public enum LadybugFacing {
      * @param symbol the character symbol
      * @return the corresponding facing, or null if no facing matches
      */
-    public static LadybugFacing fromChar(char symbol) {
-        for (LadybugFacing facing : values()) {
+    public static Facing fromChar(char symbol) {
+        for (Facing facing : values()) {
             if (facing.symbol == symbol) {
                 return facing;
             }

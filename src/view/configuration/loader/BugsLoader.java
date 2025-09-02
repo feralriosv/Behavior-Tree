@@ -1,7 +1,7 @@
 package view.configuration.loader;
 
 import game.LadyBug;
-import game.LadybugFacing;
+import game.Facing;
 import game.value.Identifier;
 import game.value.Vector2D;
 
@@ -40,7 +40,7 @@ public class BugsLoader implements Loader<List<LadyBug>> {
         for (int row = 0; row < rows; row++) {
             for (int column = 0; column < cols; column++) {
                 char symbol = lines.get(row).charAt(column);
-                if (LadybugFacing.isLadyBugFacing(symbol)) {
+                if (Facing.isLadyBugFacing(symbol)) {
                     processLadybug(symbol, row, column);
                 }
             }
@@ -56,7 +56,7 @@ public class BugsLoader implements Loader<List<LadyBug>> {
     private void processLadybug(char facingSymbol, int vertical, int horizontal) throws LoadingException {
         Vector2D location = new Vector2D(vertical, horizontal);
         Identifier identifier = new Identifier(loadedBugs.size() + 1);
-        LadybugFacing facing = LadybugFacing.fromChar(facingSymbol);
+        Facing facing = Facing.fromChar(facingSymbol);
         loadedBugs.add(new LadyBug(identifier, location, facing));
     }
 }

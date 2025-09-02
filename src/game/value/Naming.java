@@ -3,7 +3,7 @@ package game.value;
 import java.util.Objects;
 
 /**
- * Represents a unique identifier for a node in a decision tree.
+ * Represents a unique naming for a node in a decision tree.
  * Encapsulates a string value and provides proper {@link #toString()},
  * {@link #equals(Object)}, and {@link #hashCode()} implementations.
  *
@@ -11,7 +11,7 @@ import java.util.Objects;
  *
  * @author ubpst
  */
-public record NodeIdentifier(String value) {
+public record Naming(String value) {
 
     @Override
     public String toString() {
@@ -26,7 +26,7 @@ public record NodeIdentifier(String value) {
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        NodeIdentifier nodeName = (NodeIdentifier) obj;
+        Naming nodeName = (Naming) obj;
         return Objects.equals(value, nodeName.value);
     }
 

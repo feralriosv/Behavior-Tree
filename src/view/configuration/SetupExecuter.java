@@ -2,7 +2,7 @@ package view.configuration;
 
 import game.LadyBug;
 import game.board.GameBoard;
-import game.tree.DecisionTree;
+import game.decisionTree.DecisionTree;
 import view.CommandExecuter;
 import view.Keyword;
 import view.command.SetupKeyword;

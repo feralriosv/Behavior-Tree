@@ -43,7 +43,7 @@ public class Arguments {
      * @return the argument as a string
      * @throws InvalidArgumentException if there is no argument to parse
      */
-    public String parseString() throws InvalidArgumentException {
+    protected String parseString() throws InvalidArgumentException {
         return retrieveArgument();
     }
 

@@ -1,8 +1,8 @@
 package view.configuration.factory;
 
-import game.tree.node.CompositeType;
-import game.tree.node.CompositeNode;
-import game.value.NodeIdentifier;
+import game.decisionTree.CompositeType;
+import game.decisionTree.CompositeNode;
+import game.value.Naming;
 import view.configuration.loader.LoadingException;
 
 import java.util.Optional;
@@ -26,23 +26,23 @@ public class CompositeNodeFactory implements NodeFactory {
     /**
      * Attempts to create a composite node for the given identifier and label.
      *
-     * @param name the node identifier
+     * @param naming the node identifier
      * @param label the string label representing the composite type
      * @return an {@link Optional} with a new {@link CompositeNode} if recognized; empty otherwise
      * @throws LoadingException if the label is invalid or a parameter cannot be parsed
      */
-    @Override public Optional<CompositeNode> create(NodeIdentifier name, String label) throws LoadingException {
+    @Override public Optional<CompositeNode> create(Naming naming, String label) throws LoadingException {
         if (CompositeType.FALLBACK.getSymbol().equals(label)) {
-            return Optional.of(new CompositeNode(name, CompositeType.FALLBACK, 0));
+            return Optional.of(new CompositeNode(naming, CompositeType.FALLBACK));
         }
 
         if (CompositeType.SEQUENCE.getSymbol().equals(label)) {
-            return Optional.of(new CompositeNode(name, CompositeType.SEQUENCE, 0));
+            return Optional.of(new CompositeNode(naming, CompositeType.SEQUENCE));
         }
 
         if (isParallel(label)) {
             int parameter = extractParameter(label);
-            return Optional.of(new CompositeNode(name, CompositeType.PARALLEL, parameter));
+            return Optional.of(new CompositeNode(naming, CompositeType.PARALLEL, parameter));
         }
 
         return Optional.empty();

@@ -1,9 +1,7 @@
-package game.tree.node;
+package game.decisionTree;
 
 import game.GameContext;
-import game.TickResult;
-import game.TickState;
-import game.value.NodeIdentifier;
+import game.value.Naming;
 
 import java.util.Iterator;
 
@@ -23,7 +21,7 @@ public class CompositeNode extends Node<CompositeType> {
      * @param nodeType the composite type (Fallback, Sequence, Parallel)
      * @param parameter additional parameter (e.g. M for Parallel), 0 if unused
      */
-    public CompositeNode(NodeIdentifier nodeId, CompositeType nodeType, int parameter) {
+    public CompositeNode(Naming nodeId, CompositeType nodeType, int parameter) {
         super(nodeId, nodeType);
         this.parameter = parameter;
     }
@@ -34,9 +32,18 @@ public class CompositeNode extends Node<CompositeType> {
      * @param nodeId the identifier of this node
      * @param type   the composite type
      */
-    public CompositeNode(NodeIdentifier nodeId, CompositeType type) {
+    public CompositeNode(Naming nodeId, CompositeType type) {
         super(nodeId, type);
         this.parameter = 0;
+    }
+
+    /**
+     * Returns the additional parameter associated with this composite node.
+     *
+     * @return the parameter value for this composite node
+     */
+    protected int getParameter() {
+        return this.parameter;
     }
 
     @Override
@@ -44,7 +51,7 @@ public class CompositeNode extends Node<CompositeType> {
         TickResult entry = new TickResult(TickState.ENTRY, this);
         context.logResult(entry);
 
-        TickState out = getNodeType().runStrategy(context, getChildren(), this.parameter);
+        TickState out = getNodeType().behavior(context, this);
 
         if (out != TickState.ENTRY) {
             TickResult done = new TickResult(out, this);

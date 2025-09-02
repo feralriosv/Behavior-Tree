@@ -1,9 +1,7 @@
-package game.tree.node;
+package game.decisionTree;
 
 import game.GameContext;
-import game.TickResult;
-import game.TickState;
-import game.value.NodeIdentifier;
+import game.value.Naming;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -22,13 +20,13 @@ public class LeafNode extends Node<LeafType> {
      * @param nodeId the unique identifier of this node
      * @param nodeType the type of the leaf, defining its behavior
      */
-    public LeafNode(NodeIdentifier nodeId, LeafType nodeType) {
+    public LeafNode(Naming nodeId, LeafType nodeType) {
         super(nodeId, nodeType);
     }
 
     @Override
     public TickResult tick(GameContext context) {
-        TickState state = getNodeType().run(context);
+        TickState state = getNodeType().behavior(context, this);
 
         TickResult result = new TickResult(state, this);
         context.logResult(result);

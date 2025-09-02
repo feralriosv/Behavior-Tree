@@ -1,6 +1,4 @@
-package game;
-
-import game.tree.node.Node;
+package game.decisionTree;
 
 /**
  * Represents the result of executing a single tick of a node in the decision tree.
@@ -36,6 +34,6 @@ public class TickResult {
 
     @Override
     public String toString() {
-        return RESTULT_DISPLAY_FORMAT.formatted(node.getNodeId(), node.getNodeType().displayLabel(), this.state);
+        return RESTULT_DISPLAY_FORMAT.formatted(node.getNaming(), node.getNodeType().label(), this.state);
     }
 }

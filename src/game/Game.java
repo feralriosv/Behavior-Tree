@@ -1,16 +1,14 @@
 package game;
 
 import game.board.GameBoard;
-import game.tree.DecisionTree;
+import game.board.Tile;
+import game.board.TileType;
+import game.decisionTree.DecisionTree;
 import game.value.Identifier;
 import game.value.Vector2D;
 import view.configuration.Configuration;
 
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Represents the main game logic, managing the game board, ladybugs, and their associated decision trees.
@@ -59,12 +57,12 @@ public class Game {
     }
 
     /**
-     * Returns an unmodifiable mapping of {@link LadyBug}s to their associated {@link DecisionTree}s.
+     * Returns an unmodifiable entry set of {@link LadyBug}s to their associated {@link DecisionTree}s.
      *
      * @return map of ladybugs and decision trees
      */
-    public Map<LadyBug, DecisionTree> getBugsAndTrees() {
-        return this.bugsAndTrees;
+    public Set<Map.Entry<LadyBug, DecisionTree>> getBugsAndTrees() {
+        return this.bugsAndTrees.entrySet();
     }
 
     /**
@@ -73,7 +71,7 @@ public class Game {
      * @param ladyBug the ladybug to move
      * @return true if the move was successful, false if outside the board
      */
-    public boolean moveAhead(LadyBug ladyBug) {
+    protected boolean moveAhead(LadyBug ladyBug) {
         Vector2D aheadPosition = ladyBug.positionAhead();
 
         if (this.board.isInside(aheadPosition)) {
@@ -90,12 +88,12 @@ public class Game {
      * @param bug the ladybug attempting to take a leaf
      * @return true if a leaf was successfully taken, false otherwise
      */
-    public boolean takeLeaf(LadyBug bug) {
+    protected boolean takeLeaf(LadyBug bug) {
         Vector2D front = frontOf(bug);
         if (!board.isInside(front)) {
             return false;
         }
-        Tile tile = board.getTileAt(front);
+        Tile tile = board.tileAt(front);
         if (!TileType.LEAF.matches(tile)) {
             return false;
         }
@@ -111,7 +109,7 @@ public class Game {
      * @param bug the ladybug attempting to place a leaf
      * @return true if the leaf was successfully placed, false otherwise
      */
-    public boolean placeLeaf(LadyBug bug) {
+    protected boolean placeLeaf(LadyBug bug) {
         if (!bug.isCarryingLeaf()) {
             return false;
         }
@@ -119,7 +117,7 @@ public class Game {
         if (!board.isInside(front)) {
             return false;
         }
-        Tile tile = board.getTileAt(front);
+        Tile tile = board.tileAt(front);
         if (!TileType.EMPTY.matches(tile)) {
             return false;
         }

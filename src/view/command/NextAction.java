@@ -3,8 +3,8 @@ package view.command;
 import game.Game;
 import game.GameContext;
 import game.LadyBug;
-import game.TickResult;
-import game.tree.DecisionTree;
+import game.decisionTree.TickResult;
+import game.decisionTree.DecisionTree;
 import view.BoardDisplayer;
 import view.Command;
 import view.Result;
@@ -27,7 +27,7 @@ public class NextAction implements Command<Game> {
     public Result execute(Game handle) {
         StringJoiner displayContent = new StringJoiner(System.lineSeparator());
 
-        for (Map.Entry<LadyBug, DecisionTree> entry : handle.getBugsAndTrees().entrySet()) {
+        for (Map.Entry<LadyBug, DecisionTree> entry : handle.getBugsAndTrees()) {
             LadyBug ladyBug = entry.getKey();
             DecisionTree tree = entry.getValue();
 

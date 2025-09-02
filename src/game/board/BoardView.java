@@ -1,6 +1,5 @@
 package game.board;
 
-import game.Tile;
 import game.value.Vector2D;
 
 /**
@@ -15,14 +14,14 @@ public interface BoardView {
      *
      * @return the width of the board in tiles
      */
-    int getWidth();
+    int width();
 
     /**
      * Returns the number of rows of the board.
      *
      * @return the height of the board in tiles
      */
-    int getHeight();
+    int height();
 
     /**
      * Returns the tile at the specified location.
@@ -31,7 +30,7 @@ public interface BoardView {
      * @return the {@link Tile} at the given location
      * @throws IndexOutOfBoundsException if the location is outside the board
      */
-    Tile getTileAt(Vector2D location);
+    Tile tileAt(Vector2D location);
 
     /**
      * Checks if the given location lies within the bounds of the board.

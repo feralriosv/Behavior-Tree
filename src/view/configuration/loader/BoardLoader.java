@@ -1,9 +1,9 @@
 package view.configuration.loader;
 
 import game.board.GameBoard;
-import game.LadybugFacing;
-import game.Tile;
-import game.TileType;
+import game.Facing;
+import game.board.Tile;
+import game.board.TileType;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,7 +36,7 @@ public class BoardLoader implements Loader<GameBoard> {
 
                 if (tileTypeOpt.isPresent()) {
                     grid[row][column] = new Tile(tileTypeOpt.get());
-                } else if (LadybugFacing.isLadyBugFacing(symbol)) {
+                } else if (Facing.isLadyBugFacing(symbol)) {
                     grid[row][column] = new Tile(TileType.EMPTY);
                 } else {
                     throw new LoadingException(String.format(INVALID_CHAR_ERROR, symbol, row + 1, column + 1));

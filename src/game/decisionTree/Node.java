@@ -1,8 +1,7 @@
-package game.tree.node;
+package game.decisionTree;
 
 import game.GameContext;
-import game.TickResult;
-import game.value.NodeIdentifier;
+import game.value.Naming;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,10 +15,10 @@ import java.util.List;
  *
  * @author ubpst
  */
-public abstract class Node<T extends NodeType> implements Iterable<Node<?>> {
+public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
 
     private final T nodeType;
-    private final NodeIdentifier nodeId;
+    private final Naming naming;
     private final List<Node<?>> children;
 
     /**
@@ -28,8 +27,8 @@ public abstract class Node<T extends NodeType> implements Iterable<Node<?>> {
      * @param nodeId the unique identifier of this node
      * @param nodeType the type of this node
      */
-    protected Node(NodeIdentifier nodeId, T nodeType) {
-        this.nodeId = nodeId;
+    protected Node(Naming nodeId, T nodeType) {
+        this.naming = nodeId;
         this.nodeType = nodeType;
         this.children = new ArrayList<>();
     }
@@ -43,24 +42,6 @@ public abstract class Node<T extends NodeType> implements Iterable<Node<?>> {
     public abstract TickResult tick(GameContext context);
 
     /**
-     * Returns the unique identifier of this node.
-     *
-     * @return the node identifier
-     */
-    public NodeIdentifier getNodeId() {
-        return this.nodeId;
-    }
-
-    /**
-     * Returns the child nodes of this node as an unmodifiable list.
-     *
-     * @return the list of child nodes
-     */
-    public List<Node<?>> getChildren() {
-        return Collections.unmodifiableList(children);
-    }
-
-    /**
      * Adds a child node to this node.
      *
      * @param childNode the child node to add
@@ -71,12 +52,30 @@ public abstract class Node<T extends NodeType> implements Iterable<Node<?>> {
     }
 
     /**
+     * Returns the unique identifier of this node.
+     *
+     * @return the node identifier
+     */
+    public Naming getNaming() {
+        return this.naming;
+    }
+
+    /**
      * Returns the type of this node.
      *
      * @return the node type
      */
     public T getNodeType() {
         return this.nodeType;
+    }
+
+    /**
+     * Returns the child nodes of this node as an unmodifiable list.
+     *
+     * @return the list of child nodes
+     */
+    protected List<Node<?>> getChildren() {
+        return Collections.unmodifiableList(children);
     }
 
     @Override

@@ -1,8 +1,8 @@
 package view;
 
 import game.LadyBug;
-import game.LadybugFacing;
-import game.Tile;
+import game.Facing;
+import game.board.Tile;
 import game.board.BoardView;
 import game.value.Vector2D;
 
@@ -41,13 +41,13 @@ public final class BoardDisplayer {
      * @return standard return.
      */
     public String renderBoard() {
-        int height = boardView.getHeight();
-        int width  = boardView.getWidth();
+        int height = boardView.height();
+        int width  = boardView.width();
         char[][] buffer = new char[height][width];
 
         for (int vertical = 0; vertical < height; vertical++) {
             for (int horizontal = 0; horizontal < width; horizontal++) {
-                buffer[vertical][horizontal] = symbolFor(boardView.getTileAt(new Vector2D(vertical, horizontal)));
+                buffer[vertical][horizontal] = symbolFor(boardView.tileAt(new Vector2D(vertical, horizontal)));
             }
         }
 
@@ -85,7 +85,7 @@ public final class BoardDisplayer {
         return tile.getSymbol();
     }
 
-    private static char symbolFor(LadybugFacing facing) {
+    private static char symbolFor(Facing facing) {
         return facing.getSymbol();
     }
 }

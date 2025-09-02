@@ -1,4 +1,4 @@
-package game;
+package game.decisionTree;
 
 /**
  * Represents the possible states resulting from executing a tick in the decision tree.

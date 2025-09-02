@@ -1,6 +1,5 @@
 package game.board;
 
-import game.Tile;
 import game.value.Vector2D;
 
 /**
@@ -47,17 +46,17 @@ public class GameBoard implements BoardView {
     }
 
     @Override
-    public int getWidth() {
+    public int width() {
         return this.width;
     }
 
     @Override
-    public int getHeight() {
+    public int height() {
         return this.height;
     }
 
     @Override
-    public Tile getTileAt(Vector2D location) {
+    public Tile tileAt(Vector2D location) {
         return this.grid[location.vertical()][location.horizontal()];
     }
 }

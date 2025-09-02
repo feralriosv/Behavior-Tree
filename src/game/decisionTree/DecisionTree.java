@@ -1,9 +1,7 @@
-package game.tree;
+package game.decisionTree;
 
 import game.GameContext;
 import game.LadyBug;
-import game.TickResult;
-import game.tree.node.Node;
 
 import java.util.List;
 

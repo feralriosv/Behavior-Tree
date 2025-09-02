@@ -1,8 +1,8 @@
 package view.configuration.factory;
 
-import game.tree.node.LeafType;
-import game.tree.node.LeafNode;
-import game.value.NodeIdentifier;
+import game.decisionTree.LeafType;
+import game.decisionTree.LeafNode;
+import game.value.Naming;
 import view.configuration.loader.TreeLoader;
 
 import java.util.Optional;
@@ -27,10 +27,10 @@ public class LeafNodeFactory implements NodeFactory {
     }
 
     @Override
-    public Optional<LeafNode> create(NodeIdentifier name, String label) {
+    public Optional<LeafNode> create(Naming naming, String label) {
         Optional<LeafType> leafOpt = LeafType.fromLine(label);
         if (leafOpt.isPresent()) {
-            LeafNode leafNode = new LeafNode(name, leafOpt.get());
+            LeafNode leafNode = new LeafNode(naming, leafOpt.get());
 
             if (LeafType.isActionType(leafNode.getNodeType())) {
                 this.loader.markCreatedAction();

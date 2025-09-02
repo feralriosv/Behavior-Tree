@@ -67,11 +67,18 @@ public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
     }
 
     /**
+     * Stops this instance from reading further input from the source.
+     */
+    public void stop() {
+        this.running = false;
+    }
+
+    /**
      * Returns the error stream that this executer has been registered with.
      *
      * @return the error stream of this executer
      */
-    public PrintStream getErrorStream() {
+    protected PrintStream getErrorStream() {
         return errorStream;
     }
 
@@ -80,7 +87,7 @@ public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
      *
      * @param model the model to be handled by the commands
      */
-    public void setModel(M model) {
+    protected void setModel(M model) {
         this.model = model;
     }
 
@@ -89,15 +96,8 @@ public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
      *
      * @return whether this executer has been terminated
      */
-    public boolean isRunning() {
+    protected boolean isRunning() {
         return this.running;
-    }
-
-    /**
-     * Stops this instance from reading further input from the source.
-     */
-    public void stop() {
-        this.running = false;
     }
 
     /**
@@ -105,7 +105,7 @@ public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
      *
      * @see Scanner#hasNextLine()
      */
-    public void handleUserInput() {
+    protected void handleUserInput() {
         if (this.running && this.scanner.hasNextLine()) {
             handleLine(this.scanner.nextLine());
         }

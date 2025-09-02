@@ -2,6 +2,9 @@ package game;
 
 import game.board.BoardView;
 import game.board.ReadOnlyBoard;
+import game.board.Tile;
+import game.board.TileType;
+import game.decisionTree.TickResult;
 import game.value.Vector2D;
 
 import java.util.ArrayList;
@@ -168,7 +171,7 @@ public class GameContext {
         if (!this.boardView.isInside(frontPosition)) {
             return Optional.empty();
         }
-        Tile frontTile = this.boardView.getTileAt(frontPosition);
+        Tile frontTile = this.boardView.tileAt(frontPosition);
         return Optional.of(frontTile);
     }
 
@@ -176,7 +179,7 @@ public class GameContext {
         return this.activeLadybug.getLocation();
     }
 
-    private LadybugFacing getLadybugFacing() {
+    private Facing getLadybugFacing() {
         return activeLadybug.getFacing();
     }
 }

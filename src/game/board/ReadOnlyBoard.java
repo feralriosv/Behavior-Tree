@@ -1,6 +1,5 @@
 package game.board;
 
-import game.Tile;
 import game.value.Vector2D;
 
 /**
@@ -23,18 +22,18 @@ public class ReadOnlyBoard implements BoardView {
     }
 
     @Override
-    public int getWidth() {
-        return this.delegate.getWidth();
+    public int width() {
+        return this.delegate.width();
     }
 
     @Override
-    public int getHeight() {
-        return this.delegate.getHeight();
+    public int height() {
+        return this.delegate.height();
     }
 
     @Override
-    public Tile getTileAt(Vector2D location) {
-        return this.delegate.getTileAt(location);
+    public Tile tileAt(Vector2D location) {
+        return this.delegate.tileAt(location);
     }
 
     @Override

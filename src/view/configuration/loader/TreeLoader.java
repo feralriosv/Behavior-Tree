@@ -1,8 +1,8 @@
 package view.configuration.loader;
 
-import game.tree.DecisionTree;
-import game.tree.node.Node;
-import game.value.NodeIdentifier;
+import game.decisionTree.DecisionTree;
+import game.decisionTree.Node;
+import game.value.Naming;
 import view.configuration.factory.CompositeNodeFactory;
 import view.configuration.factory.LeafNodeFactory;
 import view.configuration.factory.NodeFactory;
@@ -44,13 +44,13 @@ public class TreeLoader implements Loader<DecisionTree> {
     private static final String MERMAID_SYNTAX_HEADER = "flowchart TD";
 
     private final List<NodeFactory> factories;
-    private final Map<NodeIdentifier, String> nodeDefinitions;
-    private final List<NodeIdentifier[]> edges;
-    private final Set<NodeIdentifier> referencedIds;
-    private final Map<NodeIdentifier, Node<?>> createdNodes;
-    private final Set<NodeIdentifier> childrenNodeIds;
+    private final Map<Naming, String> nodeDefinitions;
+    private final List<Naming[]> edges;
+    private final Set<Naming> referencedIds;
+    private final Map<Naming, Node<?>> createdNodes;
+    private final Set<Naming> childrenNodeIds;
     private boolean actionCreated;
-    private NodeIdentifier rootName;
+    private Naming rootNaming;
 
     /**
      * Creates a new {@code TreeLoader} with default factories.
@@ -63,7 +63,7 @@ public class TreeLoader implements Loader<DecisionTree> {
         this.createdNodes = new HashMap<>();
         this.childrenNodeIds = new HashSet<>();
         this.actionCreated = false;
-        this.rootName = null;
+        this.rootNaming = null;
     }
 
     @Override
@@ -79,7 +79,7 @@ public class TreeLoader implements Loader<DecisionTree> {
         this.resetState();
 
         this.processLinesContent(lines);
-        return new DecisionTree(createdNodes.get(this.rootName));
+        return new DecisionTree(createdNodes.get(this.rootNaming));
     }
 
     /**
@@ -114,27 +114,27 @@ public class TreeLoader implements Loader<DecisionTree> {
     }
 
     private void arrangeNodes() throws LoadingException {
-        for (Map.Entry<NodeIdentifier, String> entry : nodeDefinitions.entrySet()) {
-            NodeIdentifier nodeName = entry.getKey();
+        for (Map.Entry<Naming, String> entry : nodeDefinitions.entrySet()) {
+            Naming nodeName = entry.getKey();
             String label = entry.getValue();
             createdNodes.put(nodeName, createNode(nodeName, label));
         }
 
-        for (NodeIdentifier nodeName : this.referencedIds) {
+        for (Naming nodeName : this.referencedIds) {
             if (!createdNodes.containsKey(nodeName)) {
                 throw new LoadingException(ERROR_NODE_WITHOUT_DEFINITION.formatted(nodeName));
             }
         }
 
-        for (NodeIdentifier[] edge : this.edges) {
+        for (Naming[] edge : this.edges) {
             childrenNodeIds.add(edge[1]);
         }
 
-        this.rootName = findRootName();
+        this.rootNaming = findRootName();
 
-        for (NodeIdentifier[] edge : this.edges) {
-            NodeIdentifier parentId = edge[0];
-            NodeIdentifier childId  = edge[1];
+        for (Naming[] edge : this.edges) {
+            Naming parentId = edge[0];
+            Naming childId  = edge[1];
 
             Node<?> parent = createdNodes.get(parentId);
             Node<?> child  = createdNodes.get(childId);
@@ -145,7 +145,7 @@ public class TreeLoader implements Loader<DecisionTree> {
 
             boolean success = parent.addChild(child);
             if (!success) {
-                throw new LoadingException(ERROR_CANNOT_ADD_CHILD.formatted(parent.getNodeId()));
+                throw new LoadingException(ERROR_CANNOT_ADD_CHILD.formatted(parent.getNaming()));
             }
         }
 
@@ -154,34 +154,34 @@ public class TreeLoader implements Loader<DecisionTree> {
         }
     }
 
-    private NodeIdentifier findRootName() throws LoadingException {
-        for (NodeIdentifier id : this.createdNodes.keySet()) {
+    private Naming findRootName() throws LoadingException {
+        for (Naming id : this.createdNodes.keySet()) {
             if (!this.childrenNodeIds.contains(id)) {
-                if (rootName != null) {
+                if (rootNaming != null) {
                     throw new LoadingException(ERROR_MULTIPLE_ROOTS);
                 }
-                rootName = id;
+                rootNaming = id;
             }
         }
 
-        if (rootName == null) {
+        if (rootNaming == null) {
             throw new LoadingException(ERROR_NO_ROOT);
         }
 
-        return rootName;
+        return rootNaming;
     }
 
     private void processPairs(String[] parts) throws LoadingException {
         Token leftTok  = parseToken(parts[0].trim());
         Token rightTok = parseToken(parts[1].trim());
 
-        NodeIdentifier leftId  = new NodeIdentifier(leftTok.name);
-        NodeIdentifier rightId = new NodeIdentifier(rightTok.name);
+        Naming leftId  = new Naming(leftTok.name);
+        Naming rightId = new Naming(rightTok.name);
 
         processParsedToken(leftTok);
         processParsedToken(rightTok);
 
-        this.edges.add(new NodeIdentifier[]{ leftId, rightId });
+        this.edges.add(new Naming[]{ leftId, rightId });
     }
 
     private void processToken(String rawToken) throws LoadingException {
@@ -190,7 +190,7 @@ public class TreeLoader implements Loader<DecisionTree> {
     }
 
     private void processParsedToken(Token token) throws LoadingException {
-        NodeIdentifier nodeName = new NodeIdentifier(token.name);
+        Naming nodeName = new Naming(token.name);
         this.referencedIds.add(nodeName);
 
         String label = token.label;
@@ -202,7 +202,7 @@ public class TreeLoader implements Loader<DecisionTree> {
         }
     }
 
-    private Node<?> createNode(NodeIdentifier nodeName, String label) throws LoadingException {
+    private Node<?> createNode(Naming nodeName, String label) throws LoadingException {
         for (NodeFactory factory : factories) {
             Optional<? extends Node<?>> maybe = factory.create(nodeName, label);
             if (maybe.isPresent()) {
@@ -260,7 +260,7 @@ public class TreeLoader implements Loader<DecisionTree> {
         this.createdNodes.clear();
         this.childrenNodeIds.clear();
         this.actionCreated = false;
-        this.rootName = null;
+        this.rootNaming = null;
     }
 
     private record Token(String name, String label) {

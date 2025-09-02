@@ -1,7 +1,6 @@
-package game.tree.node;
+package game.decisionTree;
 
 import game.GameContext;
-import game.TickState;
 
 import java.util.List;
 
@@ -14,7 +13,7 @@ import java.util.List;
  *
  * @author ubpst
  */
-public enum CompositeType implements NodeType {
+public enum CompositeType implements NodeType<CompositeNode> {
     /**
      * Fallback composite: evaluates children in order until one succeeds.
      * Returns SUCCESS on the first child success, FAILURE if all fail, or ENTRY if evaluation should pause.
@@ -35,24 +34,12 @@ public enum CompositeType implements NodeType {
 
     private final String label;
     private final String symbol;
-    private final CompositeStrategy strategy;
+    private final NodeBehavior<CompositeNode> strategy;
 
-    CompositeType(String symbol, String label, CompositeStrategy strategy) {
+    CompositeType(String symbol, String label, NodeBehavior<CompositeNode> strategy) {
         this.symbol = symbol;
         this.label  = label;
         this.strategy = strategy;
-    }
-
-    /**
-     * Runs this composite's strategy on the given children.
-     *
-     * @param context the game context
-     * @param children the list of child nodes
-     * @param parameter the parameter for parallel nodes (ignored otherwise)
-     * @return the tick state resulting from evaluation
-     */
-    public TickState runStrategy(GameContext context, List<Node<?>> children, int parameter) {
-        return strategy.run(context, children, parameter);
     }
 
     /**
@@ -65,16 +52,22 @@ public enum CompositeType implements NodeType {
     }
 
     @Override
-    public String displayLabel() {
+    public TickState behavior(GameContext context, CompositeNode self) {
+        return strategy.run(context, self);
+    }
+
+    @Override
+    public String label() {
         return this.label;
     }
 
-    private static TickState runFallback(GameContext gameContext, List<Node<?>> children, int parameter) {
-        for (Node<?> node : children) {
+    private static TickState runFallback(GameContext gameContext, Node<?> self) {
+        for (Node<?> node : self.getChildren()) {
             TickState state = node.tick(gameContext).getState();
             if (state == TickState.SUCCESS) {
                 return TickState.SUCCESS;
             }
+
             if (gameContext.shouldStop()) {
                 return TickState.ENTRY;
             }
@@ -82,8 +75,8 @@ public enum CompositeType implements NodeType {
         return TickState.FAILURE;
     }
 
-    private static TickState runSequence(GameContext gameContext, List<Node<?>> children, int parameter) {
-        for (Node<?> node : children) {
+    private static TickState runSequence(GameContext gameContext, Node<?> self) {
+        for (Node<?> node : self.getChildren()) {
             TickState tickState = node.tick(gameContext).getState();
             if (tickState == TickState.FAILURE) {
                 return TickState.FAILURE;
@@ -95,9 +88,12 @@ public enum CompositeType implements NodeType {
         return TickState.SUCCESS;
     }
 
-    private static TickState runParallel(GameContext context, List<Node<?>> children, int parameter) {
+    private static TickState runParallel(GameContext context, CompositeNode self) {
+        List<Node<?>> children = self.getChildren();
+
         int successes = 0;
         int remaining = children.size();
+        int parameter = self.getParameter();
 
         for (Node<?> node : children) {
             TickState state = node.tick(context).getState();

@@ -12,7 +12,7 @@ public class LadyBug {
 
     private final Identifier id;
     private Vector2D location;
-    private LadybugFacing facing;
+    private Facing facing;
     private boolean carryingLeaf;
 
     /**
@@ -22,7 +22,7 @@ public class LadyBug {
      * @param location the starting position of the ladybug
      * @param facing the initial facing direction of the ladybug
      */
-    public LadyBug(Identifier id, Vector2D location, LadybugFacing facing) {
+    public LadyBug(Identifier id, Vector2D location, Facing facing) {
         this.id = id;
         this.location = location;
         this.facing = facing;
@@ -34,7 +34,7 @@ public class LadyBug {
      *
      * @return true if the ladybug is carrying a leaf, false otherwise
      */
-    public boolean isCarryingLeaf() {
+    protected boolean isCarryingLeaf() {
         return this.carryingLeaf;
     }
 
@@ -43,7 +43,7 @@ public class LadyBug {
      *
      * @param carryingLeaf true if the ladybug should carry a leaf, false otherwise
      */
-    public void setCarryingLeaf(boolean carryingLeaf) {
+    protected void setCarryingLeaf(boolean carryingLeaf) {
         this.carryingLeaf = carryingLeaf;
     }
 
@@ -52,7 +52,7 @@ public class LadyBug {
      *
      * @param location the new position of the ladybug
      */
-    public void setLocation(Vector2D location) {
+    protected void setLocation(Vector2D location) {
         this.location = location;
     }
 
@@ -61,7 +61,7 @@ public class LadyBug {
      *
      * @return the next position in front of the ladybug
      */
-    public Vector2D positionAhead() {
+    protected Vector2D positionAhead() {
         return location.sum(facing.delta());
     }
 
@@ -70,8 +70,8 @@ public class LadyBug {
      *
      * @return true if the turn was applied successfully
      */
-    public boolean turnLeft() {
-        this.facing = LadybugFacing.WEST;
+    protected boolean turnLeft() {
+        this.facing = Facing.WEST;
         return true;
     }
 
@@ -80,8 +80,8 @@ public class LadyBug {
      *
      * @return true if the turn was applied successfully
      */
-    public boolean turnRight() {
-        this.facing = LadybugFacing.EAST;
+    protected boolean turnRight() {
+        this.facing = Facing.EAST;
         return true;
     }
 
@@ -108,7 +108,7 @@ public class LadyBug {
      *
      * @return the facing direction
      */
-    public LadybugFacing getFacing() {
+    public Facing getFacing() {
         return facing;
     }
 }
