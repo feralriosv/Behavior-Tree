@@ -4,6 +4,7 @@ import model.GameContext;
 import model.decisiontree.TickState;
 
 import java.util.Optional;
+import java.util.function.Supplier;
 
 /**
  * Defines the types of leaf nodes in the decision tree.
@@ -14,24 +15,24 @@ import java.util.Optional;
 public enum LeafType implements NodeType<LeafNode> {
 
     /** Action: Move forward one step if possible. */
-    MOVE("move", (context, self) -> context.move() ? TickState.SUCCESS : TickState.FAILURE),
+    MOVE("move", (context, self) -> LeafType.executeAndLog(context, self, context::move)),
     /** Action: Turn left. */
-    TURN_LEFT("turnLeft", (context, self) -> context.turnLeft() ? TickState.SUCCESS : TickState.FAILURE),
+    TURN_LEFT("turnLeft", (context, self) -> LeafType.executeAndLog(context, self, context::turnLeft)),
     /** Action: Turn right. */
-    TURN_RIGHT("turnRight", (context, self) -> context.turnRight() ? TickState.SUCCESS : TickState.FAILURE),
+    TURN_RIGHT("turnRight", (context, self) -> LeafType.executeAndLog(context, self, context::turnRight)),
     /** Action: Attempt to take a leaf in front. */
-    TAKE_LEAF("takeLeaf", (context, self) -> context.takeLeaf() ? TickState.SUCCESS : TickState.FAILURE),
-    /** Action: Attempt to take a leaf in front. */
-    PLACE_LEAF("placeLeaf", (context, self) -> context.placeLeaf() ? TickState.SUCCESS : TickState.FAILURE),
+    TAKE_LEAF("takeLeaf", (context, self) -> LeafType.executeAndLog(context, self, context::takeLeaf)),
+    /** Action: Place a leaf in front. */
+    PLACE_LEAF("placeLeaf", (context, self) -> LeafType.executeAndLog(context, self, context::placeLeaf)),
 
     /** Condition: Check if a tree is directly in front. */
-    TREE_FRONT("treeFront", (context, self) -> context.isTreeFront() ? TickState.SUCCESS : TickState.FAILURE),
+    TREE_FRONT("treeFront", (context, self) -> LeafType.executeAndLog(context, self, context::isTreeFront)),
     /** Condition: Check if a leaf is directly in front. */
-    LEAF_FRONT("leafFront", (context, self) -> context.isLeafFront() ? TickState.SUCCESS : TickState.FAILURE),
+    LEAF_FRONT("leafFront", (context, self) -> LeafType.executeAndLog(context, self, context::isLeafFront)),
     /** Condition: Check if a mushroom is directly in front. */
-    MUSHROOM_FRONT("mushroomFront", (context, self) -> context.isMushroomFront() ? TickState.SUCCESS : TickState.FAILURE),
+    MUSHROOM_FRONT("mushroomFront", (context, self) -> LeafType.executeAndLog(context, self, context::isMushroomFront)),
     /** Condition: Check if the ladybug is at the edge of the board. */
-    AT_EDGE("atEdge", (context, self) -> context.isAtEdge() ? TickState.SUCCESS : TickState.FAILURE);
+    AT_EDGE("atEdge", (context, self) -> LeafType.executeAndLog(context, self, context::isAtEdge));
 
     private final String label;
     private final NodeBehavior<LeafNode> strategy;
@@ -48,8 +49,17 @@ public enum LeafType implements NodeType<LeafNode> {
     }
 
     @Override
-    public TickState behavior(GameContext context, LeafNode self) {
-        return strategy.run(context, self);
+    public void behavior(GameContext context, LeafNode self) {
+        this.strategy.run(context, self);
+    }
+
+    private static void executeAndLog(GameContext context, LeafNode self, Supplier<Boolean> action) {
+        TickState state = action.get() ? TickState.SUCCESS : TickState.FAILURE;
+        self.setLastState(state);
+
+        if (LeafType.isActionType(self.getNodeType())) {
+            context.markAction();
+        }
     }
 
     /**

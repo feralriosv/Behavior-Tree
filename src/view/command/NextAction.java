@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
-
 /**
  * A command that executes the next action for each ladybug in the game.
  *
@@ -30,8 +29,8 @@ public class NextAction implements Command<Game> {
         for (Map.Entry<LadyBug, DecisionTree> entry : handle.getBugsAndTrees()) {
             LadyBug ladyBug = entry.getKey();
             DecisionTree tree = entry.getValue();
-
             GameContext context = handle.context();
+
             List<TickResult> tickResults = tree.tick(context, ladyBug);
 
             for (TickResult result : tickResults) {

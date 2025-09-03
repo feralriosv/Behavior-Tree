@@ -12,6 +12,8 @@ import java.util.List;
  * @author ubpst
  */
 public class DecisionTree {
+
+    private boolean onTick;
     private final Node<?> rootNode;
 
     /**
@@ -20,6 +22,7 @@ public class DecisionTree {
      * @param root the root node of this decision tree
      */
     public DecisionTree(Node<?> root) {
+        this.onTick = false;
         this.rootNode = root;
     }
 
@@ -31,8 +34,14 @@ public class DecisionTree {
      * @return a list of {@link TickResult} representing the outcomes of the tick
      */
     public List<TickResult> tick(GameContext context, LadyBug ladyBug) {
+        this.onTick = true;
         context.beginTick(ladyBug);
-        this.rootNode.tick(context);
+
+        while (!context.wasActionExecuted()) {
+            this.rootNode.tick(context);
+        }
+
+        this.onTick = false;
         return context.endTick();
     }
 }

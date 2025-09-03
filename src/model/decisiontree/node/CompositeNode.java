@@ -11,7 +11,7 @@ import java.util.Iterator;
  *
  * @author ubpst
  */
-public class CompositeNode extends Node<CompositeType> {
+public class CompositeNode extends Node<CompositeType> implements LocalPointer {
 
     private final int parameter;
     private int localTickPointer;
@@ -41,26 +41,18 @@ public class CompositeNode extends Node<CompositeType> {
         this.parameter = 0;
     }
 
-    protected boolean localTicksCompleted() {
-        return this.localTickPointer >= getChildren().size();
-    }
-
-    public int getLocalTickPointer() {
-        return this.localTickPointer;
+    protected void logParentState(GameContext context, TickState state) {
+        context.logResult(new TickResult(state, this));
+        this.setLastState(state);
     }
 
     @Override
-    public boolean ticksCompleted() {
-        if (this.localTickPointer < getChildren().size()) {
-            return false;
+    public void tick(GameContext context) {
+        if (localPointer() == 0) {
+            logParentState(context, TickState.ENTRY);
         }
 
-        for (Node<?> child : getChildren()) {
-            if (!child.ticksCompleted()) {
-                return false;
-            }
-        }
-        return true;
+        this.getNodeType().behavior(context, this);
     }
 
     /**
@@ -69,15 +61,18 @@ public class CompositeNode extends Node<CompositeType> {
      * @return the result corresponding to the tick
      */
     protected TickResult tickNextChild(GameContext context) {
-        Node<?> nextChild = getChildren().get(this.localTickPointer);
-        nextChild.tick(context);
-        return nextChild.getLastResult();
+        Node<?> child = getChildren().get(localTickPointer);
+
+        child.tick(context);
+
+        return new TickResult(child.getLastState(), child);
     }
 
     /**
      * Advances the tick pointer to the next child node, if any remain.
      */
-    protected void advancePointer() {
+    @Override
+    public void advancePointer() {
         if (localTickPointer < getChildren().size()) {
             this.localTickPointer++;
         }
@@ -86,8 +81,19 @@ public class CompositeNode extends Node<CompositeType> {
     /**
      * Resets the tick pointer to the beginning.
      */
-    protected void resetPointer() {
+    @Override
+    public void resetPointer() {
         this.localTickPointer = 0;
+    }
+
+    @Override
+    public boolean ticksCompleted() {
+        return this.localTickPointer >= getChildren().size();
+    }
+
+    @Override
+    public int localPointer() {
+        return this.localTickPointer;
     }
 
     /**
@@ -97,22 +103,6 @@ public class CompositeNode extends Node<CompositeType> {
      */
     protected int getParameter() {
         return this.parameter;
-    }
-
-    @Override
-    public void tick(GameContext context) {
-        if (getLastResult() == null) {
-            TickResult entry = TickResult.entryResult(this);
-            context.logResult(entry);
-            setLastResult(entry);
-        }
-
-        TickState result = getNodeType().behavior(context, this);
-
-        if (result != TickState.ENTRY) {
-            TickResult done = new TickResult(result, this);
-            context.logResult(done);
-        }
     }
 
     @Override

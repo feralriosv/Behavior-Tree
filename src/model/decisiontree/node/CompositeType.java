@@ -54,8 +54,8 @@ public enum CompositeType implements NodeType<CompositeNode> {
     }
 
     @Override
-    public TickState behavior(GameContext context, CompositeNode self) {
-        return strategy.run(context, self);
+    public void behavior(GameContext context, CompositeNode self) {
+        this.strategy.run(context, self);
     }
 
     @Override
@@ -63,94 +63,111 @@ public enum CompositeType implements NodeType<CompositeNode> {
         return this.label;
     }
 
-    private static TickState runFallback(GameContext context, CompositeNode self) {
-        boolean childSucceeded = false;
+    private static void runFallback(GameContext context, CompositeNode self) {
+        List<Node<?>> children = self.getChildren();
 
-        while (!self.localTicksCompleted()) {
-            TickResult result = self.tickNextChild(context);
-
-            if (result.getState() == TickState.SUCCESS) {
-                childSucceeded = true;
+        for (int i = 0; i < self.localPointer(); i++) {
+            TickResult childResult = new TickResult(children.get(i).getLastState(), children.get(i));
+            if (childResult.getState() == TickState.SUCCESS) {
+                self.logParentState(context, TickState.SUCCESS);
+                return;
             }
-
-            if (context.wasActionExecuted()) {
-                return TickState.ENTRY;
-            }
-
-            self.advancePointer();
         }
 
-        self.resetPointer();
-        return childSucceeded ? TickState.SUCCESS : TickState.FAILURE;
-    }
+        while (!self.ticksCompleted()) {
+            TickResult childResult = self.tickNextChild(context);
 
-    private static TickState runSequence(GameContext context, CompositeNode self) {
-        while (!self.localTicksCompleted()) {
-            TickResult result = self.tickNextChild(context);
-
-            if (result.getState() == TickState.FAILURE) {
+            if (childResult.getState() == TickState.SUCCESS) {
+                self.logParentState(context, TickState.SUCCESS);
                 self.resetPointer();
-                return TickState.FAILURE;
+                return;
             }
 
             if (context.wasActionExecuted()) {
-                return TickState.ENTRY;
+                return;
             }
 
+            context.logResult(childResult);
             self.advancePointer();
         }
 
+        boolean anySuccess = false;
+        for (Node<?> child : children) {
+            TickState prev = child.getLastState();
+            if (prev == TickState.SUCCESS) {
+                anySuccess = true;
+                break;
+            }
+        }
+
+        TickState finalState = anySuccess ? TickState.SUCCESS : TickState.FAILURE;
+        self.logParentState(context, finalState);
         self.resetPointer();
-        return TickState.SUCCESS;
     }
 
-    private static TickState runParallel(GameContext context, CompositeNode self) {
+    private static void runSequence(GameContext context, CompositeNode self) {
+        while (!self.ticksCompleted()) {
+            TickResult childResult = self.tickNextChild(context);
+
+            // sequence detecta fallo y reinicia
+            if (childResult.getState() == TickState.FAILURE) {
+                self.logParentState(context, TickState.FAILURE);
+                self.resetPointer();
+                return;
+            }
+
+            if (context.wasActionExecuted()) {
+                return;
+            }
+
+            context.logResult(childResult);
+            self.advancePointer();
+        }
+
+        // si acaba iteracion y no hay fallo bien
+        self.logParentState(context, TickState.SUCCESS);
+        self.resetPointer();
+    }
+
+    private static void runParallel(GameContext context, CompositeNode self) {
         List<Node<?>> children = self.getChildren();
         int successes = 0;
 
-        while (!self.localTicksCompleted()) {
-            int remainingTicks = children.size() - self.getLocalTickPointer();
-            TickResult result = self.tickNextChild(context);
+        for (int i = 0; i < self.localPointer(); i++) {
+            TickResult childResult = new TickResult(children.get(i).getLastState(), children.get(i));
 
-            if (result.getState() == TickState.SUCCESS) {
+            if (childResult.getState() == TickState.SUCCESS) {
                 successes++;
+            }
+        }
 
-                if (self.ticksCompleted() && successes >= self.getParameter()) {
-                    self.resetPointer();
-                    return TickState.SUCCESS;
-                }
+        while (!self.ticksCompleted()) {
+            int remainingTicks = Math.max(0, children.size() - (self.localPointer() + 1));
+
+            TickResult childResult = self.tickNextChild(context);
+            context.logResult(childResult);
+
+            if (childResult.getState() == TickState.SUCCESS) {
+                successes++;
             }
 
-            if (successes + (remainingTicks - 1) < self.getParameter()) {
+            if (successes + remainingTicks < self.getParameter()) {
+                self.logParentState(context, TickState.FAILURE);
                 self.resetPointer();
-                return TickState.FAILURE;
+                return;
             }
 
             if (context.wasActionExecuted()) {
                 self.advancePointer();
-                return TickState.ENTRY;
+                return;
             }
 
             self.advancePointer();
         }
 
-        TickState finalState = (successes >= self.getParameter()) ? TickState.SUCCESS : TickState.FAILURE;
-        self.resetPointer();
-        return finalState;
-    }
-
-    /**
-     * Checks whether the given label corresponds to a defined composite type.
-     *
-     * @param label the label string to check
-     * @return true if the label matches a composite type, false otherwise
-     */
-    public static boolean isCompositeType(NodeType<?> label) {
-        for (CompositeType type : values()) {
-            if (type.label().equals(label.label()) || type.getSymbol().equals(label.label())) {
-                return true;
-            }
+        if (successes >= self.getParameter()) {
+            self.logParentState(context, TickState.SUCCESS);
+            self.resetPointer();
         }
-        return false;
     }
 }
