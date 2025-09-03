@@ -4,7 +4,6 @@ import model.GameContext;
 import model.decisiontree.TickState;
 
 import java.util.Optional;
-import java.util.function.Supplier;
 
 /**
  * Defines the types of leaf nodes in the decision tree.
