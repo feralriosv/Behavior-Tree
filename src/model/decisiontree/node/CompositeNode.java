@@ -41,15 +41,10 @@ public class CompositeNode extends Node<CompositeType> implements LocalPointer {
         this.parameter = 0;
     }
 
-    protected void logParentState(GameContext context, TickState state) {
-        context.logResult(new TickResult(state, this));
-        this.setLastState(state);
-    }
-
     @Override
     public void tick(GameContext context) {
         if (localPointer() == 0) {
-            logParentState(context, TickState.ENTRY);
+            logState(context, TickState.ENTRY);
         }
 
         this.getNodeType().behavior(context, this);

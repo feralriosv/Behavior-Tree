@@ -1,6 +1,7 @@
 package model.decisiontree.node;
 
 import model.GameContext;
+import model.decisiontree.TickResult;
 import model.decisiontree.TickState;
 
 import java.util.ArrayList;
@@ -44,6 +45,11 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
 
     protected TickState getLastState() {
         return this.lastState;
+    }
+
+    protected void logState(GameContext context, TickState state) {
+        context.logResult(new TickResult(state, this));
+        this.setLastState(state);
     }
 
     /**

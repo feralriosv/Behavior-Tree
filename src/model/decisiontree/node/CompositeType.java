@@ -69,7 +69,7 @@ public enum CompositeType implements NodeType<CompositeNode> {
         for (int i = 0; i < self.localPointer(); i++) {
             TickResult childResult = new TickResult(children.get(i).getLastState(), children.get(i));
             if (childResult.getState() == TickState.SUCCESS) {
-                self.logParentState(context, TickState.SUCCESS);
+                self.logState(context, TickState.SUCCESS);
                 return;
             }
         }
@@ -78,7 +78,7 @@ public enum CompositeType implements NodeType<CompositeNode> {
             TickResult childResult = self.tickNextChild(context);
 
             if (childResult.getState() == TickState.SUCCESS) {
-                self.logParentState(context, TickState.SUCCESS);
+                self.logState(context, TickState.SUCCESS);
                 self.resetPointer();
                 return;
             }
@@ -87,7 +87,6 @@ public enum CompositeType implements NodeType<CompositeNode> {
                 return;
             }
 
-            context.logResult(childResult);
             self.advancePointer();
         }
 
@@ -101,7 +100,7 @@ public enum CompositeType implements NodeType<CompositeNode> {
         }
 
         TickState finalState = anySuccess ? TickState.SUCCESS : TickState.FAILURE;
-        self.logParentState(context, finalState);
+        self.logState(context, finalState);
         self.resetPointer();
     }
 
@@ -111,7 +110,7 @@ public enum CompositeType implements NodeType<CompositeNode> {
 
             // sequence detecta fallo y reinicia
             if (childResult.getState() == TickState.FAILURE) {
-                self.logParentState(context, TickState.FAILURE);
+                self.logState(context, TickState.FAILURE);
                 self.resetPointer();
                 return;
             }
@@ -125,7 +124,7 @@ public enum CompositeType implements NodeType<CompositeNode> {
         }
 
         // si acaba iteracion y no hay fallo bien
-        self.logParentState(context, TickState.SUCCESS);
+        self.logState(context, TickState.SUCCESS);
         self.resetPointer();
     }
 
@@ -145,14 +144,13 @@ public enum CompositeType implements NodeType<CompositeNode> {
             int remainingTicks = Math.max(0, children.size() - (self.localPointer() + 1));
 
             TickResult childResult = self.tickNextChild(context);
-            context.logResult(childResult);
 
             if (childResult.getState() == TickState.SUCCESS) {
                 successes++;
             }
 
             if (successes + remainingTicks < self.getParameter()) {
-                self.logParentState(context, TickState.FAILURE);
+                self.logState(context, TickState.FAILURE);
                 self.resetPointer();
                 return;
             }
@@ -166,7 +164,7 @@ public enum CompositeType implements NodeType<CompositeNode> {
         }
 
         if (successes >= self.getParameter()) {
-            self.logParentState(context, TickState.SUCCESS);
+            self.logState(context, TickState.SUCCESS);
             self.resetPointer();
         }
     }

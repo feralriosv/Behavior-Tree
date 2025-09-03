@@ -54,7 +54,7 @@ public enum LeafType implements NodeType<LeafNode> {
 
     private static void executeAndLog(GameContext context, LeafNode self, boolean actionResult) {
         TickState state = actionResult ? TickState.SUCCESS : TickState.FAILURE;
-        self.setLastState(state);
+        self.logState(context, state);
 
         if (LeafType.isActionType(self.getNodeType())) {
             context.markAction();
