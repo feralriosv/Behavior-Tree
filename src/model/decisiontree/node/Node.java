@@ -47,7 +47,7 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
         return this.lastState;
     }
 
-    protected void logState(GameContext context, TickState state) {
+    protected void saveState(GameContext context, TickState state) {
         context.logResult(new TickResult(state, this));
         this.setLastState(state);
     }
