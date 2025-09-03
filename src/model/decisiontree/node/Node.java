@@ -1,7 +1,6 @@
 package model.decisiontree.node;
 
 import model.GameContext;
-import model.decisiontree.TickResult;
 import model.decisiontree.TickState;
 
 import java.util.ArrayList;
