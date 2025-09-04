@@ -68,7 +68,7 @@ public class LoadBoard implements Command<SetupExecuter<Configuration, ?>> {
             handle.configurate(gameBoard, ladyBugs);
             return Result.success(displayLines(fileLines));
         } else {
-            return Result.error(displayLines(fileLines) + System.lineSeparator() + "no ladybug found on board");
+            return Result.error(displayLines(fileLines));
         }
     }
 
