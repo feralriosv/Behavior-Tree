@@ -45,11 +45,6 @@ public class GameFactory {
 
         Configuration gameConfig = setupHandler.getConfiguration();
 
-        if (gameConfig.getRegisteredBugs().isEmpty()) {
-            this.errorStream.println("Error, no lady bugs");
-            return null;
-        }
-
         return new Game(gameConfig);
     }
 }
