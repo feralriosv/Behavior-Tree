@@ -93,7 +93,11 @@ public class GameContext {
      */
     public boolean isAtEdge() {
         Vector2D frontPosition = location().sum(getLadybugFacing().delta());
-        return !this.boardView.isInside(frontPosition);
+        Vector2D pos = location();
+        return !this.boardView.isInside(pos.sum(new Vector2D(-1, 0)))
+                || !this.boardView.isInside(pos.sum(new Vector2D(1, 0)))
+                || !this.boardView.isInside(pos.sum(new Vector2D(0, -1)))
+                || !this.boardView.isInside(pos.sum(new Vector2D(0, 1)));
     }
 
     /**

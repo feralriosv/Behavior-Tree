@@ -74,13 +74,11 @@ public class Game {
      */
     protected boolean moveAhead(LadyBug ladyBug) {
         Vector2D aheadPosition = ladyBug.positionAhead();
-
         if (this.board.isInside(aheadPosition)) {
             ladyBug.setLocation(aheadPosition);
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
