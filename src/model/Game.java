@@ -152,6 +152,9 @@ public class Game {
         return this.bugsAndTrees.get(ladyBug);
     }
 
+    public void resetBugTree(LadyBug ladyBug) {
+        this.bugsAndTrees.get(ladyBug).reset();
+    }
 
     /**
      * Returns the root node of the decision tree associated with the given ladybug.

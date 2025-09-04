@@ -78,13 +78,8 @@ public class DecisionTree {
         }
     }
 
-    /**
-     * Returns the root node of this decision tree.
-     *
-     * @return the root node
-     */
-    public Node<?> getRootNode() {
-        return this.rootNode;
+    public void reset() {
+        this.activeNode = this.rootNode;
     }
 
     /**

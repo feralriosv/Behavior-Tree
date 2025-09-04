@@ -27,7 +27,7 @@ public enum ModelKeyword implements Keyword<Game> {
     /** Command to print the position of a specific ladybug by identifier. */
     PRINT_POSITION(arguments -> new PrintPosition(arguments.parseIdentifier())),
     /** Command to reset the decision tree to its initial state. */
-    RESET_TREE(arguments -> new ResetTree());
+    RESET_TREE(arguments -> new ResetTree(arguments.parseIdentifier()));
 
     private static final String VALUE_NAME_DELIMITER = "_";
     private final CommandProvider<Game> provider;
