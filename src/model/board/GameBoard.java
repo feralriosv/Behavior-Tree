@@ -28,6 +28,31 @@ public class GameBoard implements BoardView {
         }
     }
 
+    private GameBoard() {
+        this.grid = null;
+        this.width = 0;
+        this.height = 0;
+    }
+
+    /**
+     * Checks whether this board is empty (uninitialized).
+     *
+     * @return {@code true} if the board has no grid assigned,
+     *         {@code false} otherwise
+     */
+    public boolean isEmptyBoard() {
+        return this.grid == null;
+    }
+
+    /**
+     * Factory method that returns an empty board instance.
+     *
+     * @return a new {@link GameBoard} instance with no grid and size 0×0
+     */
+    public static GameBoard emptyBoard() {
+        return new GameBoard();
+    }
+
     /**
      * Sets a new tile at the specified position on the board.
      *

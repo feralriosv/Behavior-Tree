@@ -15,7 +15,6 @@ import java.util.Optional;
 public class BoardLoader implements Loader<GameBoard> {
 
     private static final String ERROR_LINES_UNIFORMITY = "lines are not uniform";
-    private static final String ERROR_ASCII_BORDER_FOUND = "board has already borders";
 
     @Override
     public GameBoard load(List<String> lines) throws LoadingException {
@@ -24,7 +23,7 @@ public class BoardLoader implements Loader<GameBoard> {
         }
 
         if (hasAsciiBorder(lines)) {
-            throw new LoadingException(ERROR_ASCII_BORDER_FOUND);
+            return GameBoard.emptyBoard();
         }
 
         Tile[][] grid = new Tile[lines.size()][lines.getFirst().length()];

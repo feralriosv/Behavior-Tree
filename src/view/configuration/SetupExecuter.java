@@ -39,7 +39,7 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
      * @param ladyBugs the list of ladybugs to register
      */
     public void configurate(GameBoard gameBoard, List<LadyBug> ladyBugs) {
-        if (ladyBugs.isEmpty()) {
+        if (ladyBugs.isEmpty() || gameBoard.isEmptyBoard()) {
             this.invalid = true;
         } else {
             this.configuration.setGameBoard(gameBoard);
