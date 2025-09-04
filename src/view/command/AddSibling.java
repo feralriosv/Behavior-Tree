@@ -82,14 +82,13 @@ public class AddSibling implements Command<Game> {
             return Result.error("empty label for new sibling %s".formatted(this.nodeToken.name()));
         }
 
+        Naming newId = new Naming(this.nodeToken.name());
+
         for (Node<?> node : decisionTree.getAllNodes()) {
-            if (node.getNaming().value().equals(label)) {
+            if (node.getNaming().equals(newId)) {
                 return Result.error("node with naming %s already exists");
             }
         }
-
-
-        Naming newId = new Naming(this.nodeToken.name());
         NodeFabric fabric = new NodeFabric();
         Node<?> newNode;
 
