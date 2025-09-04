@@ -23,12 +23,10 @@ import java.util.List;
 public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V, ?>>> extends CommandExecuter<SetupExecuter<V, ?>, K> {
 
     private final Configuration configuration;
-    private boolean invalid;
 
     private SetupExecuter(CommandExecuter<?, ?> ioRessources, Class<K> keywordClass) {
         super(ioRessources, keywordClass);
         this.configuration = new Configuration();
-        this.invalid = false;
         setModel(this);
     }
 
@@ -38,22 +36,14 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
      * @param gameBoard the game board to use for the setup
      * @param ladyBugs the list of ladybugs to register
      */
-    public void configurate(GameBoard gameBoard, List<LadyBug> ladyBugs) {
-        if (ladyBugs.isEmpty()) {
-            getErrorStream().println("Error, no ladybug loaded");
-        } else {
+    public boolean configurate(GameBoard gameBoard, List<LadyBug> ladyBugs) {
+        if (!ladyBugs.isEmpty()) {
             this.configuration.setGameBoard(gameBoard);
             this.configuration.setRegisteredBugs(ladyBugs);
+        } else {
+            getErrorStream().println("Error, no ladybug loaded");
+            return true;
         }
-    }
-
-    /**
-     * Indicates whether this object has been marked as invalid.
-     *
-     * @return {@code true} if the object is invalid; {@code false} otherwise
-     */
-    public boolean isInvalid() {
-        return this.invalid;
     }
 
     /**
@@ -89,7 +79,7 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
      */
     @Override
     public void handleUserInput() {
-        while (isRunning() && !this.configuration.isCompleted() && !invalid) {
+        while (isRunning() && !this.configuration.isCompleted()) {
             super.handleUserInput();
         }
     }
