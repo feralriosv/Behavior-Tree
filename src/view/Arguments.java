@@ -1,10 +1,12 @@
 package view;
 
+import model.decisiontree.node.Naming;
 import model.ladybug.Identifier;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * This class represents the arguments of a {@link Command}.
@@ -43,8 +45,29 @@ public class Arguments {
      * @return the argument as a string
      * @throws InvalidArgumentException if there is no argument to parse
      */
-    protected String parseString() throws InvalidArgumentException {
+    private String parseString() throws InvalidArgumentException {
         return retrieveArgument();
+    }
+
+    /**
+     * Parses the next argument as a {@link NodeToken} in the canonical form {@code NAME[LABEL]}.
+     *
+     * @return the parsed {@link NodeToken}
+     * @throws InvalidArgumentException if the argument is missing or does not match the expected format
+     */
+    public NodeToken parseNodeToken() throws InvalidArgumentException {
+        String argument = retrieveArgument();
+
+        Optional<NodeToken> nodeTokenOpt = NodeToken.fromLine(argument);
+        if (nodeTokenOpt.isEmpty()) {
+            throw new InvalidArgumentException("unrecognizable token: " + argument);
+        }
+
+        return nodeTokenOpt.get();
+    }
+
+    public Naming parseNodeNaming() throws InvalidArgumentException {
+        return new Naming(retrieveArgument());
     }
 
     /**

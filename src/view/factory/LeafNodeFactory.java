@@ -1,4 +1,4 @@
-package view.configuration.factory;
+package view.factory;
 
 import model.decisiontree.node.LeafType;
 import model.decisiontree.node.LeafNode;
@@ -26,15 +26,22 @@ public class LeafNodeFactory implements NodeFactory {
         this.loader = loader;
     }
 
+    public LeafNodeFactory() {
+        this.loader = null;
+    }
+
     @Override
     public Optional<LeafNode> create(Naming naming, String label) {
         Optional<LeafType> leafOpt = LeafType.fromLine(label);
         if (leafOpt.isPresent()) {
             LeafNode leafNode = new LeafNode(naming, leafOpt.get());
 
-            if (LeafType.isActionType(leafNode.getNodeType())) {
-                this.loader.markCreatedAction();
+            if (this.loader != null) {
+                if (LeafType.isActionType(leafNode.getNodeType())) {
+                    this.loader.markCreatedAction();
+                }
             }
+
             return Optional.of(leafNode);
         }
 

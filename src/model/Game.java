@@ -4,6 +4,7 @@ import model.board.GameBoard;
 import model.board.Tile;
 import model.board.TileType;
 import model.decisiontree.DecisionTree;
+import model.decisiontree.node.Node;
 import model.ladybug.LadyBug;
 import model.ladybug.Identifier;
 import model.ladybug.Vector2D;
@@ -51,6 +52,18 @@ public class Game {
         }
 
         this.bugsAndTrees = Collections.unmodifiableMap(helper);
+    }
+
+    public DecisionTree getBugDecisionTree(LadyBug ladyBug) {
+        return this.bugsAndTrees.get(ladyBug);
+    }
+
+    public Node<?> getRootNode(LadyBug ladyBug) {
+        return bugsAndTrees.get(ladyBug).getRootNode();
+    }
+
+    public Node<?> getBugActiveNode(LadyBug ladyBug) {
+        return bugsAndTrees.get(ladyBug).getActiveNode();
     }
 
     public Set<Map.Entry<LadyBug, DecisionTree>> getBugsAndTrees() {

@@ -15,9 +15,9 @@ import view.Keyword;
  */
 public enum ModelKeyword implements Keyword<Game> {
     /** Command to add a sibling node in the decision tree. */
-    ADD_SIBLING(arguments -> new AddSibling()),
+    ADD_SIBLING(arguments -> new AddSibling(arguments.parseIdentifier(), arguments.parseNodeNaming(), arguments.parseNodeToken())),
     /** Command to display or move to the head node of the tree. */
-    HEAD(arguments -> new Head()),
+    HEAD(arguments -> new Head(arguments.parseIdentifier())),
     /** Command to jump to a specific node in the decision tree. */
     JUMP_TO(arguments -> new JumpTo()),
     /** Command to list all ladybugs currently in the game. */

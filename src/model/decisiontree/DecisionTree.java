@@ -1,6 +1,7 @@
 package model.decisiontree;
 
 import model.GameContext;
+import model.decisiontree.node.Naming;
 import model.decisiontree.node.Node;
 import model.ladybug.LadyBug;
 
@@ -14,6 +15,7 @@ import java.util.List;
 public class DecisionTree {
 
     private final Node<?> rootNode;
+    private Node<?> activeNode;
 
     /**
      * Creates a new decision tree with the given root node.
@@ -22,6 +24,29 @@ public class DecisionTree {
      */
     public DecisionTree(Node<?> root) {
         this.rootNode = root;
+        this.assignTree(root);
+    }
+
+    public Node<?> getRootNode() {
+        return this.rootNode;
+    }
+
+    /**
+     * Returns the node that is currently active in this decision tree.
+     *
+     * @return the currently active {@link Node}, or {@code null} if no node has been activated yet
+     */
+    public Node<?> getActiveNode() {
+        return activeNode;
+    }
+
+    /**
+     * Updates the reference to the node that is currently active in this decision tree.
+     *
+     * @param activeNode the {@link Node} that should be marked as active
+     */
+    public void setActiveNode(Node<?> activeNode) {
+        this.activeNode = activeNode;
     }
 
     /**
@@ -39,5 +64,32 @@ public class DecisionTree {
         }
 
         return context.endTick();
+    }
+
+    public Node<?> findByNameFromRoot(Naming naming) {
+        return findNodeByNamingDFS(this.rootNode, naming);
+    }
+
+    private Node<?> findNodeByNamingDFS(Node<?> root, Naming naming) {
+        if (root.getNaming().equals(naming)) {
+            return root;
+        }
+
+        List<Node<?>> children = root.getChildren();
+        for (Node<?> child : children) {
+            Node<?> hit = findNodeByNamingDFS(child, naming);
+            if (hit != null) {
+                return hit;
+            }
+        }
+
+        return null;
+    }
+
+    private void assignTree(Node<?> node) {
+        node.setTree(this);
+        for (Node<?> child : node.getChildren()) {
+            assignTree(child);
+        }
     }
 }

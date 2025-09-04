@@ -1,4 +1,4 @@
-package view.configuration.factory;
+package view.factory;
 
 import model.decisiontree.node.Node;
 import model.decisiontree.node.Naming;

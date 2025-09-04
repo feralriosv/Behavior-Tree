@@ -3,9 +3,8 @@ package view.configuration.loader;
 import model.decisiontree.DecisionTree;
 import model.decisiontree.node.Node;
 import model.decisiontree.node.Naming;
-import view.configuration.factory.CompositeNodeFactory;
-import view.configuration.factory.LeafNodeFactory;
-import view.configuration.factory.NodeFactory;
+import view.NodeFabric;
+import view.NodeToken;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,10 +22,6 @@ import java.util.Set;
 public class TreeLoader implements Loader<DecisionTree> {
 
     private static final String ARROW_SYMBOL = "-->";
-    private static final String BRACKET_OPEN_SYMBOL = "[";
-    private static final String BRACKET_CLOSE_SYMBOL = "]";
-    private static final String PAREN_OPEN_SYMBOL = "(";
-    private static final String PAREN_CLOSE_SYMBOL = ")";
 
     private static final String ERROR_CONFLICTING_LABELS = "node '%s' has conflicting labels: '%s' vs '%s'";
     private static final String ERROR_UNDEFINED_NODE_IN_EDGE = "undefined node in edge";
@@ -39,11 +34,9 @@ public class TreeLoader implements Loader<DecisionTree> {
     private static final String ERROR_EMPTY_TREE = "empty behavior-tree block";
     private static final String ERROR_NODE_WITHOUT_DEFINITION = "node '%s' referenced without definition";
     private static final String ERROR_NO_ACTION_NODE = "tree must contain at least one action node";
-    private static final String ERROR_UNKNOWN_LABEL = "unknown node label: %s";
 
     private static final String MERMAID_SYNTAX_HEADER = "flowchart TD";
 
-    private final List<NodeFactory> factories;
     private final Map<Naming, String> nodeDefinitions;
     private final List<Naming[]> edges;
     private final Set<Naming> referencedIds;
@@ -56,7 +49,6 @@ public class TreeLoader implements Loader<DecisionTree> {
      * Creates a new {@code TreeLoader} with default factories.
      */
     public TreeLoader() {
-        this.factories = List.of(new CompositeNodeFactory(), new LeafNodeFactory(this));
         this.nodeDefinitions = new HashMap<>();
         this.edges = new ArrayList<>();
         this.referencedIds = new HashSet<>();
@@ -98,9 +90,9 @@ public class TreeLoader implements Loader<DecisionTree> {
 
             String[] parts = extractLineParts(line);
             if (parts.length == 2) {
-                processPairs(parts);
+                processPair(parts);
             } else if (parts.length == 1) {
-                processToken(parts[0]);
+                processSingle(parts[0]);
             } else {
                 throw new LoadingException(ERROR_INVALID_BLOCK_LINE.formatted(line));
             }
@@ -110,14 +102,18 @@ public class TreeLoader implements Loader<DecisionTree> {
             throw new LoadingException(ERROR_EMPTY_TREE);
         }
 
-        arrangeNodes();
+        this.arrangeNodes();
     }
 
     private void arrangeNodes() throws LoadingException {
         for (Map.Entry<Naming, String> entry : nodeDefinitions.entrySet()) {
             Naming nodeName = entry.getKey();
             String label = entry.getValue();
-            createdNodes.put(nodeName, createNode(nodeName, label));
+
+            NodeFabric nodeFabric = new NodeFabric(this);
+            Node<?> node = nodeFabric.createNode(nodeName, label);
+
+            createdNodes.put(nodeName, node);
         }
 
         for (Naming nodeName : this.referencedIds) {
@@ -127,7 +123,7 @@ public class TreeLoader implements Loader<DecisionTree> {
         }
 
         for (Naming[] edge : this.edges) {
-            childrenNodeIds.add(edge[1]);
+            this.childrenNodeIds.add(edge[1]);
         }
 
         this.rootNaming = findRootName();
@@ -155,12 +151,12 @@ public class TreeLoader implements Loader<DecisionTree> {
     }
 
     private Naming findRootName() throws LoadingException {
-        for (Naming id : this.createdNodes.keySet()) {
-            if (!this.childrenNodeIds.contains(id)) {
+        for (Naming naming : this.createdNodes.keySet()) {
+            if (!this.childrenNodeIds.contains(naming)) {
                 if (rootNaming != null) {
                     throw new LoadingException(ERROR_MULTIPLE_ROOTS);
                 }
-                rootNaming = id;
+                rootNaming = naming;
             }
         }
 
@@ -171,49 +167,47 @@ public class TreeLoader implements Loader<DecisionTree> {
         return rootNaming;
     }
 
-    private void processPairs(String[] parts) throws LoadingException {
-        Token leftTok  = parseToken(parts[0].trim());
-        Token rightTok = parseToken(parts[1].trim());
+    private void processPair(String[] pair) throws LoadingException {
+        Optional<NodeToken> leftTokenOpt  = NodeToken.fromLine(pair[0].trim());
+        Optional<NodeToken> rightTokenOpt = NodeToken.fromLine(pair[1].trim());
 
-        Naming leftId  = new Naming(leftTok.name);
-        Naming rightId = new Naming(rightTok.name);
+        if (leftTokenOpt.isEmpty() || rightTokenOpt.isEmpty()) {
+            throw new LoadingException("invalid tokens" + pair[0] + " " + ARROW_SYMBOL + " " + pair[1]);
+        }
 
-        processParsedToken(leftTok);
-        processParsedToken(rightTok);
+        Naming leftId  = new Naming(leftTokenOpt.get().name());
+        Naming rightId = new Naming(rightTokenOpt.get().name());
+
+        processToken(leftTokenOpt.get());
+        processToken(rightTokenOpt.get());
 
         this.edges.add(new Naming[]{ leftId, rightId });
     }
 
-    private void processToken(String rawToken) throws LoadingException {
-        Token token = parseToken(rawToken);
-        processParsedToken(token);
+    private void processSingle(String rawToken) throws LoadingException {
+        Optional<NodeToken> tokenOpt = NodeToken.fromLine(rawToken);
+        if (tokenOpt.isEmpty()) {
+            throw new LoadingException("invalid token: " + rawToken);
+        }
+
+        this.processToken(tokenOpt.get());
     }
 
-    private void processParsedToken(Token token) throws LoadingException {
-        Naming nodeName = new Naming(token.name);
+    private void processToken(NodeToken token) throws LoadingException {
+        Naming nodeName = new Naming(token.name());
         this.referencedIds.add(nodeName);
 
-        String label = token.label;
-        if (label != null) {
+        String label = token.label().trim();
+        if (!label.isEmpty()) {
             String prev = nodeDefinitions.putIfAbsent(nodeName, label);
             if (prev != null && !prev.equals(label)) {
-                throw new LoadingException(ERROR_CONFLICTING_LABELS.formatted(token.name, prev, label));
+                throw new LoadingException(ERROR_CONFLICTING_LABELS.formatted(token.name(), prev, label));
             }
         }
-    }
-
-    private Node<?> createNode(Naming nodeName, String label) throws LoadingException {
-        for (NodeFactory factory : factories) {
-            Optional<? extends Node<?>> maybe = factory.create(nodeName, label);
-            if (maybe.isPresent()) {
-                return maybe.get();
-            }
-        }
-        throw new LoadingException(ERROR_UNKNOWN_LABEL.formatted(label));
     }
 
     private String[] extractLineParts(String line) throws LoadingException {
-        String trimmed = line == null ? "" : line.trim();
+        String trimmed = line.isEmpty() ? "" : line.trim();
         if (trimmed.isEmpty()) {
             return new String[0];
         }
@@ -231,28 +225,6 @@ public class TreeLoader implements Loader<DecisionTree> {
         return new String[]{ trimmed };
     }
 
-    private Token parseToken(String line) throws LoadingException {
-        String cleaned = line.trim().replace(PAREN_OPEN_SYMBOL, "").replace(PAREN_CLOSE_SYMBOL, "");
-        int openIndex = cleaned.indexOf(BRACKET_OPEN_SYMBOL);
-        int closeIndex = cleaned.lastIndexOf(BRACKET_CLOSE_SYMBOL);
-
-        if (openIndex == -1 || closeIndex == -1) {
-            if (cleaned.isEmpty()) {
-                throw new LoadingException("empty node value in token: " + line);
-            }
-            return new Token(cleaned, null);
-        }
-
-        String id = cleaned.substring(0, openIndex).trim();
-        String label = cleaned.substring(openIndex + 1, closeIndex).trim();
-
-        if (id.isEmpty() || label.isEmpty()) {
-            throw new LoadingException("invalid node token: " + line);
-        }
-
-        return new Token(id, label);
-    }
-
     private void resetState() {
         this.nodeDefinitions.clear();
         this.edges.clear();
@@ -261,9 +233,5 @@ public class TreeLoader implements Loader<DecisionTree> {
         this.childrenNodeIds.clear();
         this.actionCreated = false;
         this.rootNaming = null;
-    }
-
-    private record Token(String name, String label) {
-
     }
 }

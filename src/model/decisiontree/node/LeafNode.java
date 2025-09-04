@@ -26,6 +26,7 @@ public class LeafNode extends Node<LeafType> {
 
     @Override
     public void tick(GameContext context) {
+        this.getTree().setActiveNode(this);
         TickState tickState = getNodeType().behavior(context, this);
         this.saveState(context, tickState);
     }
