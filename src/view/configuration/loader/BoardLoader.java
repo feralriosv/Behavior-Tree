@@ -14,14 +14,8 @@ import java.util.Optional;
  */
 public class BoardLoader implements Loader<GameBoard> {
 
-    private static final String ERROR_LINES_UNIFORMITY = "lines are not uniform";
-
     @Override
     public GameBoard load(List<String> lines) throws LoadingException {
-        if (!hasUniformLength(lines)) {
-            throw new LoadingException(ERROR_LINES_UNIFORMITY);
-        }
-
         if (hasAsciiBorder(lines)) {
             return GameBoard.emptyBoard();
         }
@@ -67,15 +61,5 @@ public class BoardLoader implements Loader<GameBoard> {
         }
 
         return false;
-    }
-
-
-    private boolean hasUniformLength(List<String> lines) {
-        for (int i = 0; i < lines.size(); i++) {
-            if (lines.get(i).length() != lines.getFirst().length()) {
-                return false;
-            }
-        }
-        return true;
     }
 }
