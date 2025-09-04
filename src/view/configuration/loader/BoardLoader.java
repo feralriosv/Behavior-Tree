@@ -1,7 +1,6 @@
 package view.configuration.loader;
 
 import model.board.GameBoard;
-import model.ladybug.Facing;
 import model.board.Tile;
 import model.board.TileType;
 
