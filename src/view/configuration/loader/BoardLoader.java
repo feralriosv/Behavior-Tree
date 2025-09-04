@@ -33,7 +33,11 @@ public class BoardLoader implements Loader<GameBoard> {
                 char symbol = lines.get(row).charAt(column);
                 Optional<TileType> tileTypeOpt = TileType.fromChar(symbol);
 
-                grid[row][column] = tileTypeOpt.map(Tile::new).orElseGet(() -> new Tile(TileType.EMPTY));
+                if (tileTypeOpt.isPresent()) {
+                    grid[row][column] = new Tile(tileTypeOpt.get());
+                } else {
+                    grid[row][column] = new Tile(TileType.EMPTY);
+                }
             }
         }
 
