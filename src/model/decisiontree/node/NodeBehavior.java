@@ -17,5 +17,5 @@ public interface NodeBehavior<T extends Node<?>> {
      * @param self    the node being executed (needed by composite behaviors to traverse children)
      * @return the resulting {@link TickState} after execution
      */
-    void run(GameContext context, T self);
+    TickState run(GameContext context, T self);
 }

@@ -39,7 +39,7 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
     public abstract void tick(GameContext context);
 
 
-    public void setLastState(TickState lastState) {
+    protected void setLastState(TickState lastState) {
         this.lastState = lastState;
     }
 
@@ -85,10 +85,15 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
      *
      * @return the list of child nodes
      */
-    protected List<Node<?>> getChildren() {
+    public List<Node<?>> getChildren() {
         return Collections.unmodifiableList(children);
     }
 
     @Override
     public abstract Iterator<Node<?>> iterator();
+
+    @Override
+    public String toString() {
+        return this.naming + " " + this.nodeType + " " + this.lastState;
+    }
 }

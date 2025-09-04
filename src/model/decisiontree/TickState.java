@@ -12,4 +12,5 @@ public enum TickState {
     FAILURE,
     /** Marks the entry point of a tick before execution begins. */
     ENTRY,
+    STAND_BY
 }

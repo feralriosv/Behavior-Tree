@@ -26,15 +26,11 @@ public class NextAction implements Command<Game> {
     public Result execute(Game handle) {
         StringJoiner displayContent = new StringJoiner(System.lineSeparator());
 
-        for (Map.Entry<LadyBug, DecisionTree> entry : handle.getBugsAndTrees()) {
-            LadyBug ladyBug = entry.getKey();
-            DecisionTree tree = entry.getValue();
-            GameContext context = handle.context();
-
-            List<TickResult> tickResults = tree.tick(context, ladyBug);
-
-            for (TickResult result : tickResults) {
-                displayContent.add(DISPLAY_FORMAT.formatted(ladyBug.getId(), result));
+        Map<LadyBug, List<TickResult>> results = handle.tickBugsOnce();
+        for (Map.Entry<LadyBug, List<TickResult>> e : results.entrySet()) {
+            LadyBug bug = e.getKey();
+            for (TickResult r : e.getValue()) {
+                displayContent.add(DISPLAY_FORMAT.formatted(bug.getId(), r));
             }
 
             BoardDisplayer displayer = new BoardDisplayer(handle.getBoard(), handle.getBugsInGame());

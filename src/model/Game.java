@@ -4,6 +4,7 @@ import model.board.GameBoard;
 import model.board.Tile;
 import model.board.TileType;
 import model.decisiontree.DecisionTree;
+import model.decisiontree.TickResult;
 import model.ladybug.LadyBug;
 import model.ladybug.Identifier;
 import model.ladybug.Vector2D;
@@ -21,6 +22,7 @@ import java.util.*;
 public class Game {
 
     private final GameBoard board;
+    private final GameContext context;
     private final List<LadyBug> bugsInGame;
     private final Map<LadyBug, DecisionTree> bugsAndTrees;
 
@@ -33,11 +35,12 @@ public class Game {
     public Game(Configuration config) {
         this.board = config.getGameBoard();
         this.bugsInGame = List.copyOf(config.getRegisteredBugs());
+        this.context = new GameContext(this);
 
         Map<LadyBug, DecisionTree> helper = new LinkedHashMap<>();
         List<DecisionTree> trees = List.copyOf(config.getTrees());
 
-        int pairs = Math.min(bugsInGame.size(), trees.size());
+        int pairs = Math.min(this.bugsInGame.size(), trees.size());
         for (int i = 0; i < pairs; i++) {
             LadyBug bug = bugsInGame.get(i);
             DecisionTree tree = trees.get(i);
@@ -49,21 +52,30 @@ public class Game {
     }
 
     /**
+     * Returns this game's shared {@link GameContext}. The context is reused across ticks.
+     *
+     * @return the shared game context bound to this game
+     */
+    public Map<LadyBug, List<TickResult>> tickBugsOnce() {
+        Map<LadyBug, List<TickResult>> resultsByBug = new LinkedHashMap<>();
+
+        for (Map.Entry<LadyBug, DecisionTree> entry : this.bugsAndTrees.entrySet()) {
+            LadyBug bug = entry.getKey();
+            DecisionTree tree = entry.getValue();
+            List<TickResult> results = tree.tick(context(), bug);
+            resultsByBug.put(bug, results);
+        }
+
+        return resultsByBug;
+    }
+
+    /**
      * Creates a new {@link GameContext} for this game.
      *
      * @return a new game context bound to this game
      */
     public GameContext context() {
-        return new GameContext(this);
-    }
-
-    /**
-     * Returns an unmodifiable entry set of {@link LadyBug}s to their associated {@link DecisionTree}s.
-     *
-     * @return map of ladybugs and decision trees
-     */
-    public Set<Map.Entry<LadyBug, DecisionTree>> getBugsAndTrees() {
-        return this.bugsAndTrees.entrySet();
+        return this.context;
     }
 
     /**
@@ -90,16 +102,16 @@ public class Game {
      * @return true if a leaf was successfully taken, false otherwise
      */
     protected boolean takeLeaf(LadyBug bug) {
-        Vector2D front = frontOf(bug);
-        if (!board.isInside(front)) {
+        Vector2D aheadPosition = frontOf(bug);
+        if (!board.isInside(aheadPosition)) {
             return false;
         }
-        Tile tile = board.tileAt(front);
+        Tile tile = board.tileAt(aheadPosition);
         if (!TileType.LEAF.matches(tile)) {
             return false;
         }
 
-        board.setTileAt(front, new Tile(TileType.EMPTY));
+        board.setTileAt(aheadPosition, new Tile(TileType.EMPTY));
         bug.setCarryingLeaf(true);
         return true;
     }
@@ -114,16 +126,16 @@ public class Game {
         if (!bug.isCarryingLeaf()) {
             return false;
         }
-        Vector2D front = frontOf(bug);
-        if (!board.isInside(front)) {
+        Vector2D aheadPosition = frontOf(bug);
+        if (!board.isInside(aheadPosition)) {
             return false;
         }
-        Tile tile = board.tileAt(front);
+        Tile tile = board.tileAt(aheadPosition);
         if (!TileType.EMPTY.matches(tile)) {
             return false;
         }
 
-        board.setTileAt(front, new Tile(TileType.LEAF));
+        board.setTileAt(aheadPosition, new Tile(TileType.LEAF));
         bug.setCarryingLeaf(false);
         return true;
     }

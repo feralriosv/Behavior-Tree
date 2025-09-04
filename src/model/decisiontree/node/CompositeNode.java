@@ -14,7 +14,7 @@ import java.util.Iterator;
 public class CompositeNode extends Node<CompositeType> implements LocalPointer {
 
     private final int parameter;
-    private int localTickPointer;
+    private int localPointer;
 
     /**
      * Constructs a new composite node with an explicit parameter.
@@ -25,7 +25,7 @@ public class CompositeNode extends Node<CompositeType> implements LocalPointer {
      */
     public CompositeNode(Naming nodeId, CompositeType nodeType, int parameter) {
         super(nodeId, nodeType);
-        this.localTickPointer = 0;
+        this.localPointer = 0;
         this.parameter = parameter;
     }
 
@@ -37,17 +37,24 @@ public class CompositeNode extends Node<CompositeType> implements LocalPointer {
      */
     public CompositeNode(Naming nodeId, CompositeType type) {
         super(nodeId, type);
-        this.localTickPointer = 0;
+        this.localPointer = 0;
         this.parameter = 0;
     }
 
     @Override
     public void tick(GameContext context) {
-        if (localPointer() == 0) {
+        if (this.localPointer() == 0) {
             saveState(context, TickState.ENTRY);
         }
 
-        this.getNodeType().behavior(context, this);
+        TickState state =  this.getNodeType().behavior(context, this);
+
+        if (state != TickState.ENTRY && state != TickState.STAND_BY) {
+            this.saveState(context, state);
+            resetPointer();
+        } else if (state == TickState.STAND_BY){
+            this.setLastState(TickState.STAND_BY);
+        }
     }
 
     /**
@@ -56,39 +63,31 @@ public class CompositeNode extends Node<CompositeType> implements LocalPointer {
      * @return the result corresponding to the tick
      */
     protected TickResult tickNextChild(GameContext context) {
-        Node<?> child = getChildren().get(localTickPointer);
-
+        Node<?> child = getChildren().get(this.localPointer);
         child.tick(context);
-
         return new TickResult(child.getLastState(), child);
     }
 
-    /**
-     * Advances the tick pointer to the next child node, if any remain.
-     */
     @Override
     public void advancePointer() {
-        if (localTickPointer < getChildren().size()) {
-            this.localTickPointer++;
+        if (this.localPointer < getChildren().size()) {
+            this.localPointer++;
         }
     }
 
-    /**
-     * Resets the tick pointer to the beginning.
-     */
     @Override
     public void resetPointer() {
-        this.localTickPointer = 0;
+        this.localPointer = 0;
     }
 
     @Override
     public boolean ticksCompleted() {
-        return this.localTickPointer >= getChildren().size();
+        return this.localPointer >= getChildren().size();
     }
 
     @Override
     public int localPointer() {
-        return this.localTickPointer;
+        return this.localPointer;
     }
 
     /**

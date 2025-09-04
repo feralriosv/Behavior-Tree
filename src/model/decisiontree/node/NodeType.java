@@ -19,7 +19,7 @@ public interface NodeType<T extends Node<?>> {
      * @param self    the node instance this behavior acts upon
      * @return the resulting {@link TickState} after execution
      */
-    void behavior(GameContext context, T self);
+    TickState behavior(GameContext context, T self);
 
     /**
      * Returns the human‑readable label for this node type (used for display/parsing).

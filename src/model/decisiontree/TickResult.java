@@ -30,6 +30,10 @@ public class TickResult {
         return new TickResult(TickState.ENTRY, node);
     }
 
+    public Node<?> getNode() {
+        return node;
+    }
+
     /**
      * Returns the resulting state of this tick.
      *
