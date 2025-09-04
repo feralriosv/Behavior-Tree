@@ -16,7 +16,6 @@ import java.util.Optional;
 public class BoardLoader implements Loader<GameBoard> {
 
     private static final String LINES_UNIFORMITY_ERROR = "lines are not uniform";
-    private static final String INVALID_CHAR_ERROR = "invalid char '%c' at row %d, col %d";
 
     @Override
     public GameBoard load(List<String> lines) throws LoadingException {
@@ -34,13 +33,7 @@ public class BoardLoader implements Loader<GameBoard> {
                 char symbol = lines.get(row).charAt(column);
                 Optional<TileType> tileTypeOpt = TileType.fromChar(symbol);
 
-                if (tileTypeOpt.isPresent()) {
-                    grid[row][column] = new Tile(tileTypeOpt.get());
-                } else if (Facing.isLadyBugFacing(symbol)) {
-                    grid[row][column] = new Tile(TileType.EMPTY);
-                } else {
-                    throw new LoadingException(String.format(INVALID_CHAR_ERROR, symbol, row + 1, column + 1));
-                }
+                grid[row][column] = tileTypeOpt.map(Tile::new).orElseGet(() -> new Tile(TileType.EMPTY));
             }
         }
 
