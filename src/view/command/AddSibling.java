@@ -77,7 +77,7 @@ public class AddSibling implements Command<Game> {
 
         int indexOfTarget = parent.getChildren().indexOf(targetNode);
 
-        String label = this.nodeToken.label()
+        String label = this.nodeToken.label();
         Naming newId = new Naming(this.nodeToken.name());
 
         for (Node<?> node : decisionTree.getAllNodes()) {
