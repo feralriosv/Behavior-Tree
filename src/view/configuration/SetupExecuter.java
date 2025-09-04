@@ -89,7 +89,7 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
      */
     @Override
     public void handleUserInput() {
-        while (isRunning() && !this.configuration.isCompleted()) {
+        while (isRunning() && !this.configuration.isCompleted() && !invalid) {
             super.handleUserInput();
         }
     }
