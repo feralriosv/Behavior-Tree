@@ -74,9 +74,9 @@ public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
     }
 
     /**
-     * Returns the error stream that this executer has been registered with.
+     * Prints an error message to the error stream registered with this executer.
      *
-     * @return the error stream of this executer
+     * @param errorMessage the specific error message to display
      */
     protected void announceError(String errorMessage) {
         this.errorStream.println(ERROR_PREFIX + errorMessage);

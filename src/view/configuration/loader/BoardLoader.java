@@ -56,8 +56,8 @@ public class BoardLoader implements Loader<GameBoard> {
         String first = lines.get(0);
         String last  = lines.get(lines.size() - 1);
 
-        if ((first.startsWith("+") && first.endsWith("+")) ||
-                (last.startsWith("+") && last.endsWith("+"))) {
+        if ((first.startsWith("+") && first.endsWith("+"))
+                || (last.startsWith("+") && last.endsWith("+"))) {
             return true;
         }
 
