@@ -1,10 +1,9 @@
 package view.command;
 
 import model.Game;
-import model.GameContext;
+import model.decisiontree.DecisionTree;
 import model.ladybug.LadyBug;
 import model.decisiontree.TickResult;
-import model.decisiontree.DecisionTree;
 import view.BoardDisplayer;
 import view.Command;
 import view.Result;
@@ -26,11 +25,13 @@ public class NextAction implements Command<Game> {
     public Result execute(Game handle) {
         StringJoiner displayContent = new StringJoiner(System.lineSeparator());
 
-        Map<LadyBug, List<TickResult>> results = handle.tickBugsOnce();
-        for (Map.Entry<LadyBug, List<TickResult>> e : results.entrySet()) {
-            LadyBug bug = e.getKey();
-            for (TickResult r : e.getValue()) {
-                displayContent.add(DISPLAY_FORMAT.formatted(bug.getId(), r));
+        for (Map.Entry<LadyBug, DecisionTree> entry : handle.getBugsAndTrees()) {
+            LadyBug bug = entry.getKey();
+            DecisionTree tree = entry.getValue();
+
+            List<TickResult> tickResults = tree.tick(handle.context(), bug);
+            for (TickResult result : tickResults) {
+                displayContent.add(DISPLAY_FORMAT.formatted(bug.getId(), result));
             }
 
             BoardDisplayer displayer = new BoardDisplayer(handle.getBoard(), handle.getBugsInGame());

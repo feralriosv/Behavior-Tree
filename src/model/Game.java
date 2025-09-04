@@ -4,13 +4,17 @@ import model.board.GameBoard;
 import model.board.Tile;
 import model.board.TileType;
 import model.decisiontree.DecisionTree;
-import model.decisiontree.TickResult;
 import model.ladybug.LadyBug;
 import model.ladybug.Identifier;
 import model.ladybug.Vector2D;
 import view.configuration.Configuration;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * Represents the main game logic, managing the game board, ladybugs, and their associated decision trees.
@@ -22,7 +26,6 @@ import java.util.*;
 public class Game {
 
     private final GameBoard board;
-    private final GameContext context;
     private final List<LadyBug> bugsInGame;
     private final Map<LadyBug, DecisionTree> bugsAndTrees;
 
@@ -35,7 +38,6 @@ public class Game {
     public Game(Configuration config) {
         this.board = config.getGameBoard();
         this.bugsInGame = List.copyOf(config.getRegisteredBugs());
-        this.context = new GameContext(this);
 
         Map<LadyBug, DecisionTree> helper = new LinkedHashMap<>();
         List<DecisionTree> trees = List.copyOf(config.getTrees());
@@ -51,22 +53,8 @@ public class Game {
         this.bugsAndTrees = Collections.unmodifiableMap(helper);
     }
 
-    /**
-     * Returns this game's shared {@link GameContext}. The context is reused across ticks.
-     *
-     * @return the shared game context bound to this game
-     */
-    public Map<LadyBug, List<TickResult>> tickBugsOnce() {
-        Map<LadyBug, List<TickResult>> resultsByBug = new LinkedHashMap<>();
-
-        for (Map.Entry<LadyBug, DecisionTree> entry : this.bugsAndTrees.entrySet()) {
-            LadyBug bug = entry.getKey();
-            DecisionTree tree = entry.getValue();
-            List<TickResult> results = tree.tick(context(), bug);
-            resultsByBug.put(bug, results);
-        }
-
-        return resultsByBug;
+    public Set<Map.Entry<LadyBug, DecisionTree>> getBugsAndTrees() {
+        return bugsAndTrees.entrySet();
     }
 
     /**
@@ -75,7 +63,7 @@ public class Game {
      * @return a new game context bound to this game
      */
     public GameContext context() {
-        return this.context;
+        return new GameContext(this);
     }
 
     /**
