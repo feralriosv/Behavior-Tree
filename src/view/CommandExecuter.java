@@ -27,7 +27,7 @@ import java.util.Set;
 public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
 
     private static final String COMMAND_SEPARATOR = " ";
-    private static final String ERROR_PREFIX = "Error: ";
+    private static final String ERROR_PREFIX = "Error, ";
     private static final String ERROR_UNKNOWN_COMMAND = ERROR_PREFIX + "unknown command";
     private static final String ERROR_TOO_MANY_ARGUMENTS = ERROR_PREFIX + "too many arguments provided.";
     private static final String ERROR_INVALID_PRECONDITION = ERROR_PREFIX + "command cannot be used right now.";
