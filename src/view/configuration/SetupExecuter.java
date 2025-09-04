@@ -23,10 +23,12 @@ import java.util.List;
 public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V, ?>>> extends CommandExecuter<SetupExecuter<V, ?>, K> {
 
     private final Configuration configuration;
+    private boolean invalid;
 
     private SetupExecuter(CommandExecuter<?, ?> ioRessources, Class<K> keywordClass) {
         super(ioRessources, keywordClass);
         this.configuration = new Configuration();
+        this.invalid = false;
         setModel(this);
     }
 
@@ -37,11 +39,12 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
      * @param ladyBugs the list of ladybugs to register
      */
     public void configurate(GameBoard gameBoard, List<LadyBug> ladyBugs) {
-        if (!ladyBugs.isEmpty()) {
+        if (ladyBugs.isEmpty()) {
+            this.invalid = true;
+        } else {
             this.configuration.setGameBoard(gameBoard);
             this.configuration.setRegisteredBugs(ladyBugs);
-        } else {
-            getErrorStream().println("Error, no ladybug loaded");
+            this.invalid = false;
         }
     }
 
@@ -80,6 +83,9 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
     public void handleUserInput() {
         while (isRunning() && !this.configuration.isCompleted()) {
             super.handleUserInput();
+            if (this.invalid) {
+                getErrorStream().println("Error, invalid board");
+            }
         }
     }
 
