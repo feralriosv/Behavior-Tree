@@ -92,12 +92,10 @@ public class GameContext {
      * @return true if the ladybug is at the edge, false otherwise
      */
     public boolean isAtEdge() {
-        Vector2D frontPosition = location().sum(getLadybugFacing().delta());
-        Vector2D pos = location();
-        return !this.boardView.isInside(pos.sum(new Vector2D(-1, 0)))
-                || !this.boardView.isInside(pos.sum(new Vector2D(1, 0)))
-                || !this.boardView.isInside(pos.sum(new Vector2D(0, -1)))
-                || !this.boardView.isInside(pos.sum(new Vector2D(0, 1)));
+        return !this.boardView.isInside(location().sum(new Vector2D(-1, 0)))
+                || !this.boardView.isInside(location().sum(new Vector2D(1, 0)))
+                || !this.boardView.isInside(location().sum(new Vector2D(0, -1)))
+                || !this.boardView.isInside(location().sum(new Vector2D(0, 1)));
     }
 
     /**
@@ -133,7 +131,10 @@ public class GameContext {
      * @return true if the ladybug moved successfully, false otherwise
      */
     public boolean move() {
-        return !isAtEdge() && !isTreeFront() && game.moveAhead(activeLadybug);
+        Vector2D frontPos = location().sum(getLadybugFacing().delta());
+        boolean inside = this.boardView.isInside(frontPos);
+
+        return inside && !isTreeFront() && game.moveAhead(activeLadybug);
     }
 
     /**
