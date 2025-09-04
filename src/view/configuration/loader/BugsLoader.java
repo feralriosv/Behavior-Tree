@@ -47,7 +47,7 @@ public class BugsLoader implements Loader<List<LadyBug>> {
         }
 
         if (this.loadedBugs.isEmpty()) {
-            throw new LoadingException("no ladybug could be loaded");
+            return Collections.emptyList();
         }
 
         return Collections.unmodifiableList(this.loadedBugs);

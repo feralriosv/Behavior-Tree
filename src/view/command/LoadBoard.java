@@ -54,12 +54,12 @@ public class LoadBoard implements Command<SetupExecuter<Configuration, ?>> {
             return Result.error(ERROR_UNREADABLE_FILE);
         }
 
-        GameBoard gameBoard;
         List<LadyBug> ladyBugs;
+        GameBoard gameBoard;
 
         try {
-            gameBoard = this.boardLoader.load(fileLines);
             ladyBugs = this.bugsLoader.load(fileLines);
+            gameBoard = this.boardLoader.load(fileLines);
         } catch (LoadingException e) {
             return Result.error(e.getMessage());
         }
