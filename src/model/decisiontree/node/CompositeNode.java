@@ -71,6 +71,20 @@ public class CompositeNode extends Node<CompositeType> implements LocalPointer {
     }
 
     @Override
+    public boolean insertChildAt(int index, Node<?> child) {
+        if (child == null || index < 0 || index > getChildren().size()) {
+            return false;
+        }
+
+        child.setParent(this);
+        super.insertChildAt(index, child);
+
+        this.setLastState(TickState.ENTRY);
+        this.localPointer = index;
+        return true;
+    }
+
+    @Override
     public void advancePointer() {
         if (this.localPointer < getChildren().size()) {
             this.localPointer++;

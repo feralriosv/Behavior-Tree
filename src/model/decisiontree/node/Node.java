@@ -40,7 +40,11 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
         this.parent = null;
     }
 
-    private void setParent(Node<?> parent) {
+    public Node<?> getParent() {
+        return this.parent;
+    }
+
+    public void setParent(Node<?> parent) {
         this.parent = parent;
     }
 
@@ -65,38 +69,33 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
         this.setLastState(state);
     }
 
-    public Node<?> getParent() {
-        return this.parent;
-    }
-
     /**
      * Adds a child node to this node.
      *
-     * @param childNode the child node to add
+     * @param child the child node to add
      * @return true if the child node was added successfully
      */
-    public boolean addChild(Node<?> childNode) {
-        childNode.setParent(this);
-        return this.children.add(childNode);
+    public boolean addChild(Node<?> child) {
+        child.setParent(this);
+        child.setTree(this.tree);
+        return this.children.add(child);
     }
 
-
     public boolean insertChildAt(int index, Node<?> child) {
-        if (child == null || index < 0 || index > this.children.size()) {
+        if (child == null || index < 0 || index > getChildren().size()) {
             return false;
         }
-        child.setParent(this);
+
+        child.setTree(this.tree);
         this.children.add(index, child);
         return true;
     }
 
-    /**
-
-    /**
-     * Returns the unique identifier of this node.
-     *
-     * @return the node identifier
-     */
+        /**
+         * Returns the unique identifier of this node.
+         *
+         * @return the node identifier
+         */
     public Naming getNaming() {
         return this.naming;
     }

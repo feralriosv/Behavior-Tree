@@ -35,4 +35,15 @@ public class LeafNode extends Node<LeafType> {
     public Iterator<Node<?>> iterator() {
         return Collections.emptyIterator();
     }
+
+
+    @Override
+    public boolean addChild(Node<?> child) {
+        return false;
+    }
+
+    @Override
+    public boolean insertChildAt(int index, Node<?> child) {
+        return false;
+    }
 }
