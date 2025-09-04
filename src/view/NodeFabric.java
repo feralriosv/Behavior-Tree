@@ -58,6 +58,7 @@ public class NodeFabric {
                 return maybe.get();
             }
         }
+
         throw new LoadingException(ERROR_UNKNOWN_LABEL.formatted(label));
     }
 }

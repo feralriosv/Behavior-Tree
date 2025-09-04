@@ -28,6 +28,7 @@ public class DecisionTree {
     public DecisionTree(Node<?> root) {
         this.allNodes = new ArrayList<>();
         this.rootNode = root;
+        this.activeNode = root;
         this.assignTree(root);
     }
 
