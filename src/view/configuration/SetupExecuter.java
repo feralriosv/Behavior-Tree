@@ -84,7 +84,7 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
         while (isRunning() && !this.configuration.isCompleted()) {
             super.handleUserInput();
             if (this.invalid) {
-                getErrorStream().println("Error, invalid board");
+                announceError("invalid board");
             }
         }
     }

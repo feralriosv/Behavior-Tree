@@ -7,8 +7,6 @@ import model.Game;
 import view.configuration.Configuration;
 import view.configuration.SetupExecuter;
 
-import java.io.PrintStream;
-
 /**
  * This class provides the setup for the game and its final creation.
  *
@@ -17,7 +15,6 @@ import java.io.PrintStream;
  */
 public class GameFactory {
 
-    private final PrintStream errorStream;
     private final CommandExecuter<?, ?> ioRessources;
 
     /**
@@ -26,7 +23,6 @@ public class GameFactory {
      * @param ioRessources an executer containing the communication ressources to be used
      */
     public GameFactory(CommandExecuter<?, ?> ioRessources) {
-        this.errorStream = ioRessources.getErrorStream();
         this.ioRessources = ioRessources;
     }
 

@@ -78,8 +78,8 @@ public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
      *
      * @return the error stream of this executer
      */
-    protected PrintStream getErrorStream() {
-        return errorStream;
+    protected void announceError(String errorMessage) {
+        this.errorStream.println(ERROR_PREFIX + errorMessage);
     }
 
     /**

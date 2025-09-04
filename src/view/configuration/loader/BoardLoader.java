@@ -14,12 +14,17 @@ import java.util.Optional;
  */
 public class BoardLoader implements Loader<GameBoard> {
 
-    private static final String LINES_UNIFORMITY_ERROR = "lines are not uniform";
+    private static final String ERROR_LINES_UNIFORMITY = "lines are not uniform";
+    private static final String ERROR_ASCII_BORDER_FOUND = "board has already borders";
 
     @Override
     public GameBoard load(List<String> lines) throws LoadingException {
         if (!hasUniformLength(lines)) {
-            throw new LoadingException(LINES_UNIFORMITY_ERROR);
+            throw new LoadingException(ERROR_LINES_UNIFORMITY);
+        }
+
+        if (hasAsciiBorder(lines)) {
+            throw new LoadingException(ERROR_ASCII_BORDER_FOUND);
         }
 
         Tile[][] grid = new Tile[lines.size()][lines.getFirst().length()];
@@ -42,6 +47,29 @@ public class BoardLoader implements Loader<GameBoard> {
 
         return new GameBoard(grid);
     }
+
+    private static boolean hasAsciiBorder(List<String> lines) {
+        if (lines.isEmpty()) {
+            return false;
+        }
+
+        String first = lines.get(0);
+        String last  = lines.get(lines.size() - 1);
+
+        if ((first.startsWith("+") && first.endsWith("+")) ||
+                (last.startsWith("+") && last.endsWith("+"))) {
+            return true;
+        }
+
+        for (String line : lines) {
+            if (line.startsWith("|") && line.endsWith("|")) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
     private boolean hasUniformLength(List<String> lines) {
         for (int i = 0; i < lines.size(); i++) {
