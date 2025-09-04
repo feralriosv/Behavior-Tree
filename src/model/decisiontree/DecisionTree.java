@@ -5,6 +5,8 @@ import model.decisiontree.node.Naming;
 import model.decisiontree.node.Node;
 import model.ladybug.LadyBug;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -16,6 +18,7 @@ public class DecisionTree {
 
     private final Node<?> rootNode;
     private Node<?> activeNode;
+    private final List<Node<?>> allNodes;
 
     /**
      * Creates a new decision tree with the given root node.
@@ -23,6 +26,7 @@ public class DecisionTree {
      * @param root the root node of this decision tree
      */
     public DecisionTree(Node<?> root) {
+        this.allNodes = new ArrayList<>();
         this.rootNode = root;
         this.assignTree(root);
     }
@@ -73,9 +77,15 @@ public class DecisionTree {
 
     private void assignTree(Node<?> node) {
         node.setTree(this);
+        this.allNodes.add(node);
+
         for (Node<?> child : node.getChildren()) {
             assignTree(child);
         }
+    }
+
+    public List<Node<?>> getAllNodes() {
+        return Collections.unmodifiableList(allNodes);
     }
 
     /**
