@@ -39,6 +39,10 @@ public class GameFactory {
         SetupExecuter<Configuration, ?> setupHandler = SetupExecuter.createSetup(this.ioRessources);
         setupHandler.handleUserInput();
 
+        if (!setupHandler.isRunning()) {
+            return null;
+        }
+
         Configuration gameConfig = setupHandler.getConfiguration();
         return new Game(gameConfig);
     }
