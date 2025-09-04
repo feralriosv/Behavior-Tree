@@ -39,7 +39,7 @@ public class GameFactory {
         SetupExecuter<Configuration, ?> setupHandler = SetupExecuter.createSetup(this.ioRessources);
         setupHandler.handleUserInput();
 
-        if (!setupHandler.isRunning()) {
+        if (!setupHandler.isRunning() && !setupHandler.isInvalid()) {
             return null;
         }
 

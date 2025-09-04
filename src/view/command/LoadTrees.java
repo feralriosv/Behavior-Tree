@@ -46,10 +46,6 @@ public class LoadTrees implements Command<SetupExecuter<Configuration, ?>> {
             return Result.error(ERROR_MISSING_BOARD_SETUP);
         }
 
-        if (handle.getMaxTreesAllowed() == 0) {
-            return Result.error("no lady bug registered");
-        }
-
         List<List<String>> treeBlocks;
 
         try {

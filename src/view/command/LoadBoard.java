@@ -65,10 +65,10 @@ public class LoadBoard implements Command<SetupExecuter<Configuration, ?>> {
         }
 
         handle.configurate(gameBoard, ladyBugs);
-        return Result.success(displayLines(fileLines));
+        return Result.success(getBoardLines(fileLines));
     }
 
-    private String displayLines(List<String> lines) {
+    private String getBoardLines(List<String> lines) {
         StringJoiner joiner = new StringJoiner(System.lineSeparator());
         for (String line : lines) {
             joiner.add(line);

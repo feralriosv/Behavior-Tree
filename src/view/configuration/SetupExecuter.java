@@ -23,10 +23,12 @@ import java.util.List;
 public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V, ?>>> extends CommandExecuter<SetupExecuter<V, ?>, K> {
 
     private final Configuration configuration;
+    private boolean invalid;
 
     private SetupExecuter(CommandExecuter<?, ?> ioRessources, Class<K> keywordClass) {
         super(ioRessources, keywordClass);
         this.configuration = new Configuration();
+        this.invalid = false;
         setModel(this);
     }
 
@@ -39,6 +41,19 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
     public void configurate(GameBoard gameBoard, List<LadyBug> ladyBugs) {
         this.configuration.setGameBoard(gameBoard);
         this.configuration.setRegisteredBugs(ladyBugs);
+
+        if (this.configuration.getRegisteredBugs().isEmpty()) {
+            this.invalid = true;
+        }
+    }
+
+    /**
+     * Indicates whether this object has been marked as invalid.
+     *
+     * @return {@code true} if the object is invalid; {@code false} otherwise
+     */
+    public boolean isInvalid() {
+        return this.invalid;
     }
 
     /**
@@ -92,8 +107,8 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
      * Creates a new dialog instance only accepting input matching the provided regex.
      *
      * @param ioRessources another command executer to use its ressources when requesting input or printing errors
-     * @return a new dialog instance
-     * @see FileRequest
+     *
+     * @return a new setup instance
      */
     public static SetupExecuter<Configuration, SetupKeyword> createSetup(CommandExecuter<?, ?> ioRessources) {
         return new SetupExecuter<>(ioRessources, SetupKeyword.class);
