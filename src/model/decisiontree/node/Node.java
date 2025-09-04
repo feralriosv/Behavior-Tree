@@ -47,7 +47,6 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
      */
     public abstract void tick(GameContext context);
 
-
     /**
      * Adds a child node to this node.
      *
@@ -172,9 +171,4 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
 
     @Override
     public abstract Iterator<Node<?>> iterator();
-
-    @Override
-    public String toString() {
-        return this.naming + " " + this.nodeType + " " + this.lastState;
-    }
 }

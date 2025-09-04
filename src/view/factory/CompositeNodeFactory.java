@@ -20,6 +20,9 @@ import java.util.Optional;
  */
 public class CompositeNodeFactory implements NodeFactory {
 
+    private static final String PARALLEL_OPEN_SYMBOL = "=";
+    private static final String PARALLEL_CLOSE_SYMBOL = ">";
+
     private static final String ERROR_INVALID_NODE = "invalid ParallelNode: %s";
     private static final String ERROR_INVALID_PARAMETER = "parallel M must be an integer: %s";
 
@@ -63,6 +66,6 @@ public class CompositeNodeFactory implements NodeFactory {
     }
 
     private boolean isParallel(String raw) {
-        return raw != null && raw.startsWith("=") && raw.endsWith(">");
+        return raw != null && raw.startsWith(PARALLEL_OPEN_SYMBOL) && raw.endsWith(PARALLEL_CLOSE_SYMBOL);
     }
 }

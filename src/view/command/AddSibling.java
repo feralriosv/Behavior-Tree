@@ -25,7 +25,10 @@ import java.util.Optional;
  */
 public class AddSibling implements Command<Game> {
 
+    private static final String ERROR_BUG_NOT_FOUND = "there was no bug with ID %d";
+    private static final String ERROR_NODE_ALREADY_EXISTS = "node with naming %s already exists";
     private static final String ERROR_NODE_SEARCH_FAILED = "node %s not found in ladybug %s tree";
+    private static final String ERROR_PARENT_ROOT_NODE =  "cannot add sibling to root node %s";
 
     private final Identifier identifier;
     private final Naming nodeNaming;
@@ -49,7 +52,7 @@ public class AddSibling implements Command<Game> {
     public Result execute(Game handle) {
         Optional<LadyBug> ladyBugOpt = handle.getBugById(this.identifier);
         if (ladyBugOpt.isEmpty()) {
-            return Result.error("there was no bug with ID %d");
+            return Result.error(ERROR_BUG_NOT_FOUND);
         }
 
         LadyBug bug = ladyBugOpt.get();
@@ -64,7 +67,7 @@ public class AddSibling implements Command<Game> {
 
         Node<?> parent = targetNode.getParent();
         if (parent == null) {
-            return Result.error("cannot add sibling to root node %s".formatted(targetNode.getNaming()));
+            return Result.error(ERROR_PARENT_ROOT_NODE.formatted(targetNode.getNaming()));
         }
 
         if (!(CompositeType.isCompositeType(parent.getNodeType()))) {
@@ -73,22 +76,16 @@ public class AddSibling implements Command<Game> {
         }
 
         int indexOfTarget = parent.getChildren().indexOf(targetNode);
-        if (indexOfTarget < 0) {
-            return Result.error("internal error: target node is not listed among its parent's children");
-        }
 
-        String label = this.nodeToken.label().isEmpty() ? "" : this.nodeToken.label().trim();
-        if (label.isEmpty()) {
-            return Result.error("empty label for new sibling %s".formatted(this.nodeToken.name()));
-        }
-
+        String label = this.nodeToken.label()
         Naming newId = new Naming(this.nodeToken.name());
 
         for (Node<?> node : decisionTree.getAllNodes()) {
             if (node.getNaming().equals(newId)) {
-                return Result.error("node with naming %s already exists");
+                return Result.error(ERROR_NODE_ALREADY_EXISTS);
             }
         }
+
         NodeFabric fabric = new NodeFabric();
         Node<?> newNode;
 

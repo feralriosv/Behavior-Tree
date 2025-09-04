@@ -14,6 +14,11 @@ import java.util.Optional;
  */
 public class BoardLoader implements Loader<GameBoard> {
 
+    // ASCII border characters
+    private static final String ASCII_CORNER = "+";
+    private static final String ASCII_VERTICAL = "|";
+
+
     @Override
     public GameBoard load(List<String> lines) throws LoadingException {
         if (hasAsciiBorder(lines)) {
@@ -49,13 +54,13 @@ public class BoardLoader implements Loader<GameBoard> {
         String first = lines.get(0);
         String last  = lines.get(lines.size() - 1);
 
-        if ((first.startsWith("+") && first.endsWith("+"))
-                || (last.startsWith("+") && last.endsWith("+"))) {
+        if ((first.startsWith(ASCII_CORNER) && first.endsWith(ASCII_CORNER))
+                || (last.startsWith(ASCII_CORNER) && last.endsWith(ASCII_CORNER))) {
             return true;
         }
 
         for (String line : lines) {
-            if (line.startsWith("|") && line.endsWith("|")) {
+            if (line.startsWith(ASCII_VERTICAL) && line.endsWith(ASCII_VERTICAL)) {
                 return true;
             }
         }
