@@ -78,6 +78,9 @@ public class DecisionTree {
         }
     }
 
+    /**
+     * Resets the decision tree to its initial state.
+     */
     public void reset() {
         this.activeNode = this.rootNode;
     }

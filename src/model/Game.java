@@ -152,6 +152,11 @@ public class Game {
         return this.bugsAndTrees.get(ladyBug);
     }
 
+    /**
+     * Resets the decision tree associated with the given ladybug to its initial state.
+     *
+     * @param ladyBug the {@link LadyBug} whose decision tree should be reset
+     */
     public void resetBugTree(LadyBug ladyBug) {
         this.bugsAndTrees.get(ladyBug).reset();
     }

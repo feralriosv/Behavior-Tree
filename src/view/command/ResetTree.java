@@ -1,7 +1,6 @@
 package view.command;
 
 import model.Game;
-import model.decisiontree.node.Node;
 import model.ladybug.Identifier;
 import model.ladybug.LadyBug;
 import view.Command;
@@ -18,6 +17,12 @@ public class ResetTree implements Command<Game> {
 
     private final Identifier identifier;
 
+    /**
+     * Creates a new {@code ResetTree} command for the given ladybug identifier.
+     *
+     * @param identifier the unique {@link Identifier} of the ladybug whose decision tree
+     *                   should be reset
+     */
     public ResetTree(Identifier identifier) {
         this.identifier = identifier;
     }
@@ -29,8 +34,7 @@ public class ResetTree implements Command<Game> {
             return Result.error("there was no bug with ID %d found");
         }
 
-        Node<?> activeNode = handle.getBugActiveNode(ladyBugOpt.get());
-
-        return null;
+        handle.resetBugTree(ladyBugOpt.get());
+        return Result.success();
     }
 }
