@@ -74,16 +74,11 @@ public class DecisionTree {
 
         return null;
     }
-
-    private void assignTree(Node<?> node) {
-        node.setTree(this);
-        this.allNodes.add(node);
-
-        for (Node<?> child : node.getChildren()) {
-            assignTree(child);
-        }
-    }
-
+    /**
+     * Returns an unmodifiable view of all nodes contained in this decision tree.
+     *
+     * @return an unmodifiable list of all {@link Node} instances in this tree
+     */
     public List<Node<?>> getAllNodes() {
         return Collections.unmodifiableList(allNodes);
     }
@@ -113,4 +108,12 @@ public class DecisionTree {
         this.activeNode = activeNode;
     }
 
+    private void assignTree(Node<?> node) {
+        node.setTree(this);
+        this.allNodes.add(node);
+
+        for (Node<?> child : node.getChildren()) {
+            assignTree(child);
+        }
+    }
 }
