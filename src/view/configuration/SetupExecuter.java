@@ -36,13 +36,12 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
      * @param gameBoard the game board to use for the setup
      * @param ladyBugs the list of ladybugs to register
      */
-    public boolean configurate(GameBoard gameBoard, List<LadyBug> ladyBugs) {
+    public void configurate(GameBoard gameBoard, List<LadyBug> ladyBugs) {
         if (!ladyBugs.isEmpty()) {
             this.configuration.setGameBoard(gameBoard);
             this.configuration.setRegisteredBugs(ladyBugs);
         } else {
             getErrorStream().println("Error, no ladybug loaded");
-            return true;
         }
     }
 
