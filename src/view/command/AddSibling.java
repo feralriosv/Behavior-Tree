@@ -66,10 +66,6 @@ public class AddSibling implements Command<Game> {
         }
 
         Node<?> parent = targetNode.getParent();
-        if (parent == null) {
-            return Result.error(ERROR_PARENT_ROOT_NODE.formatted(targetNode.getNaming()));
-        }
-
         if (!(CompositeType.isCompositeType(parent.getNodeType()))) {
             return Result.error("parent of %s is not composite; cannot add sibling"
                     .formatted(targetNode.getNaming()));
