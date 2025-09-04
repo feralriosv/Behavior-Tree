@@ -2,7 +2,15 @@ package view;
 
 import java.util.Optional;
 
-public record NodeToken (String name, String label) {
+/**
+ * Immutable representation of a parsed node definition consisting of a name and an optional label.
+ *
+ * @param name  the name of the node
+ * @param label the label associated with the node, may be empty
+ *
+ * @author ubpst
+ */
+public record NodeToken(String name, String label) {
 
     private static final String EMPTY_LINE = "";
     private static final String BRACKET_OPEN_SYMBOL = "[";

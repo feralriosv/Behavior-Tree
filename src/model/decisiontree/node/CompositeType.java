@@ -65,7 +65,7 @@ public enum CompositeType implements NodeType<CompositeNode> {
     }
 
     private static TickState runFallback(GameContext context, CompositeNode self) {
-        while (!self.ticksCompleted()) {
+        while (self.ticksUnCompleted()) {
             TickResult childResult = self.tickNextChild(context);
 
             if (childResult.getState() == TickState.SUCCESS) {
@@ -85,7 +85,7 @@ public enum CompositeType implements NodeType<CompositeNode> {
     private static TickState runSequence(GameContext context, CompositeNode self) {
         int lastIndex = self.getChildren().size() - 1;
 
-        while (!self.ticksCompleted() && self.getLastState() != TickState.STAND_BY) {
+        while (self.ticksUnCompleted() && self.getLastState() != TickState.STAND_BY) {
             TickResult childResult = self.tickNextChild(context);
 
             if (childResult.getState() == TickState.FAILURE) {
@@ -115,7 +115,7 @@ public enum CompositeType implements NodeType<CompositeNode> {
             }
         }
 
-        while (!self.ticksCompleted()) {
+        while (self.ticksUnCompleted()) {
             TickResult childResult = self.tickNextChild(context);
             if (childResult.getState() == TickState.SUCCESS) {
                 successes++;
@@ -137,6 +137,12 @@ public enum CompositeType implements NodeType<CompositeNode> {
         return (successes >= self.getParameter()) ? TickState.SUCCESS : TickState.FAILURE;
     }
 
+    /**
+     * Checks whether a given {@link NodeType} corresponds to one of the composite types ({@link CompositeType}).
+     *
+     * @param nodeType the node type to check; returns {@code false} if {@code null}
+     * @return {@code true} if the node type represents a composite, {@code false} otherwise
+     */
     public static boolean isCompositeType(NodeType<?> nodeType) {
         for (CompositeType type : values()) {
             if (Objects.equals(type.label, nodeType.label())) {

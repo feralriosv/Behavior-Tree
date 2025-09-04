@@ -26,6 +26,9 @@ public class LeafNodeFactory implements NodeFactory {
         this.loader = loader;
     }
 
+    /**
+     * Creates a new factory for leaf nodes without using any tree loader.
+     */
     public LeafNodeFactory() {
         this.loader = null;
     }

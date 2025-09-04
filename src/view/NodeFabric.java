@@ -35,6 +35,10 @@ public class NodeFabric {
         this.factories = List.of(new CompositeNodeFactory(), new LeafNodeFactory(loader));
     }
 
+    /**
+     * Creates a new node fabric with the default factories (composite and leaf),
+     * using the parameterless leaf factory.
+     */
     public NodeFabric() {
         this.factories = List.of(new CompositeNodeFactory(), new LeafNodeFactory());
     }

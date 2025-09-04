@@ -66,6 +66,12 @@ public class Arguments {
         return nodeTokenOpt.get();
     }
 
+    /**
+     * Parses the next argument as a {@link Naming}.
+     *
+     * @return a {@link Naming} created from the next argument
+     * @throws InvalidArgumentException if there are no more arguments available
+     */
     public Naming parseNodeNaming() throws InvalidArgumentException {
         return new Naming(retrieveArgument());
     }

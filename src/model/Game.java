@@ -54,22 +54,6 @@ public class Game {
         this.bugsAndTrees = Collections.unmodifiableMap(helper);
     }
 
-    public DecisionTree getBugDecisionTree(LadyBug ladyBug) {
-        return this.bugsAndTrees.get(ladyBug);
-    }
-
-    public Node<?> getRootNode(LadyBug ladyBug) {
-        return bugsAndTrees.get(ladyBug).getRootNode();
-    }
-
-    public Node<?> getBugActiveNode(LadyBug ladyBug) {
-        return bugsAndTrees.get(ladyBug).getActiveNode();
-    }
-
-    public Set<Map.Entry<LadyBug, DecisionTree>> getBugsAndTrees() {
-        return bugsAndTrees.entrySet();
-    }
-
     /**
      * Creates a new {@link GameContext} for this game.
      *
@@ -155,6 +139,39 @@ public class Game {
      */
     public List<LadyBug> getBugsInGame() {
         return this.bugsInGame;
+    }
+
+    /**
+     * Returns the decision tree associated with the given ladybug.
+     *
+     * @param ladyBug the ladybug whose decision tree should be retrieved
+     * @return the {@link DecisionTree} associated with the specified ladybug,
+     *         or {@code null} if the ladybug has no assigned tree
+     */
+    public DecisionTree getBugDecisionTree(LadyBug ladyBug) {
+        return this.bugsAndTrees.get(ladyBug);
+    }
+
+
+    /**
+     * Returns the root node of the decision tree associated with the given ladybug.
+     *
+     * @param ladyBug the ladybug whose decision tree root should be retrieved
+     * @return the root {@link Node} of the specified ladybug's decision tree,
+     *         or {@code null} if the ladybug has no assigned tree
+     */
+    public Node<?> getBugActiveNode(LadyBug ladyBug) {
+        return bugsAndTrees.get(ladyBug).getActiveNode();
+    }
+
+    /**
+     * Returns all ladybugs in the game paired with their corresponding decision trees.
+     *
+     * @return a set of {@link Map.Entry} where the key is a {@link LadyBug}
+     *         and the value is its associated {@link DecisionTree}
+     */
+    public Set<Map.Entry<LadyBug, DecisionTree>> getBugsAndTrees() {
+        return bugsAndTrees.entrySet();
     }
 
     /**

@@ -27,26 +27,15 @@ public class DecisionTree {
         this.assignTree(root);
     }
 
-    public Node<?> getRootNode() {
-        return this.rootNode;
-    }
-
     /**
-     * Returns the node that is currently active in this decision tree.
+     * Searches for a node within the tree by its {@link Naming}, starting from the root.
+     * Uses a depth-first search (DFS).
      *
-     * @return the currently active {@link Node}, or {@code null} if no node has been activated yet
+     * @param naming the identifier of the node to search for
+     * @return the node with the matching naming, or {@code null} if not found
      */
-    public Node<?> getActiveNode() {
-        return activeNode;
-    }
-
-    /**
-     * Updates the reference to the node that is currently active in this decision tree.
-     *
-     * @param activeNode the {@link Node} that should be marked as active
-     */
-    public void setActiveNode(Node<?> activeNode) {
-        this.activeNode = activeNode;
+    public Node<?> findByNameFromRoot(Naming naming) {
+        return findNodeByNamingDFS(this.rootNode, naming);
     }
 
     /**
@@ -64,10 +53,6 @@ public class DecisionTree {
         }
 
         return context.endTick();
-    }
-
-    public Node<?> findByNameFromRoot(Naming naming) {
-        return findNodeByNamingDFS(this.rootNode, naming);
     }
 
     private Node<?> findNodeByNamingDFS(Node<?> root, Naming naming) {
@@ -92,4 +77,32 @@ public class DecisionTree {
             assignTree(child);
         }
     }
+
+    /**
+     * Returns the root node of this decision tree.
+     *
+     * @return the root node
+     */
+    public Node<?> getRootNode() {
+        return this.rootNode;
+    }
+
+    /**
+     * Returns the node that is currently active in this decision tree.
+     *
+     * @return the currently active {@link Node}, or {@code null} if no node has been activated yet
+     */
+    public Node<?> getActiveNode() {
+        return activeNode;
+    }
+
+    /**
+     * Updates the reference to the node that is currently active in this decision tree.
+     *
+     * @param activeNode the {@link Node} that should be marked as active
+     */
+    public void setActiveNode(Node<?> activeNode) {
+        this.activeNode = activeNode;
+    }
+
 }

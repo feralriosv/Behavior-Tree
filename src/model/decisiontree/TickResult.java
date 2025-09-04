@@ -1,6 +1,5 @@
 package model.decisiontree;
 
-import model.decisiontree.node.CompositeNode;
 import model.decisiontree.node.Node;
 
 /**
@@ -24,14 +23,6 @@ public class TickResult {
     public TickResult(TickState state, Node<?> node) {
         this.state = state;
         this.node = node;
-    }
-
-    public static TickResult entryResult(CompositeNode node) {
-        return new TickResult(TickState.ENTRY, node);
-    }
-
-    public Node<?> getNode() {
-        return node;
     }
 
     /**

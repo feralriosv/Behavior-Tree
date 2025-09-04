@@ -31,6 +31,13 @@ public class AddSibling implements Command<Game> {
     private final Naming nodeNaming;
     private final NodeToken nodeToken;
 
+    /**
+     * Constructs the AddSibling command.
+     *
+     * @param identifier the identifier of the ladybug whose decision tree is being modified
+     * @param nodeNaming the naming of the existing node to which a sibling will be added
+     * @param nodeToken  the token representing the new sibling node to be created and added
+     */
     public AddSibling(Identifier identifier, Naming nodeNaming, NodeToken nodeToken) {
 
         this.identifier = identifier;

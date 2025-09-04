@@ -20,21 +20,24 @@ public class Head implements Command<Game> {
 
     private final Identifier identifier;
 
+    /**
+     * Creates a new {@code Head} command for the specified ladybug identifier.
+     *
+     * @param identifier the unique {@link Identifier} of the ladybug whose active head node
+     *                   will be queried or manipulated by this command
+     */
     public Head(Identifier identifier) {
         this.identifier = identifier;
     }
 
     @Override
     public Result execute(Game handle) {
-
         Optional<LadyBug> ladyBugOpt = handle.getBugById(this.identifier);
-
         if (ladyBugOpt.isEmpty()) {
             return Result.error("there was no bug with ID %d found");
         }
 
         Node<?> activeNode = handle.getBugActiveNode(ladyBugOpt.get());
-
         return Result.success(activeNode.getNaming().toString());
     }
 }

@@ -11,7 +11,7 @@ import java.util.Iterator;
  *
  * @author ubpst
  */
-public class CompositeNode extends Node<CompositeType> implements LocalPointer {
+public class CompositeNode extends Node<CompositeType> {
 
     private final int parameter;
     private int localPointer;
@@ -53,16 +53,18 @@ public class CompositeNode extends Node<CompositeType> implements LocalPointer {
 
         if (state != TickState.ENTRY && state != TickState.STAND_BY) {
             this.saveState(context, state);
-            resetPointer();
-        } else if (state == TickState.STAND_BY){
+            this.localPointer = 0;
+        } else if (state == TickState.STAND_BY) {
             this.setLastState(TickState.STAND_BY);
         }
     }
 
     /**
-     * Ticks the child at the current cursor position without advancing the cursor.
+     * Retrieves the current child node at the local pointer, executes its tick method,
+     * and returns the resulting state and child node.
      *
-     * @return the result corresponding to the tick
+     * @param context the game context used for ticking the child
+     * @return a TickResult containing the child's last state and the child node itself
      */
     protected TickResult tickNextChild(GameContext context) {
         Node<?> child = getChildren().get(this.localPointer);
@@ -84,26 +86,32 @@ public class CompositeNode extends Node<CompositeType> implements LocalPointer {
         return true;
     }
 
-    @Override
-    public void advancePointer() {
+    /**
+     * Advances the local pointer to the next child if there are remaining children.
+     */
+    protected void advancePointer() {
         if (this.localPointer < getChildren().size()) {
             this.localPointer++;
         }
     }
 
-    @Override
-    public void resetPointer() {
-        this.localPointer = 0;
-    }
-
-    @Override
-    public boolean ticksCompleted() {
-        return this.localPointer >= getChildren().size();
-    }
-
-    @Override
-    public int localPointer() {
+    /**
+     * Returns the current zero-based index used to select the next child node.
+     *
+     * @return the current local pointer index
+     */
+    protected int localPointer() {
         return this.localPointer;
+    }
+
+    /**
+     * Checks whether there are still children left to tick.
+     *
+     * @return {@code true} if not all children have been processed yet,
+     *         {@code false} if the pointer has reached or exceeded the number of children
+     */
+    protected boolean ticksUnCompleted() {
+        return this.localPointer < getChildren().size();
     }
 
     /**
