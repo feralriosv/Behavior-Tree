@@ -169,7 +169,7 @@ public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
      *
      * @param message the message to print
      */
-    protected void printOnDefault(String message) {
+    public void printOnDefault(String message) {
         this.defaultStream.println(message);
     }
 

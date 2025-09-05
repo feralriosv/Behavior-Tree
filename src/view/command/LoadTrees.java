@@ -61,7 +61,6 @@ public class LoadTrees implements Command<SetupExecuter<Configuration, ?>> {
 
         List<DecisionTree> decisionTrees = new ArrayList<>();
         TreeLoader parser = new TreeLoader();
-        StringBuilder treeDisplay = new StringBuilder();
 
         for (List<String> block : treeBlocks) {
             String treeBlock = String.join(System.lineSeparator(), block);
@@ -72,20 +71,12 @@ public class LoadTrees implements Command<SetupExecuter<Configuration, ?>> {
                 continue;
             }
 
-            if (!treeDisplay.isEmpty()) {
-                treeDisplay.append(System.lineSeparator());
-            }
-
-            treeDisplay.append(treeBlock);
+            handle.printOnDefault(treeBlock);
             decisionTrees.add(loadedTree);
         }
 
-        if (treeDisplay.isEmpty()) {
-            return Result.success();
-        }
-
         handle.configurate(decisionTrees);
-        return Result.success(treeDisplay.toString());
+        return Result.success();
     }
 
     private List<List<String>> loadLineBlocks() throws LoadingException {
