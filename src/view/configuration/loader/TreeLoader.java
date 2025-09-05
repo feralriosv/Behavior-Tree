@@ -20,13 +20,13 @@ public class TreeLoader implements Loader<DecisionTree>, LoadCallBack {
 
     @Override
     public DecisionTree load(List<String> lines) {
-        MermaidData mermaidData = new MermaidLoader().load(lines);
+        this.actionCreated = false;
 
+        MermaidData mermaidData = new MermaidLoader().load(lines);
         if (mermaidData.isInvalid()) {
             return DecisionTree.unplayableTree();
         }
 
-        this.actionCreated = false;
         TreeAssembler assembler = new TreeAssembler(mermaidData, this);
         Optional<Node<?>> rootNodeOpt = assembler.assemble();
 
