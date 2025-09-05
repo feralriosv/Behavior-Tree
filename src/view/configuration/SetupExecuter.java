@@ -102,6 +102,7 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
      *
      * @param treeBlock the textual representation of the problematic decision tree to display;
      *                  may be null or empty if unavailable
+     * @return result
      */
     public Result invalidTreeAnnouncement(String treeBlock) {
         printOnDefault(treeBlock);
