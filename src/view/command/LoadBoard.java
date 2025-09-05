@@ -9,7 +9,6 @@ import view.configuration.Configuration;
 import view.configuration.SetupExecuter;
 import view.configuration.loader.BoardLoader;
 import view.configuration.loader.BugsLoader;
-import view.configuration.loader.LoadingException;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -54,15 +53,8 @@ public class LoadBoard implements Command<SetupExecuter<Configuration, ?>> {
             return Result.error(ERROR_UNREADABLE_FILE);
         }
 
-        List<LadyBug> ladyBugs;
-        GameBoard gameBoard;
-
-        try {
-            ladyBugs = this.bugsLoader.load(fileLines);
-            gameBoard = this.boardLoader.load(fileLines);
-        } catch (LoadingException e) {
-            return Result.error(e.getMessage());
-        }
+        List<LadyBug> ladyBugs = this.bugsLoader.load(fileLines);
+        GameBoard gameBoard = this.boardLoader.load(fileLines);
 
         handle.configurate(gameBoard, ladyBugs);
         return Result.success(getBoardLines(fileLines));

@@ -3,6 +3,7 @@ package view.factory;
 import model.decisiontree.node.LeafType;
 import model.decisiontree.node.LeafNode;
 import model.decisiontree.node.Naming;
+import view.configuration.loader.LoadCallBack;
 import view.configuration.loader.TreeLoader;
 
 import java.util.Optional;
@@ -15,22 +16,22 @@ import java.util.Optional;
  */
 public class LeafNodeFactory implements NodeFactory {
 
-    private final TreeLoader loader;
+    private final LoadCallBack callBack;
 
     /**
      * Creates a new factory for leaf nodes using the given tree loader.
      *
      * @param loader the loader used to track created nodes, especially actions
      */
-    public LeafNodeFactory(TreeLoader loader) {
-        this.loader = loader;
+    public LeafNodeFactory(LoadCallBack loader) {
+        this.callBack = loader;
     }
 
     /**
      * Creates a new factory for leaf nodes without using any tree loader.
      */
     public LeafNodeFactory() {
-        this.loader = null;
+        this.callBack = null;
     }
 
     @Override
@@ -39,9 +40,9 @@ public class LeafNodeFactory implements NodeFactory {
         if (leafOpt.isPresent()) {
             LeafNode leafNode = new LeafNode(naming, leafOpt.get());
 
-            if (this.loader != null) {
+            if (this.callBack != null) {
                 if (LeafType.isActionType(leafNode.getNodeType())) {
-                    this.loader.markCreatedAction();
+                    this.callBack.markCreatedAction();
                 }
             }
 

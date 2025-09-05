@@ -63,14 +63,7 @@ public class LoadTrees implements Command<SetupExecuter<Configuration, ?>> {
         TreeLoader parser = new TreeLoader();
 
         for (List<String> block : treeBlocks) {
-            DecisionTree loadedTree;
-
-            try {
-                loadedTree = parser.load(block);
-            } catch (LoadingException e) {
-                return Result.error(e.getMessage());
-            }
-
+            DecisionTree loadedTree = parser.load(block);
             decisionTrees.add(loadedTree);
         }
 

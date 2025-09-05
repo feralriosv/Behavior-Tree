@@ -33,7 +33,7 @@ public class BugsLoader implements Loader<List<LadyBug>> {
      * @throws LoadingException if no ladybugs are found
      */
     @Override
-    public List<LadyBug> load(List<String> lines) throws LoadingException {
+    public List<LadyBug> load(List<String> lines) {
         int rows = lines.size();
         int cols = lines.getFirst().length();
 
@@ -53,7 +53,7 @@ public class BugsLoader implements Loader<List<LadyBug>> {
         return Collections.unmodifiableList(this.loadedBugs);
     }
 
-    private void processLadybug(char facingSymbol, int vertical, int horizontal) throws LoadingException {
+    private void processLadybug(char facingSymbol, int vertical, int horizontal) {
         Vector2D location = new Vector2D(vertical, horizontal);
         Identifier identifier = new Identifier(loadedBugs.size() + 1);
         Facing facing = Facing.fromChar(facingSymbol);

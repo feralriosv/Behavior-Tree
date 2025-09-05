@@ -23,12 +23,12 @@ import java.util.List;
 public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V, ?>>> extends CommandExecuter<SetupExecuter<V, ?>, K> {
 
     private final Configuration configuration;
-    private boolean invalid;
+    private boolean unplayable;
 
     private SetupExecuter(CommandExecuter<?, ?> ioRessources, Class<K> keywordClass) {
         super(ioRessources, keywordClass);
         this.configuration = new Configuration();
-        this.invalid = false;
+        this.unplayable = false;
         setModel(this);
     }
 
@@ -40,11 +40,11 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
      */
     public void configurate(GameBoard gameBoard, List<LadyBug> ladyBugs) {
         if (ladyBugs.isEmpty() || gameBoard.isEmptyBoard()) {
-            this.invalid = true;
+            this.unplayable = true;
         } else {
             this.configuration.setGameBoard(gameBoard);
             this.configuration.setRegisteredBugs(ladyBugs);
-            this.invalid = false;
+            this.unplayable = false;
         }
     }
 
@@ -54,6 +54,13 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
      * @param decisionTrees the list of decision trees to be used
      */
     public void configurate(List<DecisionTree> decisionTrees) {
+        for (DecisionTree decisionTree : decisionTrees) {
+            if (decisionTree.isUnplayableTree()) {
+                this.unplayable = true;
+                return;
+            }
+        }
+
         this.configuration.setTrees(decisionTrees);
     }
 
@@ -83,8 +90,9 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
     public void handleUserInput() {
         while (isRunning() && !this.configuration.isCompleted()) {
             super.handleUserInput();
-            if (this.invalid) {
-                announceError("invalid board");
+
+            if (this.unplayable) {
+                announceError("there was a configuration problem");
             }
         }
     }

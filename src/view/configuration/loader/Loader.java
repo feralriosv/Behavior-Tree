@@ -19,5 +19,5 @@ public interface Loader<T> {
      * @return the loaded object
      * @throws LoadingException if the input cannot be parsed into a valid object
      */
-    T load(List<String> lines) throws LoadingException;
+    T load(List<String> lines);
 }

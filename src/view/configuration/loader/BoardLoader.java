@@ -20,7 +20,7 @@ public class BoardLoader implements Loader<GameBoard> {
 
 
     @Override
-    public GameBoard load(List<String> lines) throws LoadingException {
+    public GameBoard load(List<String> lines) {
         if (hasAsciiBorder(lines)) {
             return GameBoard.emptyBoard();
         }

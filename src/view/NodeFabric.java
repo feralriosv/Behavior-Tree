@@ -59,6 +59,6 @@ public class NodeFabric {
             }
         }
 
-        throw new LoadingException(ERROR_UNKNOWN_LABEL.formatted(label));
+        return null;
     }
 }

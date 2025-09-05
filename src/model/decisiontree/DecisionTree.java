@@ -32,6 +32,32 @@ public class DecisionTree {
         this.assignTree(root);
     }
 
+    private DecisionTree() {
+        this.allNodes = null;
+        this.rootNode = null;
+        this.activeNode = null;
+    }
+
+    /**
+     * Creates a special placeholder tree that is considered "unplayable".
+     *
+     * @return a {@link DecisionTree} instance that is marked as unplayable
+     */
+    public static DecisionTree unplayableTree() {
+        return new DecisionTree();
+    }
+
+    /**
+     * Checks whether this decision tree is unplayable.
+     *
+     * @return {@code true} if this tree is unplayable; {@code false} otherwise
+     */
+    public boolean isUnplayableTree() {
+        return this.rootNode == null
+                && this.allNodes == null
+                && this.activeNode == null;
+    }
+
     /**
      * Searches for a node within the tree by its {@link Naming}, starting from the root.
      * Uses a depth-first search (DFS).
