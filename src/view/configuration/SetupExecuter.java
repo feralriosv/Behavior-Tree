@@ -93,6 +93,7 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
 
             if (this.unplayable) {
                 announceError("there was a configuration problem");
+                this.unplayable = false;
             }
         }
     }
