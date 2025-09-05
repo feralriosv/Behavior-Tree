@@ -13,6 +13,7 @@ import java.util.List;
  * @param gameBoard the game board on which the game will be played
  * @param registeredBugs the list of ladybugs registered for the game
  * @param trees the list of decision trees used in the game
+ * @author ubpst
  */
 public record Configuration (GameBoard gameBoard, List<LadyBug> registeredBugs, List<DecisionTree> trees) {
 }
