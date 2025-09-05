@@ -80,6 +80,10 @@ public class LoadTrees implements Command<SetupExecuter<Configuration, ?>> {
             decisionTrees.add(loadedTree);
         }
 
+        if (treeDisplay.isEmpty()) {
+            return Result.success();
+        }
+
         handle.configurate(decisionTrees);
         return Result.success(treeDisplay.toString());
     }
