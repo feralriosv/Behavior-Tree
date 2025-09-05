@@ -86,7 +86,7 @@ public class Configuration {
      * @return standard return.
      */
     protected boolean isCompleted() {
-        return this.gameBoard != null && this.trees != null && this.registeredBugs != null;
+        return this.gameBoard != null && this.trees != null && this.registeredBugs != null && tooMuchLadyBugs();
     }
 
     private boolean tooMuchLadyBugs() {
