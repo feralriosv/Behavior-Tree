@@ -57,11 +57,8 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
                 validTrees.add(tree);
             }
         }
-        this.trees = Collections.unmodifiableList(validTrees);
 
-        if (this.registeredBugs != null && this.trees.size() < this.registeredBugs.size()) {
-            this.registeredBugs = new ArrayList<>(this.registeredBugs.subList(0, this.trees.size()));
-        }
+        this.trees = Collections.unmodifiableList(validTrees);
     }
 
     /**
@@ -91,7 +88,7 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
      * @param errorMessage the specific error message to display
      * @return a failure {@link Result} carrying the error message
      */
-    public Result boardFailure(String displayObjext, String errorMessage) {
+    public Result boardError(String displayObjext, String errorMessage) {
         printOnDefault(displayObjext);
         return Result.error(errorMessage);
     }
@@ -102,7 +99,7 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
      * @param treeBlock the textual representation of the problematic decision tree to display;
      *                  may be null or empty if unavailable
      */
-    public void treeFailure(String treeBlock) {
+    public void invalidTreeAnnouncement(String treeBlock) {
         printOnDefault(treeBlock);
         printOnError("there was a problem with the loaded tree");
     }
