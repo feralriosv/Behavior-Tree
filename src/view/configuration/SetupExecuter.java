@@ -137,6 +137,6 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
         return this.gameBoard != null
                 && this.registeredBugs != null
                 && this.trees != null
-                && this.trees.size() >= this.registeredBugs.size();
+                && this.trees.size() == this.registeredBugs.size();
     }
 }
