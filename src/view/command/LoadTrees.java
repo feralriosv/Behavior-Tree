@@ -69,6 +69,7 @@ public class LoadTrees implements Command<SetupExecuter<Configuration, ?>> {
 
             if (loadedTree.isUnplayableTree()) {
                 handle.treeFailure(treeBlock);
+                continue;
             }
 
             if (!treeDisplay.isEmpty()) {
