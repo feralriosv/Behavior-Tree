@@ -92,7 +92,7 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
      * @return a failure {@link Result} carrying the error message
      */
     public Result configFailure(String displayObjext, String errorMessage) {
-        getDefaultStream().println(displayObjext);
+        printOnDefault(displayObjext);
         return Result.error(errorMessage);
     }
 

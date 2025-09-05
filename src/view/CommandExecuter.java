@@ -164,7 +164,12 @@ public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
         return null;
     }
 
-    public PrintStream getDefaultStream() {
-        return defaultStream;
+    /**
+     * Prints a message to the default output stream of this executer.
+     *
+     * @param message the message to print
+     */
+    protected void printOnDefault(String message) {
+        this.defaultStream.println(message);
     }
 }
