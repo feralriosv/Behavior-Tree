@@ -59,6 +59,10 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
         }
 
         this.trees = Collections.unmodifiableList(validTrees);
+
+        if (this.registeredBugs != null && this.trees.size() < this.registeredBugs.size()) {
+            this.registeredBugs = new ArrayList<>(this.registeredBugs.subList(0, this.trees.size()));
+        }
     }
 
     /**
@@ -133,7 +137,7 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
         return this.gameBoard != null;
     }
 
-    private boolean isCompleted() {
+    public boolean isCompleted() {
         return this.gameBoard != null
                 && this.registeredBugs != null
                 && this.trees != null
