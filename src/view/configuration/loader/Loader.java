@@ -17,7 +17,6 @@ public interface Loader<T> {
      *
      * @param lines the list of lines to parse
      * @return the loaded object
-     * @throws LoadingException if the input cannot be parsed into a valid object
      */
     T load(List<String> lines);
 }

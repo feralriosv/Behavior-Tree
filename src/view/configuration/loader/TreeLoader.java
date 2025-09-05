@@ -33,6 +33,7 @@ public class TreeLoader implements Loader<DecisionTree>, LoadCallBack {
     public DecisionTree load(List<String> lines) {
         MermaidData mermaidData = loader.load(lines);
 
+
         if (mermaidData.isInvalid()) {
             return DecisionTree.unplayableTree();
         }
@@ -45,7 +46,11 @@ public class TreeLoader implements Loader<DecisionTree>, LoadCallBack {
             return DecisionTree.unplayableTree();
         }
 
-        return rootNodeOpt.map(DecisionTree::new).orElseGet(DecisionTree::unplayableTree);
+        if (rootNodeOpt.isPresent()) {
+            return new DecisionTree(rootNodeOpt.get());
+        } else {
+            return DecisionTree.unplayableTree();
+        }
     }
 
     @Override
