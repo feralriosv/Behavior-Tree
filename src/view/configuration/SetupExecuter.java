@@ -106,7 +106,7 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
      */
     public Result invalidTreeAnnouncement(String treeBlock) {
         printOnDefault(treeBlock);
-        return Result.error("Error, there was a problem with the loaded tree");
+        return Result.error("there was a problem with the loaded tree");
     }
 
     /**
