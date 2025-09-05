@@ -25,6 +25,10 @@ import java.util.List;
  */
 public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V, ?>>> extends CommandExecuter<SetupExecuter<V, ?>, K> {
 
+    private static final String BOARD_ERROR_MESSAGE = "cannot play with the loaded board";
+    private static final String TREE_ERROR_MESSAGE = "there was a problem with the loaded tree";
+
+
     private GameBoard gameBoard;
     private List<LadyBug> registeredBugs;
     private List<DecisionTree> trees;
@@ -88,13 +92,12 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
     /**
      * Prints the current board (or other accumulated output) and then returns a failure Result.
      *
-     * @param displayObjext  text representation of the board to display; ignored if null/empty
-     * @param errorMessage the specific error message to display
+     * @param boardString  text representation of the board to display; ignored if null/empty
      * @return a failure {@link Result} carrying the error message
      */
-    public Result boardError(String displayObjext, String errorMessage) {
-        printOnDefault(displayObjext);
-        return Result.error(errorMessage);
+    public Result boardError(String boardString) {
+        printOnDefault(boardString);
+        return Result.error(BOARD_ERROR_MESSAGE);
     }
 
     /**
@@ -104,9 +107,9 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
      *                  may be null or empty if unavailable
      * @return result
      */
-    public Result invalidTreeAnnouncement(String treeBlock) {
+    public Result treeError(String treeBlock) {
         printOnDefault(treeBlock);
-        return Result.error("there was a problem with the loaded tree");
+        return Result.error(TREE_ERROR_MESSAGE);
     }
 
     /**
@@ -137,14 +140,8 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
     public boolean isBoardConfigurated() {
         return this.gameBoard != null;
     }
-
-    /**
-     * Determines whether the setup phase is complete.
-     *
-     * @return {@code true} if all setup components are properly configured and aligned;
-     *         {@code false} otherwise
-     */
-    public boolean isCompleted() {
+    
+    private boolean isCompleted() {
         return this.gameBoard != null
                 && this.registeredBugs != null
                 && this.trees != null

@@ -106,7 +106,7 @@ public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
         String[] splittedLine = line.split(COMMAND_SEPARATOR, -1);
         if (!findAndHandleCommand(this.viewKeywords, this, splittedLine)
                 && !findAndHandleCommand(this.modelKeywords, this.model, splittedLine)) {
-            printOnError(ERROR_UNKNOWN_COMMAND);
+            printError(ERROR_UNKNOWN_COMMAND);
         }
     }
 
@@ -122,7 +122,7 @@ public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
 
     private <S, T extends Keyword<S>> void handleCommand(S value, String[] arguments, T keyword) {
         if (value == null) {
-            printOnError(ERROR_INVALID_PRECONDITION);
+            printError(ERROR_INVALID_PRECONDITION);
             return;
         }
 
@@ -131,12 +131,12 @@ public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
         try {
             providedCommand = keyword.provide(argumentsHolder);
         } catch (InvalidArgumentException e) {
-            printOnError(e.getMessage());
+            printError(e.getMessage());
             return;
         }
 
         if (!argumentsHolder.isExhausted()) {
-            printOnError(ERROR_TOO_MANY_ARGUMENTS);
+            printError(ERROR_TOO_MANY_ARGUMENTS);
             return;
         }
 
@@ -180,7 +180,7 @@ public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
      *
      * @param errorMessage the error message to print
      */
-    protected void printOnError(String errorMessage) {
+    protected void printError(String errorMessage) {
         this.errorStream.println(ERROR_PREFIX + errorMessage);
     }
 }
