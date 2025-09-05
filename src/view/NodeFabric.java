@@ -50,12 +50,12 @@ public class NodeFabric {
      * @throws LoadingException if the label is empty/blank or no factory recognizes the label
      */
     public Optional<? extends Node<?>> createNode(Naming nodeName, String label) {
-        Optional<? extends Node<?>> nodeOpt = Optional.empty();
-
         for (NodeFactory factory : this.factories) {
-            nodeOpt = factory.create(nodeName, label);
+            Optional<? extends Node<?>> nodeOpt = factory.create(nodeName, label);
+            if (nodeOpt.isPresent()) {
+                return nodeOpt;
+            }
         }
-
-        return nodeOpt;
+        return Optional.empty();
     }
 }
