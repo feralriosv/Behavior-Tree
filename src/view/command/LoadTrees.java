@@ -67,8 +67,7 @@ public class LoadTrees implements Command<SetupExecuter<Configuration, ?>> {
             DecisionTree loadedTree = parser.load(block);
 
             if (loadedTree.isUnplayableTree()) {
-                handle.invalidTreeAnnouncement(treeBlock);
-                continue;
+                return handle.invalidTreeAnnouncement(treeBlock);
             }
 
             handle.printOnDefault(treeBlock);
