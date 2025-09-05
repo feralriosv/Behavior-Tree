@@ -80,7 +80,7 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
      */
     @Override
     public void handleUserInput() {
-        while (isRunning() && !isCompleted()) {
+        while (isRunning()) {
             super.handleUserInput();
         }
     }
@@ -137,6 +137,12 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
         return this.gameBoard != null;
     }
 
+    /**
+     * Determines whether the setup phase is complete.
+     *
+     * @return {@code true} if all setup components are properly configured and aligned;
+     *         {@code false} otherwise
+     */
     public boolean isCompleted() {
         return this.gameBoard != null
                 && this.registeredBugs != null
