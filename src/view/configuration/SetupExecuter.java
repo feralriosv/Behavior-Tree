@@ -96,6 +96,12 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
         return Result.error(errorMessage);
     }
 
+    /**
+     * Handles a failure related to loading or processing a decision tree during setup.
+     *
+     * @param treeBlock the textual representation of the problematic decision tree to display;
+     *                  may be null or empty if unavailable
+     */
     public void treeFailure(String treeBlock) {
         printOnDefault(treeBlock);
         printOnError("there was a problem with the loaded tree");

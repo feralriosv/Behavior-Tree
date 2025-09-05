@@ -28,9 +28,9 @@ public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
 
     private static final String COMMAND_SEPARATOR = " ";
     private static final String ERROR_PREFIX = "Error, ";
-    private static final String ERROR_UNKNOWN_COMMAND = ERROR_PREFIX + "unknown command";
-    private static final String ERROR_TOO_MANY_ARGUMENTS = ERROR_PREFIX + "too many arguments provided.";
-    private static final String ERROR_INVALID_PRECONDITION = ERROR_PREFIX + "command cannot be used right now.";
+    private static final String ERROR_UNKNOWN_COMMAND = "unknown command";
+    private static final String ERROR_TOO_MANY_ARGUMENTS = "too many arguments provided.";
+    private static final String ERROR_INVALID_PRECONDITION = "command cannot be used right now.";
 
     private final Set<? extends Keyword<M>> modelKeywords;
     private final Set<ViewKeyword> viewKeywords = EnumSet.allOf(ViewKeyword.class);
@@ -106,7 +106,7 @@ public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
         String[] splittedLine = line.split(COMMAND_SEPARATOR, -1);
         if (!findAndHandleCommand(this.viewKeywords, this, splittedLine)
                 && !findAndHandleCommand(this.modelKeywords, this.model, splittedLine)) {
-            this.errorStream.println(ERROR_UNKNOWN_COMMAND);
+            printOnError(ERROR_UNKNOWN_COMMAND);
         }
     }
 
@@ -122,7 +122,7 @@ public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
 
     private <S, T extends Keyword<S>> void handleCommand(S value, String[] arguments, T keyword) {
         if (value == null) {
-            this.errorStream.println(ERROR_INVALID_PRECONDITION);
+            printOnError(ERROR_INVALID_PRECONDITION);
             return;
         }
 
@@ -131,12 +131,12 @@ public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
         try {
             providedCommand = keyword.provide(argumentsHolder);
         } catch (InvalidArgumentException e) {
-            this.errorStream.println(ERROR_PREFIX + e.getMessage());
+            printOnError(e.getMessage());
             return;
         }
 
         if (!argumentsHolder.isExhausted()) {
-            this.errorStream.println(ERROR_TOO_MANY_ARGUMENTS);
+            printOnError(ERROR_TOO_MANY_ARGUMENTS);
             return;
         }
 
@@ -173,7 +173,14 @@ public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
         this.defaultStream.println(message);
     }
 
-    protected void printOnError(String message) {
-        this.errorStream.println(ERROR_PREFIX + message);
+    /**
+     * Prints an error message to the error output stream of this executer.
+     * <p>
+     * The message is prefixed with the error prefix before being printed to the error stream.
+     *
+     * @param errorMessage the error message to print
+     */
+    protected void printOnError(String errorMessage) {
+        this.errorStream.println(ERROR_PREFIX + errorMessage);
     }
 }
