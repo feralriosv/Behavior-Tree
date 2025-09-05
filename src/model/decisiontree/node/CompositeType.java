@@ -69,7 +69,7 @@ public enum CompositeType implements NodeType<CompositeNode> {
             TickResult childResult = self.tickNextChild(context);
 
             if (context.wasActionExecuted()) {
-                return TickState.STAND_BY;
+                return TickState.ENTRY;
             }
 
             if (childResult.getState() == TickState.SUCCESS) {
@@ -88,15 +88,15 @@ public enum CompositeType implements NodeType<CompositeNode> {
         while (self.ticksUnCompleted() && self.getLastState() != TickState.STAND_BY) {
             TickResult childResult = self.tickNextChild(context);
 
-            if (childResult.getState() == TickState.FAILURE) {
-                return TickState.FAILURE;
-            }
-
             if (context.wasActionExecuted()) {
                 if (self.localPointer() == lastIndex && childResult.getState() == TickState.SUCCESS) {
                     return TickState.STAND_BY;
                 }
                 return TickState.ENTRY;
+            }
+
+            if (childResult.getState() == TickState.FAILURE) {
+                return TickState.FAILURE;
             }
 
             self.advancePointer();
