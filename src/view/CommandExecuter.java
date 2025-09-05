@@ -74,15 +74,6 @@ public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
     }
 
     /**
-     * Prints an error message to the error stream registered with this executer.
-     *
-     * @param errorMessage the specific error message to display
-     */
-    protected void announceError(String errorMessage) {
-        this.errorStream.println(ERROR_PREFIX + errorMessage);
-    }
-
-    /**
      * Sets the model of this command executer on which its commands should get invoked.
      *
      * @param model the model to be handled by the commands
@@ -173,4 +164,7 @@ public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
         return null;
     }
 
+    public PrintStream getDefaultStream() {
+        return defaultStream;
+    }
 }

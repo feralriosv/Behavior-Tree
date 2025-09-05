@@ -5,6 +5,7 @@ import model.board.GameBoard;
 import model.decisiontree.DecisionTree;
 import view.CommandExecuter;
 import view.Keyword;
+import view.Result;
 import view.command.SetupKeyword;
 
 import java.util.List;
@@ -23,12 +24,10 @@ import java.util.List;
 public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V, ?>>> extends CommandExecuter<SetupExecuter<V, ?>, K> {
 
     private final Configuration configuration;
-    private boolean unplayable;
 
     private SetupExecuter(CommandExecuter<?, ?> ioRessources, Class<K> keywordClass) {
         super(ioRessources, keywordClass);
         this.configuration = new Configuration();
-        this.unplayable = false;
         setModel(this);
     }
 
@@ -39,13 +38,8 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
      * @param ladyBugs the list of ladybugs to register
      */
     public void configurate(GameBoard gameBoard, List<LadyBug> ladyBugs) {
-        if (ladyBugs.isEmpty() || gameBoard.isEmptyBoard()) {
-            this.unplayable = true;
-        } else {
-            this.configuration.setGameBoard(gameBoard);
-            this.configuration.setRegisteredBugs(ladyBugs);
-            this.unplayable = false;
-        }
+        this.configuration.setGameBoard(gameBoard);
+        this.configuration.setRegisteredBugs(ladyBugs);
     }
 
     /**
@@ -55,13 +49,10 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
      */
     public void configurate(List<DecisionTree> decisionTrees) {
         for (DecisionTree decisionTree : decisionTrees) {
-            if (decisionTree.isUnplayableTree()) {
-                this.unplayable = true;
-                return;
+            if (!decisionTree.isUnplayableTree()) {
+                this.configuration.setTrees(decisionTrees);
             }
         }
-
-        this.configuration.setTrees(decisionTrees);
     }
 
     /**
@@ -90,12 +81,19 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
     public void handleUserInput() {
         while (isRunning() && !this.configuration.isCompleted()) {
             super.handleUserInput();
-
-            if (this.unplayable) {
-                announceError("there was a configuration problem");
-                this.unplayable = false;
-            }
         }
+    }
+
+    /**
+     * Prints the current board (or other accumulated output) and then returns a failure Result.
+     *
+     * @param displayObjext  text representation of the board to display; ignored if null/empty
+     * @param errorMessage the specific error message to display
+     * @return a failure {@link Result} carrying the error message
+     */
+    public Result configFailure(String displayObjext, String errorMessage) {
+        getDefaultStream().println(displayObjext);
+        return Result.error(errorMessage);
     }
 
     /**

@@ -61,31 +61,32 @@ public class LoadTrees implements Command<SetupExecuter<Configuration, ?>> {
 
         List<DecisionTree> decisionTrees = new ArrayList<>();
         TreeLoader parser = new TreeLoader();
+        StringBuilder treeDisplay = new StringBuilder();
 
         for (List<String> block : treeBlocks) {
+            String treeBlock = String.join(System.lineSeparator(), block);
             DecisionTree loadedTree = parser.load(block);
+
+            if (loadedTree.isUnplayableTree()) {
+                handle.configFailure(treeBlock, "there was a problem with the loaded tree");
+                continue;
+            }
+
+            if (!treeDisplay.isEmpty()) {
+                treeDisplay.append(System.lineSeparator());
+            }
+
+            treeDisplay.append(treeBlock);
             decisionTrees.add(loadedTree);
         }
 
         handle.configurate(decisionTrees);
-        return Result.success(joinTreesOutput(treeBlocks));
-    }
-
-    private static String joinTreesOutput(List<List<String>> treeBlocks) {
-        StringBuilder sb = new StringBuilder();
-        for (List<String> block : treeBlocks) {
-            if (!sb.isEmpty()) {
-                sb.append(System.lineSeparator());
-            }
-            String blockOutput = String.join(System.lineSeparator(), block);
-            sb.append(blockOutput);
-        }
-        return sb.toString();
+        return Result.success(treeDisplay.toString());
     }
 
     private List<List<String>> loadLineBlocks() throws LoadingException {
         List<List<String>> pathLines = new ArrayList<>();
-        for (Path path : paths) {
+        for (Path path : this.paths) {
             List<String> currentLines;
             try {
                 currentLines = Files.readAllLines(path);

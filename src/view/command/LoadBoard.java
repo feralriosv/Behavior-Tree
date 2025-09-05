@@ -56,6 +56,10 @@ public class LoadBoard implements Command<SetupExecuter<Configuration, ?>> {
         List<LadyBug> ladyBugs = this.bugsLoader.load(fileLines);
         GameBoard gameBoard = this.boardLoader.load(fileLines);
 
+        if (gameBoard.isEmptyBoard()) {
+            return handle.configFailure(getBoardLines(fileLines), "cannot play with the loaded board");
+        }
+
         handle.configurate(gameBoard, ladyBugs);
         return Result.success(getBoardLines(fileLines));
     }
