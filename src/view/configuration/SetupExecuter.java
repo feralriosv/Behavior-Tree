@@ -91,9 +91,14 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
      * @param errorMessage the specific error message to display
      * @return a failure {@link Result} carrying the error message
      */
-    public Result configFailure(String displayObjext, String errorMessage) {
+    public Result boardFailure(String displayObjext, String errorMessage) {
         printOnDefault(displayObjext);
         return Result.error(errorMessage);
+    }
+
+    public void treeFailure(String treeBlock) {
+        printOnDefault(treeBlock);
+        printOnError("there was a problem with the loaded tree");
     }
 
     /**

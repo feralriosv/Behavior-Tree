@@ -172,4 +172,8 @@ public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
     protected void printOnDefault(String message) {
         this.defaultStream.println(message);
     }
+
+    protected void printOnError(String message) {
+        this.errorStream.println(ERROR_PREFIX + message);
+    }
 }
