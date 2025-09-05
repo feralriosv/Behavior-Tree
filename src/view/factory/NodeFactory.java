@@ -21,5 +21,5 @@ public interface NodeFactory {
      * @return an {@link Optional} containing the created node if successful, otherwise empty
      * @throws LoadingException if the label cannot be parsed into a valid node
      */
-    Optional<? extends Node<?>> create(Naming naming, String label) throws LoadingException;
+    Optional<? extends Node<?>> create(Naming naming, String label);
 }

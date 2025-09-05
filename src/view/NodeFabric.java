@@ -2,8 +2,8 @@ package view;
 
 import model.decisiontree.node.Naming;
 import model.decisiontree.node.Node;
+import view.configuration.loader.LoadCallBack;
 import view.configuration.loader.LoadingException;
-import view.configuration.loader.TreeLoader;
 import view.factory.CompositeNodeFactory;
 import view.factory.LeafNodeFactory;
 import view.factory.NodeFactory;
@@ -22,17 +22,15 @@ import java.util.Optional;
  */
 public class NodeFabric {
 
-    private static final String ERROR_UNKNOWN_LABEL = "unknown node label: %s";
-
     private final List<NodeFactory> factories;
 
     /**
      * Creates a new node fabric with the default factories (composite and leaf).
      *
-     * @param loader a {@link TreeLoader} used by the leaf factory to resolve leaf definitions
+     * @param callBack the callback used by the leaf factory to resolve leaf node definitions
      */
-    public NodeFabric(TreeLoader loader) {
-        this.factories = List.of(new CompositeNodeFactory(), new LeafNodeFactory(loader));
+    public NodeFabric(LoadCallBack callBack) {
+        this.factories = List.of(new CompositeNodeFactory(), new LeafNodeFactory(callBack));
     }
 
     /**
@@ -51,14 +49,13 @@ public class NodeFabric {
      * @return a concrete {@link Node}
      * @throws LoadingException if the label is empty/blank or no factory recognizes the label
      */
-    public Node<?> createNode(Naming nodeName, String label) throws LoadingException {
+    public Optional<? extends Node<?>> createNode(Naming nodeName, String label) {
+        Optional<? extends Node<?>> nodeOpt = Optional.empty();
+
         for (NodeFactory factory : this.factories) {
-            Optional<? extends Node<?>> maybe = factory.create(nodeName, label);
-            if (maybe.isPresent()) {
-                return maybe.get();
-            }
+            nodeOpt = factory.create(nodeName, label);
         }
 
-        return null;
+        return nodeOpt;
     }
 }

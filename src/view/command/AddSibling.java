@@ -12,7 +12,6 @@ import view.Command;
 import view.NodeFabric;
 import view.Result;
 import view.NodeToken;
-import view.configuration.loader.LoadingException;
 
 import java.util.Optional;
 
@@ -78,24 +77,22 @@ public class AddSibling implements Command<Game> {
         int indexOfTarget = parent.getChildren().indexOf(targetNode);
 
         String label = this.nodeToken.label();
-        Naming newId = new Naming(this.nodeToken.name());
+        Naming nodeName = new Naming(this.nodeToken.name());
 
         for (Node<?> node : decisionTree.getAllNodes()) {
-            if (node.getNaming().equals(newId)) {
+            if (node.getNaming().equals(nodeName)) {
                 return Result.error(ERROR_NODE_ALREADY_EXISTS);
             }
         }
 
         NodeFabric fabric = new NodeFabric();
-        Node<?> newNode;
+        Optional<? extends Node<?>> nodeOpt = fabric.createNode(nodeName, label);
 
-        try {
-            newNode = fabric.createNode(newId, label);
-        } catch (LoadingException e) {
-            return Result.error(e.getMessage());
+        if (nodeOpt.isEmpty()) {
+            return Result.error("invalid node");
         }
 
-        boolean ok = parent.insertChildAt(indexOfTarget + 1, newNode);
+        boolean ok = parent.insertChildAt(indexOfTarget + 1, nodeOpt.get());
         if (!ok) {
             return Result.error("could not insert sibling after %s".formatted(targetNode.getNaming().value()));
         }

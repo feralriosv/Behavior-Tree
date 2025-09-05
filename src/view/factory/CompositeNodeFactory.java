@@ -34,7 +34,7 @@ public class CompositeNodeFactory implements NodeFactory {
      * @return an {@link Optional} with a new {@link CompositeNode} if recognized; empty otherwise
      * @throws LoadingException if the label is invalid or a parameter cannot be parsed
      */
-    @Override public Optional<CompositeNode> create(Naming naming, String label) throws LoadingException {
+    @Override public Optional<CompositeNode> create(Naming naming, String label) {
         if (CompositeType.FALLBACK.getSymbol().equals(label)) {
             return Optional.of(new CompositeNode(naming, CompositeType.FALLBACK));
         }
@@ -45,22 +45,25 @@ public class CompositeNodeFactory implements NodeFactory {
 
         if (isParallel(label)) {
             int parameter = extractParameter(label);
+            if (parameter < 0) {
+                return Optional.empty();
+            }
             return Optional.of(new CompositeNode(naming, CompositeType.PARALLEL, parameter));
         }
 
         return Optional.empty();
     }
 
-    private static int extractParameter(String label) throws LoadingException {
+    private static int extractParameter(String label) {
         String inner = label.substring(1, label.length() - 1);
         int parameter;
         try {
             parameter = Integer.parseInt(inner);
         } catch (NumberFormatException e) {
-            throw new LoadingException(ERROR_INVALID_NODE.formatted(label));
+            return -1;
         }
         if (parameter < 1) {
-            throw new LoadingException(ERROR_INVALID_PARAMETER.formatted(label));
+            return -1;
         }
         return parameter;
     }
