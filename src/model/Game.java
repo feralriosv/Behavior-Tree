@@ -37,11 +37,11 @@ public class Game {
      * @param config the configuration providing the board, ladybugs, and decision trees
      */
     public Game(Configuration config) {
-        this.board = config.getGameBoard();
-        this.bugsInGame = List.copyOf(config.getRegisteredBugs());
+        this.board = config.gameBoard();
+        this.bugsInGame = List.copyOf(config.registeredBugs());
 
         Map<LadyBug, DecisionTree> helper = new LinkedHashMap<>();
-        List<DecisionTree> trees = List.copyOf(config.getTrees());
+        List<DecisionTree> trees = List.copyOf(config.trees());
 
         int pairs = Math.min(this.bugsInGame.size(), trees.size());
         for (int i = 0; i < pairs; i++) {

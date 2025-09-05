@@ -8,6 +8,8 @@ import view.Keyword;
 import view.Result;
 import view.command.SetupKeyword;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,11 +25,12 @@ import java.util.List;
  */
 public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V, ?>>> extends CommandExecuter<SetupExecuter<V, ?>, K> {
 
-    private final Configuration configuration;
+    private GameBoard gameBoard;
+    private List<LadyBug> registeredBugs;
+    private List<DecisionTree> trees;
 
     private SetupExecuter(CommandExecuter<?, ?> ioRessources, Class<K> keywordClass) {
         super(ioRessources, keywordClass);
-        this.configuration = new Configuration();
         setModel(this);
     }
 
@@ -38,8 +41,8 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
      * @param ladyBugs the list of ladybugs to register
      */
     public void configurate(GameBoard gameBoard, List<LadyBug> ladyBugs) {
-        this.configuration.setGameBoard(gameBoard);
-        this.configuration.setRegisteredBugs(ladyBugs);
+        this.gameBoard = gameBoard;
+        this.registeredBugs = new ArrayList<>(ladyBugs);
     }
 
     /**
@@ -48,29 +51,26 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
      * @param decisionTrees the list of decision trees to be used
      */
     public void configurate(List<DecisionTree> decisionTrees) {
-        for (DecisionTree decisionTree : decisionTrees) {
-            if (!decisionTree.isUnplayableTree()) {
-                this.configuration.setTrees(decisionTrees);
+        List<DecisionTree> validTrees = new ArrayList<>();
+        for (DecisionTree tree : decisionTrees) {
+            if (!tree.isUnplayableTree()) {
+                validTrees.add(tree);
             }
+        }
+        this.trees = Collections.unmodifiableList(validTrees);
+
+        if (this.registeredBugs != null && this.trees.size() < this.registeredBugs.size()) {
+            this.registeredBugs = new ArrayList<>(this.registeredBugs.subList(0, this.trees.size()));
         }
     }
 
     /**
-     * Returns the maximum number of decision trees allowed, which corresponds to the number of registered ladybugs.
+     * Builds and returns the current configuration using the stored parameters.
      *
-     * @return maximum number of decision trees allowed
+     * @return a new {@link Configuration} assembled from the current setup state
      */
-    public int getMaxTreesAllowed() {
-        return this.configuration.getRegisteredBugs().size();
-    }
-
-    /**
-     * Checks if the game board has been configured.
-     *
-     * @return true if the game board is set, false otherwise
-     */
-    public boolean isBoardConfigurated() {
-        return this.configuration.getGameBoard() != null;
+    public Configuration getConfig() {
+        return new Configuration(this.gameBoard, this.registeredBugs, this.trees);
     }
 
     /**
@@ -79,7 +79,7 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
      */
     @Override
     public void handleUserInput() {
-        while (isRunning() && !this.configuration.isCompleted()) {
+        while (isRunning() && !isCompleted()) {
             super.handleUserInput();
         }
     }
@@ -108,15 +108,6 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
     }
 
     /**
-     * Returns the current configuration managed by this setup executer.
-     *
-     * @return the configuration instance
-     */
-    public Configuration getConfiguration() {
-        return this.configuration;
-    }
-
-    /**
      * Creates a new dialog instance only accepting input matching the provided regex.
      *
      * @param ioRessources another command executer to use its ressources when requesting input or printing errors
@@ -125,5 +116,30 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
      */
     public static SetupExecuter<Configuration, SetupKeyword> createSetup(CommandExecuter<?, ?> ioRessources) {
         return new SetupExecuter<>(ioRessources, SetupKeyword.class);
+    }
+
+    /**
+     * Returns the maximum number of decision trees allowed, which corresponds to the number of registered ladybugs.
+     *
+     * @return maximum number of decision trees allowed
+     */
+    public int getMaxTreesAllowed() {
+        return this.registeredBugs.size();
+    }
+
+    /**
+     * Checks if the game board has been configured.
+     *
+     * @return true if the game board is set, false otherwise
+     */
+    public boolean isBoardConfigurated() {
+        return this.gameBoard != null;
+    }
+
+    private boolean isCompleted() {
+        return this.gameBoard != null
+                && this.registeredBugs != null
+                && this.trees != null
+                && this.trees.size() >= this.registeredBugs.size();
     }
 }
