@@ -15,5 +15,5 @@ import java.util.List;
  * @param trees the list of decision trees used in the game
  * @author ubpst
  */
-public record Configuration (GameBoard gameBoard, List<LadyBug> registeredBugs, List<DecisionTree> trees) {
+public record Configuration(GameBoard gameBoard, List<LadyBug> registeredBugs, List<DecisionTree> trees) {
 }
