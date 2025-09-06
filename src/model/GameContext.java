@@ -175,31 +175,25 @@ public class GameContext {
     }
 
     /**
-     * Checks if there is a connected empty path from the active ladybug to the given target.
+     * Checks if there is a connected empty path from the active ladybug's current
+     * position to the given target cell.
      *
-     * @param targetX target column
-     * @param targetY target row
-     * @return true if a path exists, false otherwise
+     * @param goal target board position (column/x, row/y)
+     * @return {@code true} if a path of empty tiles exists, {@code false} otherwise
      */
     public boolean existsPath(Vector2D goal) {
         return PathFinder.existsPathBFS(this.boardView, location(), goal);
     }
 
     /**
-     * Checks if there is a connected empty path between two coordinates on the board.
+     * Checks if there is a connected empty path between two positions on the board.
      *
-     * @param startX start column
-     * @param startY start row
-     * @param targetX target column
-     * @param targetY target row
-     * @return true if a path exists, false otherwise
+     * @param start the starting position as a Vector2D
+     * @param goal the goal position as a Vector2D
+     * @return {@code true} if a path of empty tiles exists between start and goal, {@code false} otherwise
      */
     public boolean existsPath(Vector2D start, Vector2D goal) {
         return PathFinder.existsPathBFS(this.boardView, start, goal);
-    }
-
-    public LadyBug getActiveLadybug() {
-        return this.activeLadybug;
     }
 
     private Optional<Tile> tileAhead() {

@@ -33,6 +33,7 @@ public enum LeafType implements NodeType<LeafNode> {
     MUSHROOM_FRONT("mushroomFront", (context, self) -> evaluate(context, self, context.isMushroomFront())),
     /** Condition: Check if the ladybug is at the edge of the board. */
     AT_EDGE("atEdge", (context, self) -> evaluate(context, self, context.isAtEdge())),
+    /** Condition: Checks if a path of empty tiles exists between two coordinates. */
     EXISTS_PATH("existsPath", (context, self) -> {
         Vector2D start = self.getStart();
         Vector2D goal  = self.getGoal();
@@ -41,8 +42,10 @@ public enum LeafType implements NodeType<LeafNode> {
                 : context.existsPath(goal);
         return evaluate(context, self, ok);
     }),
-
-    FLY("fly", ((context, self) -> {return null;}));
+    /** Action: Teleports the ladybug to the specified target coordinates, ignoring any intermediate obstacles. */
+    FLY("fly", ((context, self) -> {
+        return null;
+    }));
 
     private final String label;
     private final NodeBehavior<LeafNode> strategy;

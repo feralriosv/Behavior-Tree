@@ -15,7 +15,7 @@ import java.util.ArrayDeque;
  */
 public final class PathFinder {
     private static final int[][] DIRECTIONS = {
-            {1,0},{-1,0},{0,1},{0,-1}
+            {1, 0}, {-1, 0}, {0, 1}, {0, -1}
     };
 
     private PathFinder() {
@@ -42,7 +42,9 @@ public final class PathFinder {
 
         while (!queue.isEmpty()) {
             Vector2D current = queue.poll();
-            if (current.equals(goal)) return true;
+            if (current.equals(goal)) {
+                return true;
+            }
 
             for (int[] direction : DIRECTIONS) {
                 Vector2D next = current.sum(new Vector2D(direction[0], direction[1]));

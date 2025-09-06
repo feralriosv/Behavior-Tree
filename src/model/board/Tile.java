@@ -19,6 +19,11 @@ public class Tile {
         this.tileType = tileType;
     }
 
+    /**
+     * Checks whether this tile represents an empty cell.
+     *
+     * @return true if the tile type is {@link TileType#EMPTY}, false otherwise
+     */
     public boolean isEmptyTile() {
         return this.tileType == TileType.EMPTY;
     }
