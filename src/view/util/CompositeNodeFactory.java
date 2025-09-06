@@ -1,4 +1,4 @@
-package view.fabric;
+package view.util;
 
 import model.decisiontree.node.CompositeType;
 import model.decisiontree.node.CompositeNode;

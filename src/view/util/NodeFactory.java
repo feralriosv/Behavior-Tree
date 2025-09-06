@@ -1,4 +1,4 @@
-package view.fabric;
+package view.util;
 
 import model.decisiontree.node.Node;
 import model.decisiontree.node.Naming;

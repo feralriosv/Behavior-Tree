@@ -7,7 +7,7 @@ import model.decisiontree.DecisionTree;
 import model.decisiontree.node.Node;
 import model.ladybug.LadyBug;
 import model.ladybug.Identifier;
-import model.ladybug.Vector2D;
+import model.util.Vector2D;
 import view.configuration.Configuration;
 
 import java.util.Collections;

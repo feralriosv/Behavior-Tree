@@ -2,7 +2,8 @@ package model.decisiontree.node;
 
 import model.GameContext;
 import model.decisiontree.TickState;
-import model.ladybug.Vector2D;
+import model.util.Vector2D;
+import view.util.Vector2DDecorator;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -15,9 +16,11 @@ import java.util.Iterator;
  */
 public class LeafNode extends Node<LeafType> {
 
+    private static final String LEAF_GOAL_FORMAT = "%s %s";
+    private static final String LEAF_START_GOAL_FORMAT = "%s %s %s";
+
     private final Vector2D start;
     private final Vector2D goal;
-
 
     /**
      * Creates a new leaf node with the given identifier, type, and optional start and goal coordinates.
@@ -87,5 +90,28 @@ public class LeafNode extends Node<LeafType> {
     @Override
     public boolean insertChildAt(int index, Node<?> child) {
         return false;
+    }
+
+    @Override
+    public String toString() {
+        String base = getNodeType().label();
+
+        if (getNodeType() == LeafType.FLY) {
+            Vector2DDecorator startDeco = new Vector2DDecorator(getGoal());
+            return LEAF_GOAL_FORMAT.formatted(base, startDeco.asCsv());
+        }
+
+        if (getNodeType() == LeafType.EXISTS_PATH) {
+            if (this.start != null && this.goal != null) {
+                Vector2DDecorator startDeco = new Vector2DDecorator(this.start);
+                Vector2DDecorator goalDeco = new Vector2DDecorator(this.goal);
+                return LEAF_START_GOAL_FORMAT.formatted(base, startDeco.asCsv(), goalDeco.asCsv());
+            } else if (this.goal != null) {
+                Vector2DDecorator startDeco = new Vector2DDecorator(getGoal());
+                return LEAF_GOAL_FORMAT.formatted(base, startDeco);
+            }
+        }
+
+        return base;
     }
 }

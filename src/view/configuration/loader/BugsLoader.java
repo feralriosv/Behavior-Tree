@@ -3,7 +3,7 @@ package view.configuration.loader;
 import model.ladybug.LadyBug;
 import model.ladybug.Facing;
 import model.ladybug.Identifier;
-import model.ladybug.Vector2D;
+import model.util.Vector2D;
 
 import java.util.ArrayList;
 import java.util.Collections;

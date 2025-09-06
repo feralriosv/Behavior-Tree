@@ -3,8 +3,8 @@ package view.configuration.mermaid;
 import model.decisiontree.DecisionTree;
 import model.decisiontree.node.Naming;
 import model.decisiontree.node.Node;
-import view.fabric.NodeCreationException;
-import view.fabric.NodeFabric;
+import view.util.NodeCreationException;
+import view.util.NodeFabric;
 import view.configuration.loader.LoadCallBack;
 
 import java.util.HashMap;

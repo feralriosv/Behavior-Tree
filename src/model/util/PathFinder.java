@@ -1,7 +1,6 @@
 package model.util;
 
 import model.board.BoardView;
-import model.ladybug.Vector2D;
 
 import java.util.ArrayDeque;
 

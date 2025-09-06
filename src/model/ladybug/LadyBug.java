@@ -1,5 +1,7 @@
 package model.ladybug;
 
+import model.util.Vector2D;
+
 /**
  * Represents a ladybug in the game world.
  *

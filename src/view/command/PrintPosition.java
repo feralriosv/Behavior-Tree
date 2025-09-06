@@ -1,11 +1,11 @@
 package view.command;
 
 import model.Game;
-import view.finder.BugFinder;
-import view.finder.UnfoundedBugException;
+import view.util.Vector2DDecorator;
+import model.util.BugFinder;
+import model.util.UnfoundedBugException;
 import model.ladybug.LadyBug;
 import model.ladybug.Identifier;
-import model.ladybug.Vector2D;
 import view.Command;
 import view.Result;
 
@@ -41,7 +41,7 @@ public class PrintPosition implements Command<Game> {
             return Result.error(e.getMessage());
         }
 
-        Vector2D ladyBugLocation = ladyBug.getLocation();
-        return Result.success(ladyBugLocation.toString());
+        Vector2DDecorator positionDeco = new Vector2DDecorator(ladyBug.getLocation());
+        return Result.success(positionDeco.asTuple());
     }
 }

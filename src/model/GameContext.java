@@ -7,7 +7,7 @@ import model.board.TileType;
 import model.decisiontree.TickResult;
 import model.ladybug.Facing;
 import model.ladybug.LadyBug;
-import model.ladybug.Vector2D;
+import model.util.Vector2D;
 import model.util.PathFinder;
 
 import java.util.ArrayList;

@@ -4,7 +4,7 @@ import model.ladybug.LadyBug;
 import model.ladybug.Facing;
 import model.board.Tile;
 import model.board.BoardView;
-import model.ladybug.Vector2D;
+import model.util.Vector2D;
 
 import java.util.Collections;
 import java.util.List;

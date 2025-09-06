@@ -1,4 +1,4 @@
-package view.finder;
+package model.util;
 
 import model.decisiontree.DecisionTree;
 import model.decisiontree.node.Naming;

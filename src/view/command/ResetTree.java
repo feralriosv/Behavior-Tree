@@ -1,8 +1,8 @@
 package view.command;
 
 import model.Game;
-import view.finder.BugFinder;
-import view.finder.UnfoundedBugException;
+import model.util.BugFinder;
+import model.util.UnfoundedBugException;
 import model.ladybug.Identifier;
 import model.ladybug.LadyBug;
 import view.Command;

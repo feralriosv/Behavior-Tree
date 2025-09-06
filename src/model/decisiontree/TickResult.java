@@ -9,7 +9,7 @@ import model.decisiontree.node.Node;
  */
 public class TickResult {
 
-    private static final String RESTULT_DISPLAY_FORMAT = "%s %s %s";
+    private static final String RESTULT_DISPLAY_FORMAT = "%s %s";
 
     private final Node<?> node;
     private final TickState state;
@@ -36,6 +36,6 @@ public class TickResult {
 
     @Override
     public String toString() {
-        return RESTULT_DISPLAY_FORMAT.formatted(node.getNaming(), node.getNodeType().label(), this.state);
+        return RESTULT_DISPLAY_FORMAT.formatted(this.node.toString(), this.state);
     }
 }

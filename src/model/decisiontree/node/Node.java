@@ -19,6 +19,8 @@ import java.util.List;
  */
 public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
 
+    private static final String STRING_FORMAT = "%s %s";
+
     private final T nodeType;
     private final Naming naming;
     private final List<Node<?>> children;
@@ -195,4 +197,9 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
 
     @Override
     public abstract Iterator<Node<?>> iterator();
+
+    @Override
+    public String toString() {
+        return STRING_FORMAT.formatted(this.naming, this.nodeType.label());
+    }
 }

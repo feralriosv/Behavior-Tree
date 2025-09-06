@@ -1,9 +1,9 @@
-package view.fabric;
+package view.util;
 
 import model.decisiontree.node.LeafType;
 import model.decisiontree.node.LeafNode;
 import model.decisiontree.node.Naming;
-import model.ladybug.Vector2D;
+import model.util.Vector2D;
 import view.configuration.loader.LoadCallBack;
 
 import java.util.Optional;
@@ -61,7 +61,7 @@ public class LeafNodeFactory implements NodeFactory {
                 return Optional.empty();
             }
         } else {
-            leafNode = new LeafNode(naming, type, null, null);
+            leafNode = new LeafNode(naming, type);
         }
 
         if (this.callBack != null) {

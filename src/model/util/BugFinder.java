@@ -1,4 +1,4 @@
-package view.finder;
+package model.util;
 
 import model.Game;
 import model.ladybug.Identifier;
