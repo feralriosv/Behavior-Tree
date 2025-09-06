@@ -40,7 +40,7 @@ public class Vector2DDecorator {
      * @return the vector as a tuple string
      */
     public String asTuple() {
-        return String.format(FORMAT_TUPLE, vector2D.horizontal() + 1, vector2D.vertical() + 1);
+        return String.format(FORMAT_TUPLE, vector2D.vertical() + 1, vector2D.horizontal() + 1);
     }
 
 }

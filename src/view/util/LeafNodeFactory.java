@@ -86,7 +86,7 @@ public class LeafNodeFactory implements NodeFactory {
     }
 
     private Vector2D[] parseExistsPathParameters(String label) {
-        String[] tokens = label.trim().split(LABEL_SEPARATOR);
+        String[] tokens = label.trim().split(PARAMETER_SEPARATOR);
         int[] coordinates = new int[4];
 
         for (int i = 0; i < 4; i++) {
@@ -109,15 +109,15 @@ public class LeafNodeFactory implements NodeFactory {
     private Vector2D[] parseFlyParameters(String label) {
         String[] tokens = label.trim().split(PARAMETER_SEPARATOR);
 
-        int xDimension;
-        int yDimension;
+        int horizontal;
+        int vertical;
         try {
-            xDimension = Integer.parseInt(tokens[1]) - 1;
-            yDimension = Integer.parseInt(tokens[2]) - 1;
+            horizontal = Integer.parseInt(tokens[1]) - 1;
+            vertical = Integer.parseInt(tokens[2]) - 1;
         } catch (NumberFormatException e) {
             return null;
         }
 
-        return new Vector2D[]{new Vector2D(xDimension, yDimension)};
+        return new Vector2D[]{new Vector2D(vertical, horizontal)};
     }
 }

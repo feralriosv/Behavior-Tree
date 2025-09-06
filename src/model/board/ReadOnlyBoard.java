@@ -43,6 +43,6 @@ public class ReadOnlyBoard implements BoardView {
 
     @Override
     public boolean isEmpty(Vector2D location) {
-        return delegate.isEmpty(location);
+        return this.delegate.isEmpty(location);
     }
 }
