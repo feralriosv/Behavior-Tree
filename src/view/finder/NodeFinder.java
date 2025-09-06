@@ -34,7 +34,7 @@ public class NodeFinder {
     public Node<?> findByName(Naming naming) throws UnfoundedNodeException {
         Node<?> node = this.decisionTree.findByName(naming);
         if (node == null) {
-            throw new UnfoundedNodeException();
+            throw new UnfoundedNodeException(naming);
         }
         return node;
     }

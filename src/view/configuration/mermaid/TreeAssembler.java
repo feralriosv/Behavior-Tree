@@ -64,14 +64,14 @@ public class TreeAssembler {
             Naming naming = entry.getKey();
             String label  = entry.getValue();
 
-            Optional<? extends Node<?>> nodeOpt;
+            Node<?> createdNode;
             try {
-                nodeOpt = fabric.createNode(naming, label);
+                createdNode = fabric.createNode(naming, label);
             } catch (NodeCreationException e) {
                 return false;
             }
 
-            nodes.put(naming, nodeOpt.get());
+            nodes.put(naming, createdNode);
         }
         return true;
     }
