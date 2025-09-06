@@ -94,6 +94,18 @@ public class CompositeNode extends Node<CompositeType> {
     }
 
     /**
+     * Checks whether the given node is currently in a waiting state or if it is ready to produce a definitive result.
+     *
+     * @param self the node to check for a waiting state
+     * @return {@code true} if the node is still waiting for a result
+     *         {@code false} if it is ready to produce a definitive result
+     */
+    protected boolean waitsResult() {
+        return this.getLastState() != TickState.WAITS_SUCCESS
+                && this.getLastState() != TickState.WAITS_FAILURE;
+    }
+
+    /**
      * Advances the local pointer to the next child if there are remaining children.
      */
     protected void advancePointer() {
