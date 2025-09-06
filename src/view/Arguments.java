@@ -66,17 +66,7 @@ public class Arguments {
     private Vector2D parseVector() throws InvalidArgumentException {
         int horizontal = parseInteger();
         int vertical = parseInteger();
-        return new Vector2D(horizontal - 1, vertical - 1);
-    }
-
-    /**
-     * Parses the next argument as a string.
-     *
-     * @return the argument as a string
-     * @throws InvalidArgumentException if there is no argument to parse
-     */
-    private String parseString() throws InvalidArgumentException {
-        return retrieveArgument();
+        return new Vector2D(vertical - 1, horizontal - 1);
     }
 
     /**
