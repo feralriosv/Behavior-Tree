@@ -32,6 +32,11 @@ public class LeafNode extends Node<LeafType> {
     }
 
     @Override
+    public void handleSkippedChildren(Node<?> target) {
+
+    }
+
+    @Override
     public Iterator<Node<?>> iterator() {
         return Collections.emptyIterator();
     }

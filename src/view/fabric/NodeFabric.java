@@ -1,12 +1,9 @@
-package view;
+package view.fabric;
 
 import model.decisiontree.node.Naming;
 import model.decisiontree.node.Node;
 import view.configuration.loader.LoadCallBack;
 import view.configuration.loader.LoadingException;
-import view.factory.CompositeNodeFactory;
-import view.factory.LeafNodeFactory;
-import view.factory.NodeFactory;
 
 import java.util.List;
 import java.util.Optional;
@@ -47,15 +44,15 @@ public class NodeFabric {
      * @param nodeName the identifier of the node to be created
      * @param label the textual label describing the node's behavior.
      * @return a concrete {@link Node}
-     * @throws LoadingException if the label is empty/blank or no factory recognizes the label
+     * @throws NodeCreationException if the label is empty/blank or no factory recognizes the label
      */
-    public Optional<? extends Node<?>> createNode(Naming nodeName, String label) {
+    public Node<?> createNode(Naming nodeName, String label) throws NodeCreationException {
         for (NodeFactory factory : this.factories) {
             Optional<? extends Node<?>> nodeOpt = factory.create(nodeName, label);
             if (nodeOpt.isPresent()) {
-                return nodeOpt;
+                return nodeOpt.get();
             }
         }
-        return Optional.empty();
+        throw new NodeCreationException(nodeName, label);
     }
 }

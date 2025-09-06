@@ -1,13 +1,13 @@
 package view.command;
 
 import model.Game;
+import view.finder.BugFinder;
+import view.finder.UnfoundedBugException;
 import model.ladybug.LadyBug;
 import model.ladybug.Identifier;
 import model.ladybug.Vector2D;
 import view.Command;
 import view.Result;
-
-import java.util.Optional;
 
 
 /**
@@ -19,7 +19,7 @@ public class PrintPosition implements Command<Game> {
 
     private static final String ERROR_UNFOUNDED_LADYBUG = "ladybug could not be found";
 
-    private final Identifier ladyBugIdentifier;
+    private final Identifier identifier;
 
     /**
      * Creates a new {@code PrintPosition} command for the specified ladybug.
@@ -27,18 +27,21 @@ public class PrintPosition implements Command<Game> {
      * @param ladyBugIdentifier the unique identifier of the ladybug whose position will be printed
      */
     public PrintPosition(Identifier ladyBugIdentifier) {
-        this.ladyBugIdentifier = ladyBugIdentifier;
+        this.identifier = ladyBugIdentifier;
     }
 
     @Override
     public Result execute(Game handle) {
-        Optional<LadyBug> ladyBugOpt = handle.getBugById(this.ladyBugIdentifier);
+        BugFinder finder = new BugFinder(handle);
+        LadyBug ladyBug;
 
-        if (ladyBugOpt.isEmpty()) {
-            return Result.error(ERROR_UNFOUNDED_LADYBUG);
+        try {
+            ladyBug = finder.findById(this.identifier);
+        } catch (UnfoundedBugException e) {
+            return Result.error(e.getMessage());
         }
 
-        Vector2D ladyBugLocation = ladyBugOpt.get().getLocation();
+        Vector2D ladyBugLocation = ladyBug.getLocation();
         return Result.success(ladyBugLocation.toString());
     }
 }

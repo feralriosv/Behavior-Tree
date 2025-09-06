@@ -1,13 +1,10 @@
-package view.factory;
+package view.fabric;
 
 import model.decisiontree.node.CompositeType;
 import model.decisiontree.node.CompositeNode;
 import model.decisiontree.node.Naming;
-import view.configuration.loader.LoadingException;
 
 import java.util.Optional;
-
-
 
 /**
  * Factory for creating composite behavior tree nodes based on string labels.
@@ -23,18 +20,8 @@ public class CompositeNodeFactory implements NodeFactory {
     private static final String PARALLEL_OPEN_SYMBOL = "=";
     private static final String PARALLEL_CLOSE_SYMBOL = ">";
 
-    private static final String ERROR_INVALID_NODE = "invalid ParallelNode: %s";
-    private static final String ERROR_INVALID_PARAMETER = "parallel M must be an integer: %s";
-
-    /**
-     * Attempts to create a composite node for the given identifier and label.
-     *
-     * @param naming the node identifier
-     * @param label the string label representing the composite type
-     * @return an {@link Optional} with a new {@link CompositeNode} if recognized; empty otherwise
-     * @throws LoadingException if the label is invalid or a parameter cannot be parsed
-     */
-    @Override public Optional<CompositeNode> create(Naming naming, String label) {
+    @Override
+    public Optional<CompositeNode> create(Naming naming, String label) {
         if (CompositeType.FALLBACK.getSymbol().equals(label)) {
             return Optional.of(new CompositeNode(naming, CompositeType.FALLBACK));
         }

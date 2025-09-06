@@ -5,9 +5,9 @@ import model.decisiontree.node.Naming;
 import model.decisiontree.node.Node;
 import model.ladybug.LadyBug;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Represents a decision tree used to control the behavior of a {@link LadyBug}.
@@ -18,7 +18,7 @@ public class DecisionTree {
 
     private final Node<?> rootNode;
     private Node<?> activeNode;
-    private final List<Node<?>> allNodes;
+    private final Map<Naming, Node<?>> nodeIndex;
 
     /**
      * Creates a new decision tree with the given root node.
@@ -26,14 +26,14 @@ public class DecisionTree {
      * @param root the root node of this decision tree
      */
     public DecisionTree(Node<?> root) {
-        this.allNodes = new ArrayList<>();
         this.rootNode = root;
+        this.nodeIndex = new HashMap<>();
         this.activeNode = root;
         this.assignTree(root);
     }
 
     private DecisionTree() {
-        this.allNodes = null;
+        this.nodeIndex = null;
         this.rootNode = null;
         this.activeNode = null;
     }
@@ -54,19 +54,8 @@ public class DecisionTree {
      */
     public boolean isUnplayableTree() {
         return this.rootNode == null
-                && this.allNodes == null
+                && this.nodeIndex == null
                 && this.activeNode == null;
-    }
-
-    /**
-     * Searches for a node within the tree by its {@link Naming}, starting from the root.
-     * Uses a depth-first search (DFS).
-     *
-     * @param naming the identifier of the node to search for
-     * @return the node with the matching naming, or {@code null} if not found
-     */
-    public Node<?> findByNameFromRoot(Naming naming) {
-        return findNodeByNamingDFS(this.rootNode, naming);
     }
 
     /**
@@ -84,31 +73,6 @@ public class DecisionTree {
         }
 
         return context.endTick();
-    }
-
-    private Node<?> findNodeByNamingDFS(Node<?> root, Naming naming) {
-        if (root.getNaming().equals(naming)) {
-            return root;
-        }
-
-        List<Node<?>> children = root.getChildren();
-        for (Node<?> child : children) {
-            Node<?> hit = findNodeByNamingDFS(child, naming);
-            if (hit != null) {
-                return hit;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Returns an unmodifiable view of all nodes contained in this decision tree.
-     *
-     * @return an unmodifiable list of all {@link Node} instances in this tree
-     */
-    public List<Node<?>> getAllNodes() {
-        return Collections.unmodifiableList(allNodes);
     }
 
     /**
@@ -136,9 +100,28 @@ public class DecisionTree {
         this.activeNode = activeNode;
     }
 
+    /**
+     * Fast lookup of a node by its {@link Naming} using an internal index.
+     * @param naming the identifier to look up
+     * @return the node if present, or {@code null} if not found
+     */
+    public Node<?> findByName(Naming naming) {
+        return nodeIndex.get(naming);
+    }
+
+    /**
+     * Checks whether a node with the specified {@link Naming} exists in this decision tree.
+     *
+     * @param naming the {@link Naming} identifier of the node to check for
+     * @return {@code true} if a node with the given naming exists in this tree; {@code false} otherwise
+     */
+    public boolean containsNode(Naming naming) {
+        return nodeIndex.containsKey(naming);
+    }
+
     private void assignTree(Node<?> node) {
         node.setTree(this);
-        this.allNodes.add(node);
+        this.nodeIndex.put(node.getNaming(), node);
 
         for (Node<?> child : node.getChildren()) {
             assignTree(child);

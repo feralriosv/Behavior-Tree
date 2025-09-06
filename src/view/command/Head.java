@@ -3,13 +3,12 @@ package view.command;
 
 import model.Game;
 import model.decisiontree.node.Node;
+import view.finder.BugFinder;
+import view.finder.UnfoundedBugException;
 import model.ladybug.Identifier;
 import model.ladybug.LadyBug;
 import view.Command;
 import view.Result;
-
-import java.util.Optional;
-
 
 /**
  * Command that displays or manipulates the "head" state of the {@link Game}.
@@ -32,12 +31,16 @@ public class Head implements Command<Game> {
 
     @Override
     public Result execute(Game handle) {
-        Optional<LadyBug> ladyBugOpt = handle.getBugById(this.identifier);
-        if (ladyBugOpt.isEmpty()) {
-            return Result.error("there was no bug with ID %d found");
+        BugFinder finder = new BugFinder(handle);
+        LadyBug ladyBug;
+
+        try {
+            ladyBug = finder.findById(this.identifier);
+        } catch (UnfoundedBugException e) {
+            return Result.error(e.getMessage());
         }
 
-        Node<?> activeNode = handle.getBugActiveNode(ladyBugOpt.get());
+        Node<?> activeNode = handle.getBugActiveNode(ladyBug);
         return Result.success(activeNode.getNaming().toString());
     }
 }

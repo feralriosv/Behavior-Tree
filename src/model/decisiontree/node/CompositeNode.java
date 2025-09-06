@@ -124,6 +124,25 @@ public class CompositeNode extends Node<CompositeType> {
     }
 
     @Override
+    public void handleSkippedChildren(Node<?> target) {
+        int resetLimit = getChildren().indexOf(target);
+
+        CompositeType type = this.getNodeType();
+        TickState implied = switch (type) {
+            case FALLBACK, PARALLEL -> TickState.FAILURE;
+            case SEQUENCE -> TickState.SUCCESS;
+        };
+
+        for (int i = 0; i < resetLimit; i++) {
+            Node<?> skipped = getChildren().get(i);
+            skipped.setLastState(implied);
+        }
+
+        this.localPointer = 0;
+        setLastState(TickState.ENTRY);
+    }
+
+    @Override
     public Iterator<Node<?>> iterator() {
         return getChildren().iterator();
     }

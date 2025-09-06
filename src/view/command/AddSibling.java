@@ -6,15 +6,17 @@ import model.decisiontree.DecisionTree;
 import model.decisiontree.node.CompositeType;
 import model.decisiontree.node.Naming;
 import model.decisiontree.node.Node;
+import view.finder.BugFinder;
+import view.finder.NodeFinder;
+import view.finder.UnfoundedBugException;
+import view.finder.UnfoundedNodeException;
 import model.ladybug.Identifier;
 import model.ladybug.LadyBug;
 import view.Command;
-import view.NodeFabric;
+import view.fabric.NodeCreationException;
+import view.fabric.NodeFabric;
 import view.Result;
 import view.NodeToken;
-
-import java.util.Optional;
-
 
 /**
  * Command implementation that allows adding a new sibling configuration
@@ -24,9 +26,7 @@ import java.util.Optional;
  */
 public class AddSibling implements Command<Game> {
 
-    private static final String ERROR_BUG_NOT_FOUND = "there was no bug with ID %d";
     private static final String ERROR_NODE_ALREADY_EXISTS = "node with naming %s already exists";
-    private static final String ERROR_NODE_SEARCH_FAILED = "node %s not found in ladybug %s tree";
     private static final String ERROR_PARENT_ROOT_NODE =  "cannot add sibling to root node %s";
 
     private final Identifier identifier;
@@ -49,23 +49,27 @@ public class AddSibling implements Command<Game> {
 
     @Override
     public Result execute(Game handle) {
-        Optional<LadyBug> ladyBugOpt = handle.getBugById(this.identifier);
-        if (ladyBugOpt.isEmpty()) {
-            return Result.error(ERROR_BUG_NOT_FOUND);
+        BugFinder finder = new BugFinder(handle);
+
+        LadyBug ladyBug;
+        try {
+            ladyBug = finder.findById(this.identifier);
+        } catch (UnfoundedBugException e) {
+            return Result.error(e.getMessage());
         }
 
-        LadyBug bug = ladyBugOpt.get();
+        DecisionTree decisionTree = handle.getBugDecisionTree(ladyBug);
+        NodeFinder nodeFinder = new NodeFinder(decisionTree);
 
-        DecisionTree decisionTree = handle.getBugDecisionTree(bug);
-        Node<?> targetNode = decisionTree.findByNameFromRoot(this.nodeNaming);
-
-        if (targetNode == null) {
-            return Result.error(ERROR_NODE_SEARCH_FAILED
-                    .formatted(this.nodeNaming.value(), bug.getId()));
+        Node<?> targetNode;
+        try {
+            targetNode = nodeFinder.findByName(this.nodeNaming);
+        } catch (UnfoundedNodeException e) {
+            return Result.error(e.getMessage());
         }
 
         Node<?> parent = targetNode.getParent();
-        if (parent == null) {
+        if (parent.isRoot()) {
             return Result.error(ERROR_PARENT_ROOT_NODE.formatted(targetNode.getNaming()));
         }
 
@@ -79,20 +83,20 @@ public class AddSibling implements Command<Game> {
         String label = this.nodeToken.label();
         Naming nodeName = new Naming(this.nodeToken.name());
 
-        for (Node<?> node : decisionTree.getAllNodes()) {
-            if (node.getNaming().equals(nodeName)) {
-                return Result.error(ERROR_NODE_ALREADY_EXISTS);
-            }
+        if (decisionTree.containsNode(nodeName)) {
+            return Result.error(ERROR_NODE_ALREADY_EXISTS);
         }
 
         NodeFabric fabric = new NodeFabric();
-        Optional<? extends Node<?>> nodeOpt = fabric.createNode(nodeName, label);
+        Node<?> node;
 
-        if (nodeOpt.isEmpty()) {
-            return Result.error("invalid node");
+        try {
+            node = fabric.createNode(nodeName, label);
+        } catch (NodeCreationException e) {
+            return Result.error(e.getMessage());
         }
 
-        boolean ok = parent.insertChildAt(indexOfTarget + 1, nodeOpt.get());
+        boolean ok = parent.insertChildAt(indexOfTarget + 1, node);
         if (!ok) {
             return Result.error("could not insert sibling after %s".formatted(targetNode.getNaming().value()));
         }

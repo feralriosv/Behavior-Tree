@@ -1,4 +1,4 @@
-package view.factory;
+package view.fabric;
 
 import model.decisiontree.node.LeafType;
 import model.decisiontree.node.LeafNode;

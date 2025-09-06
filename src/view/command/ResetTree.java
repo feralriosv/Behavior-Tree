@@ -1,12 +1,12 @@
 package view.command;
 
 import model.Game;
+import view.finder.BugFinder;
+import view.finder.UnfoundedBugException;
 import model.ladybug.Identifier;
 import model.ladybug.LadyBug;
 import view.Command;
 import view.Result;
-
-import java.util.Optional;
 
 /**
  * A command that resets the decision tree of the game to its initial state.
@@ -29,12 +29,16 @@ public class ResetTree implements Command<Game> {
 
     @Override
     public Result execute(Game handle) {
-        Optional<LadyBug> ladyBugOpt = handle.getBugById(this.identifier);
-        if (ladyBugOpt.isEmpty()) {
-            return Result.error("there was no bug with ID %d found");
+        BugFinder finder = new BugFinder(handle);
+        LadyBug ladyBug;
+
+        try {
+            ladyBug = finder.findById(this.identifier);
+        } catch (UnfoundedBugException e) {
+            return Result.error(e.getMessage());
         }
 
-        handle.resetBugTree(ladyBugOpt.get());
+        handle.resetBugTree(ladyBug);
         return Result.success();
     }
 }

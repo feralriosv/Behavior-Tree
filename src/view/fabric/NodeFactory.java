@@ -1,8 +1,7 @@
-package view.factory;
+package view.fabric;
 
 import model.decisiontree.node.Node;
 import model.decisiontree.node.Naming;
-import view.configuration.loader.LoadingException;
 
 import java.util.Optional;
 
@@ -17,9 +16,8 @@ public interface NodeFactory {
      * Creates a new {@link Node} instance with the given identifier and label.
      *
      * @param naming the name of the node
-     * @param label the label describing the node type
-     * @return an {@link Optional} containing the created node if successful, otherwise empty
-     * @throws LoadingException if the label cannot be parsed into a valid node
+     * @param label  the label describing the node type
+     * @return the created {@link Node} instance
      */
     Optional<? extends Node<?>> create(Naming naming, String label);
 }

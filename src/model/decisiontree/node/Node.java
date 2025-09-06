@@ -41,11 +41,29 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
     }
 
     /**
+     * Returns whether this node is the root node of the tree, i.e., has no parent.
+     *
+     * @return true if this node is the root node (has no parent), false otherwise
+     */
+    public boolean isRoot() {
+        return this.parent == null;
+    }
+
+    /**
      * Executes the tick logic for this node using the provided game context.
      *
      * @param context the game context for the tick
      */
     public abstract void tick(GameContext context);
+
+    /**
+     * Called when a jump targets a child of this node.
+     * Implementations should mark all children before the target as skipped,
+     * setting their states appropriately and adjusting internal pointers if needed.
+     *
+     * @param target the child node that is the new active target
+     */
+    public abstract void handleSkippedChildren(Node<?> target);
 
     /**
      * Adds a child node to this node.

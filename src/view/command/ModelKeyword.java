@@ -19,7 +19,7 @@ public enum ModelKeyword implements Keyword<Game> {
     /** Command to display or move to the head node of the tree. */
     HEAD(arguments -> new Head(arguments.parseIdentifier())),
     /** Command to jump to a specific node in the decision tree. */
-    JUMP_TO(arguments -> new JumpTo()),
+    JUMP_TO(arguments -> new JumpTo(arguments.parseIdentifier(), arguments.parseNodeNaming())),
     /** Command to list all ladybugs currently in the game. */
     LIST_LADYBUGS(arguments -> new ListLadybugs()),
     /** Command to execute the next action in the decision tree. */

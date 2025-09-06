@@ -3,7 +3,8 @@ package view.configuration.mermaid;
 import model.decisiontree.DecisionTree;
 import model.decisiontree.node.Naming;
 import model.decisiontree.node.Node;
-import view.NodeFabric;
+import view.fabric.NodeCreationException;
+import view.fabric.NodeFabric;
 import view.configuration.loader.LoadCallBack;
 
 import java.util.HashMap;
@@ -63,10 +64,13 @@ public class TreeAssembler {
             Naming naming = entry.getKey();
             String label  = entry.getValue();
 
-            Optional<? extends Node<?>> nodeOpt = fabric.createNode(naming, label);
-            if (nodeOpt.isEmpty()) {
+            Optional<? extends Node<?>> nodeOpt;
+            try {
+                nodeOpt = fabric.createNode(naming, label);
+            } catch (NodeCreationException e) {
                 return false;
             }
+
             nodes.put(naming, nodeOpt.get());
         }
         return true;
