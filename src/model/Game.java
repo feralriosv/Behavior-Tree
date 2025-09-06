@@ -197,6 +197,22 @@ public class Game {
         return Optional.empty();
     }
 
+    /**
+     * Checks if any ladybug in the game is currently located at the given position.
+     *
+     * @param position the position to check for a ladybug
+     * @return {@code true} if a ladybug is at the given position, {@code false} otherwise
+     */
+    public boolean hasLadybugAt(Vector2D position) {
+        for (LadyBug ladyBug : this.bugsInGame) {
+            if (ladyBug.getLocation().equals(position)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
     private static Vector2D frontOf(LadyBug bug) {
         return bug.getLocation().sum(bug.getFacing().delta());
     }

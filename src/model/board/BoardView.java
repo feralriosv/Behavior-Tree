@@ -39,4 +39,12 @@ public interface BoardView {
      * @return {@code true} if the location is valid inside the board, {@code false} otherwise
      */
     boolean isInside(Vector2D location);
+
+    /**
+     * Checks whether the specified location is considered empty.
+     *
+     * @param location the coordinates to check
+     * @return {@code true} if the location is empty, {@code false} otherwise
+     */
+    boolean isEmpty(Vector2D location);
 }

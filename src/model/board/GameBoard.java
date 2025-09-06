@@ -71,6 +71,12 @@ public class GameBoard implements BoardView {
     }
 
     @Override
+    public boolean isEmpty(Vector2D location) {
+        Tile tile = tileAt(location);
+        return tile.isEmptyTile();
+    }
+
+    @Override
     public int width() {
         return this.width;
     }

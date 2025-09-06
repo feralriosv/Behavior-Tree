@@ -133,8 +133,11 @@ public class GameContext {
      */
     public boolean move() {
         Vector2D frontPos = location().sum(getLadybugFacing().delta());
-        boolean inside = this.boardView.isInside(frontPos);
-        return inside && !isTreeFront() && game.moveAhead(activeLadybug);
+        return this.boardView.isInside(frontPos)
+                && this.boardView.tileAt(frontPos).isEmptyTile()
+                && !game.hasLadybugAt(frontPos)
+                && game.moveAhead(activeLadybug);
+
     }
 
     /**
