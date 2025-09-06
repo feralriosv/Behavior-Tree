@@ -19,7 +19,7 @@ import java.util.Optional;
 public class LeafNodeFactory implements NodeFactory {
 
     private static final String LABEL_PARTS_SEPARATOR = " ";
-    private static final String VECTOR_SEPARATOR = "\\s*,\\s*";
+    private static final String VECTOR_SEPARATOR = "[,\\s]+";
 
     private final LoadCallBack callBack;
 
@@ -78,7 +78,7 @@ public class LeafNodeFactory implements NodeFactory {
     }
 
     private Vector2D[] extractVectors(String vectorArguments) {
-        Arguments argumentHolder = new Arguments(vectorArguments.split(VECTOR_SEPARATOR));
+        Arguments argumentHolder = new Arguments(vectorArguments.trim().split(VECTOR_SEPARATOR));
 
         try {
             return argumentHolder.parseVectors();
