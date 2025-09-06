@@ -42,6 +42,7 @@ public class LoadTrees implements Command<SetupExecuter<Configuration, ?>> {
 
     @Override
     public Result execute(SetupExecuter<Configuration, ?> handle) {
+
         if (!handle.isBoardConfigurated()) {
             return Result.error(ERROR_MISSING_BOARD_SETUP);
         }

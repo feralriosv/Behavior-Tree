@@ -108,7 +108,7 @@ public class LeafNode extends Node<LeafType> {
                 return LEAF_START_GOAL_FORMAT.formatted(base, startDeco.asCsv(), goalDeco.asCsv());
             } else if (this.goal != null) {
                 Vector2DDecorator startDeco = new Vector2DDecorator(getGoal());
-                return LEAF_GOAL_FORMAT.formatted(base, startDeco);
+                return LEAF_GOAL_FORMAT.formatted(base, startDeco.asCsv());
             }
         }
 

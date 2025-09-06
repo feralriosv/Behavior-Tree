@@ -28,7 +28,6 @@ public enum SetupKeyword implements Keyword<SetupExecuter<Configuration, ?>> {
     private static final String VALUE_NAME_DELIMITER = "_";
     private final CommandProvider<SetupExecuter<Configuration, ?>> provider;
 
-
     SetupKeyword(CommandProvider<SetupExecuter<Configuration, ?>> provider) {
         this.provider = provider;
     }

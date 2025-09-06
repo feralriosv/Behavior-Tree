@@ -28,7 +28,6 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
     private static final String BOARD_ERROR_MESSAGE = "cannot play with the loaded board";
     private static final String TREE_ERROR_MESSAGE = "there was a problem with the loaded tree";
 
-
     private GameBoard gameBoard;
     private List<LadyBug> registeredBugs;
     private List<DecisionTree> trees;
@@ -140,8 +139,8 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
     public boolean isBoardConfigurated() {
         return this.gameBoard != null;
     }
-    
-    private boolean isCompleted() {
+
+    public boolean isCompleted() {
         return this.gameBoard != null
                 && this.registeredBugs != null
                 && this.trees != null
