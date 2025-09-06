@@ -70,11 +70,32 @@ public class Game {
      * @return true if the move was successful, false if outside the board
      */
     protected boolean moveAhead(LadyBug ladyBug) {
-        Vector2D aheadPosition = ladyBug.positionAhead();
-        if (this.board.isInside(aheadPosition)) {
-            ladyBug.updateLocation(aheadPosition);
+        Vector2D ahead = frontOf(ladyBug);
+        Tile aheadTile = board.tileAt(ahead);
+
+        if (aheadTile.isEmptyTile()) {
+            ladyBug.updateLocation(ahead);
             return true;
         }
+
+        if (TileType.MUSHROOM.matches(aheadTile)) {
+            Vector2D pushTo = ahead.sum(ladyBug.getFacing().delta());
+
+            if (!board.isInside(pushTo) || hasLadybugAt(pushTo)) {
+                return false;
+            }
+
+            Tile pushToTile = board.tileAt(pushTo);
+            if (pushToTile.isEmptyTile()) {
+                return false;
+            }
+
+            board.setTileAt(pushTo, new Tile(TileType.MUSHROOM));
+            board.setTileAt(ahead, new Tile(TileType.EMPTY));
+            ladyBug.updateLocation(ahead);
+            return true;
+        }
+
         return false;
     }
 
