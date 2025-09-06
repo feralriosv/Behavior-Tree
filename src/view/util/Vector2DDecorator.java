@@ -28,9 +28,10 @@ public class Vector2DDecorator {
      * Returns a string representation of the vector in CSV format: "x,y".
      *
      * @return the vector as a CSV string
+     *
      */
     public String asCsv() {
-        return String.format(FORMAT_CSV, vector2D.horizontal() + 1, vector2D.vertical() + 1);
+        return String.format(FORMAT_CSV, vector2D.vertical() + 1, vector2D.horizontal() + 1);
     }
 
     /**
