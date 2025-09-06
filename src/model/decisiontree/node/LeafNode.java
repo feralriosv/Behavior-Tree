@@ -94,23 +94,24 @@ public class LeafNode extends Node<LeafType> {
 
     @Override
     public String toString() {
+        String base = super.toString();
 
         if (getNodeType() == LeafType.FLY) {
             Vector2DDecorator startDeco = new Vector2DDecorator(getGoal());
-            return LEAF_GOAL_FORMAT.formatted(super.toString(), startDeco.asCsv());
+            return LEAF_GOAL_FORMAT.formatted(base, startDeco.asCsv());
         }
 
         if (getNodeType() == LeafType.EXISTS_PATH) {
             if (this.start != null && this.goal != null) {
                 Vector2DDecorator startDeco = new Vector2DDecorator(this.start);
                 Vector2DDecorator goalDeco = new Vector2DDecorator(this.goal);
-                return LEAF_START_GOAL_FORMAT.formatted(super.toString(), startDeco.asCsv(), goalDeco.asCsv());
+                return LEAF_START_GOAL_FORMAT.formatted(base, startDeco.asCsv(), goalDeco.asCsv());
             } else if (this.goal != null) {
                 Vector2DDecorator startDeco = new Vector2DDecorator(getGoal());
-                return LEAF_GOAL_FORMAT.formatted(super.toString(), startDeco);
+                return LEAF_GOAL_FORMAT.formatted(base, startDeco);
             }
         }
 
-        return super.toString();
+        return base;
     }
 }
