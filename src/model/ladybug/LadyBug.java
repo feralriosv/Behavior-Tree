@@ -36,24 +36,6 @@ public class LadyBug {
     }
 
     /**
-     * Sets whether this ladybug is carrying a leaf.
-     *
-     * @param carryingLeaf true if the ladybug should carry a leaf, false otherwise
-     */
-    public void setCarryingLeaf(boolean carryingLeaf) {
-        this.carryingLeaf = carryingLeaf;
-    }
-
-    /**
-     * Updates the location of this ladybug.
-     *
-     * @param location the new position of the ladybug
-     */
-    public void setLocation(Vector2D location) {
-        this.location = location;
-    }
-
-    /**
      * Calculates the position directly in front of this ladybug based on its current facing.
      *
      * @return the next position in front of the ladybug
@@ -107,5 +89,32 @@ public class LadyBug {
      */
     public Facing getFacing() {
         return facing;
+    }
+
+    /**
+     * Updates the fecing of this ladybug.
+     *
+     * @param facing the new facing of the ladybug
+     */
+    public void setFacing(Facing facing) {
+        this.facing = facing;
+    }
+
+    /**
+     * Sets whether this ladybug is carrying a leaf.
+     *
+     * @param carryingLeaf true if the ladybug should carry a leaf, false otherwise
+     */
+    public void setCarryingLeaf(boolean carryingLeaf) {
+        this.carryingLeaf = carryingLeaf;
+    }
+
+    /**
+     * Updates the location of this ladybug.
+     *
+     * @param location the new position of the ladybug
+     */
+    public void updateLocation(Vector2D location) {
+        this.location = location;
     }
 }

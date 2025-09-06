@@ -72,7 +72,7 @@ public class Game {
     protected boolean moveAhead(LadyBug ladyBug) {
         Vector2D aheadPosition = ladyBug.positionAhead();
         if (this.board.isInside(aheadPosition)) {
-            ladyBug.setLocation(aheadPosition);
+            ladyBug.updateLocation(aheadPosition);
             return true;
         }
         return false;

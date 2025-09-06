@@ -16,7 +16,8 @@ import java.util.Optional;
  */
 public class LeafNodeFactory implements NodeFactory {
 
-    private static final String TOKEN_SEPARATOR = " ";
+    private static final String LABEL_SEPARATOR = " ";
+    private static final String PARAMETER_SEPARATOR = "[,\\s]+";
 
     private final LoadCallBack callBack;
 
@@ -38,7 +39,7 @@ public class LeafNodeFactory implements NodeFactory {
 
     @Override
     public Optional<LeafNode> create(Naming naming, String label) {
-        Optional<LeafType> leafOpt = LeafType.fromLine(label);
+        Optional<LeafType> leafOpt = LeafType.fromLine(label.split(LABEL_SEPARATOR)[0]);
         if (leafOpt.isEmpty()) {
             return Optional.empty();
         }
@@ -85,7 +86,7 @@ public class LeafNodeFactory implements NodeFactory {
     }
 
     private Vector2D[] parseExistsPathParameters(String label) {
-        String[] tokens = label.trim().split(TOKEN_SEPARATOR);
+        String[] tokens = label.trim().split(LABEL_SEPARATOR);
         int[] coordinates = new int[4];
 
         for (int i = 0; i < 4; i++) {
@@ -106,7 +107,7 @@ public class LeafNodeFactory implements NodeFactory {
 
 
     private Vector2D[] parseFlyParameters(String label) {
-        String[] tokens = label.trim().split(TOKEN_SEPARATOR);
+        String[] tokens = label.trim().split(PARAMETER_SEPARATOR);
 
         int xDimension;
         int yDimension;

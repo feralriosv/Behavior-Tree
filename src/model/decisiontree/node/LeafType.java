@@ -24,6 +24,12 @@ public enum LeafType implements NodeType<LeafNode> {
     TAKE_LEAF("takeLeaf", (context, self) -> evaluate(context, self, context.takeLeaf())),
     /** Action: Place a leaf in front. */
     PLACE_LEAF("placeLeaf", (context, self) -> evaluate(context, self, context.placeLeaf())),
+    /** Action: Teleports the ladybug to the specified target coordinates, ignoring any intermediate obstacles. */
+    FLY("fly", ((context, self) -> {
+        Vector2D goal = self.getGoal();
+        boolean ok = goal != null && context.fly(goal);
+        return evaluate(context, self, ok);
+    })),
 
     /** Condition: Check if a tree is directly in front. */
     TREE_FRONT("treeFront", (context, self) -> evaluate(context, self, context.isTreeFront())),
@@ -41,11 +47,7 @@ public enum LeafType implements NodeType<LeafNode> {
                 ? context.existsPath(start, goal)
                 : context.existsPath(goal);
         return evaluate(context, self, ok);
-    }),
-    /** Action: Teleports the ladybug to the specified target coordinates, ignoring any intermediate obstacles. */
-    FLY("fly", ((context, self) -> {
-        return null;
-    }));
+    });
 
     private final String label;
     private final NodeBehavior<LeafNode> strategy;
@@ -96,12 +98,12 @@ public enum LeafType implements NodeType<LeafNode> {
      * @return true if the leaf type is an action, false otherwise
      */
     public static boolean isActionType(LeafType type) {
-        return type != null && (type.equals(MOVE)
-                        || type.equals(TURN_LEFT)
-                        || type.equals(TURN_RIGHT)
-                        || type.equals(TAKE_LEAF)
-                        || type.equals(PLACE_LEAF)
-                );
+        return type.equals(MOVE)
+                || type.equals(TURN_LEFT)
+                || type.equals(TURN_RIGHT)
+                || type.equals(TAKE_LEAF)
+                || type.equals(PLACE_LEAF)
+                || type.equals(FLY);
     }
 
     @Override

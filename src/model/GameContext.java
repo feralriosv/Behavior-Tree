@@ -134,7 +134,6 @@ public class GameContext {
     public boolean move() {
         Vector2D frontPos = location().sum(getLadybugFacing().delta());
         boolean inside = this.boardView.isInside(frontPos);
-
         return inside && !isTreeFront() && game.moveAhead(activeLadybug);
     }
 
@@ -194,6 +193,34 @@ public class GameContext {
      */
     public boolean existsPath(Vector2D start, Vector2D goal) {
         return PathFinder.existsPathBFS(this.boardView, start, goal);
+    }
+
+    /**
+     * Teleports the active ladybug to the specified target position,
+     * ignoring obstacles in between.
+     *
+     * @param goal the target coordinate
+     * @return true if the ladybug was moved, false if the target is invalid or blocked
+     */
+    public boolean fly(Vector2D goal) {
+        if (!boardView.isInside(goal)) {
+            return false;
+        }
+        if (!boardView.tileAt(goal).isEmptyTile()) {
+            return false;
+        }
+
+        int deltaX = goal.horizontal() - location().horizontal();
+        int deltaY = goal.vertical() - location().vertical();
+
+        if (Math.abs(deltaX) >= Math.abs(deltaY)) {
+            activeLadybug.setFacing(deltaX >= 0 ? Facing.EAST : Facing.WEST);
+        } else {
+            activeLadybug.setFacing(deltaY >= 0 ? Facing.SOUTH : Facing.NORTH);
+        }
+
+        this.activeLadybug.updateLocation(goal);
+        return true;
     }
 
     private Optional<Tile> tileAhead() {
