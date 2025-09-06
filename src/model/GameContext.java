@@ -8,6 +8,7 @@ import model.decisiontree.TickResult;
 import model.ladybug.Facing;
 import model.ladybug.LadyBug;
 import model.ladybug.Vector2D;
+import model.util.PathFinder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -171,6 +172,34 @@ public class GameContext {
      */
     public boolean placeLeaf() {
         return this.game.placeLeaf(activeLadybug);
+    }
+
+    /**
+     * Checks if there is a connected empty path from the active ladybug to the given target.
+     *
+     * @param targetX target column
+     * @param targetY target row
+     * @return true if a path exists, false otherwise
+     */
+    public boolean existsPath(Vector2D goal) {
+        return PathFinder.existsPathBFS(this.boardView, location(), goal);
+    }
+
+    /**
+     * Checks if there is a connected empty path between two coordinates on the board.
+     *
+     * @param startX start column
+     * @param startY start row
+     * @param targetX target column
+     * @param targetY target row
+     * @return true if a path exists, false otherwise
+     */
+    public boolean existsPath(Vector2D start, Vector2D goal) {
+        return PathFinder.existsPathBFS(this.boardView, start, goal);
+    }
+
+    public LadyBug getActiveLadybug() {
+        return this.activeLadybug;
     }
 
     private Optional<Tile> tileAhead() {

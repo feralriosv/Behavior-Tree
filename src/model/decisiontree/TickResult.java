@@ -1,5 +1,7 @@
 package model.decisiontree;
 
+import model.decisiontree.node.Node;
+
 /**
  * Represents the result of executing a single tick of a node in the decision tree.
  *

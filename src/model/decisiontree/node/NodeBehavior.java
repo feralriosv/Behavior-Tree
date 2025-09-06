@@ -1,6 +1,7 @@
-package model.decisiontree;
+package model.decisiontree.node;
 
 import model.GameContext;
+import model.decisiontree.TickState;
 
 /**
  * Strategy interface for defining the execution behavior of decision tree nodes.

@@ -3,9 +3,9 @@ package view.command;
 
 import model.Game;
 import model.decisiontree.DecisionTree;
-import model.decisiontree.CompositeType;
-import model.decisiontree.Naming;
-import model.decisiontree.Node;
+import model.decisiontree.node.CompositeType;
+import model.decisiontree.node.Naming;
+import model.decisiontree.node.Node;
 import view.finder.BugFinder;
 import view.finder.NodeFinder;
 import view.finder.UnfoundedBugException;

@@ -1,6 +1,9 @@
-package model.decisiontree;
+package model.decisiontree.node;
 
 import model.GameContext;
+import model.decisiontree.DecisionTree;
+import model.decisiontree.TickResult;
+import model.decisiontree.TickState;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -162,7 +165,7 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
      *
      * @param tree the decision tree to set
      */
-    protected void setTree(DecisionTree tree) {
+    public void setTree(DecisionTree tree) {
         this.tree = tree;
     }
 

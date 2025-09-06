@@ -1,8 +1,8 @@
 package view.fabric;
 
-import model.decisiontree.CompositeType;
-import model.decisiontree.CompositeNode;
-import model.decisiontree.Naming;
+import model.decisiontree.node.CompositeType;
+import model.decisiontree.node.CompositeNode;
+import model.decisiontree.node.Naming;
 
 import java.util.Optional;
 

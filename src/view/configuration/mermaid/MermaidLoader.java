@@ -1,6 +1,6 @@
 package view.configuration.mermaid;
 
-import model.decisiontree.Naming;
+import model.decisiontree.node.Naming;
 import view.NodeToken;
 import view.configuration.loader.Loader;
 

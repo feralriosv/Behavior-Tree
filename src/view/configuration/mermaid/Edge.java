@@ -1,6 +1,6 @@
 package view.configuration.mermaid;
 
-import model.decisiontree.Naming;
+import model.decisiontree.node.Naming;
 
 /**
  * Represents a directed edge in a Mermaid-style decision tree diagram.

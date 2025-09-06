@@ -1,6 +1,6 @@
 package view.fabric;
 
-import model.decisiontree.Naming;
+import model.decisiontree.node.Naming;
 
 /**
  * Exception thrown when a node with a specific naming and label cannot be created.

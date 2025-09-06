@@ -1,8 +1,8 @@
 package view.finder;
 
 import model.decisiontree.DecisionTree;
-import model.decisiontree.Naming;
-import model.decisiontree.Node;
+import model.decisiontree.node.Naming;
+import model.decisiontree.node.Node;
 
 /**
  * Helper class to find nodes by name in a decision tree.

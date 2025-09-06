@@ -19,6 +19,10 @@ public class Tile {
         this.tileType = tileType;
     }
 
+    public boolean isEmptyTile() {
+        return this.tileType == TileType.EMPTY;
+    }
+
     /**
      * Returns the type of this tile.
      *

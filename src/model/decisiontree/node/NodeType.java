@@ -1,6 +1,7 @@
-package model.decisiontree;
+package model.decisiontree.node;
 
 import model.GameContext;
+import model.decisiontree.TickState;
 
 /**
  * Strategy-bearing type for decision tree nodes.

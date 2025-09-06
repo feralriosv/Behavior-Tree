@@ -1,6 +1,8 @@
-package model.decisiontree;
+package model.decisiontree.node;
 
 import model.GameContext;
+import model.decisiontree.TickState;
+import model.ladybug.Vector2D;
 
 import java.util.Optional;
 
@@ -13,24 +15,34 @@ import java.util.Optional;
 public enum LeafType implements NodeType<LeafNode> {
 
     /** Action: Move forward one step if possible. */
-    MOVE("move", (context, self) -> LeafType.evaluate(context, self, context.move())),
+    MOVE("move", (context, self) -> evaluate(context, self, context.move())),
     /** Action: Turn left. */
-    TURN_LEFT("turnLeft", (context, self) -> LeafType.evaluate(context, self, context.turnLeft())),
+    TURN_LEFT("turnLeft", (context, self) -> evaluate(context, self, context.turnLeft())),
     /** Action: Turn right. */
-    TURN_RIGHT("turnRight", (context, self) -> LeafType.evaluate(context, self, context.turnRight())),
+    TURN_RIGHT("turnRight", (context, self) -> evaluate(context, self, context.turnRight())),
     /** Action: Attempt to take a leaf in front. */
-    TAKE_LEAF("takeLeaf", (context, self) -> LeafType.evaluate(context, self, context.takeLeaf())),
+    TAKE_LEAF("takeLeaf", (context, self) -> evaluate(context, self, context.takeLeaf())),
     /** Action: Place a leaf in front. */
-    PLACE_LEAF("placeLeaf", (context, self) -> LeafType.evaluate(context, self, context.placeLeaf())),
+    PLACE_LEAF("placeLeaf", (context, self) -> evaluate(context, self, context.placeLeaf())),
 
     /** Condition: Check if a tree is directly in front. */
-    TREE_FRONT("treeFront", (context, self) -> LeafType.evaluate(context, self, context.isTreeFront())),
+    TREE_FRONT("treeFront", (context, self) -> evaluate(context, self, context.isTreeFront())),
     /** Condition: Check if a leaf is directly in front. */
-    LEAF_FRONT("leafFront", (context, self) -> LeafType.evaluate(context, self, context.isLeafFront())),
+    LEAF_FRONT("leafFront", (context, self) -> evaluate(context, self, context.isLeafFront())),
     /** Condition: Check if a mushroom is directly in front. */
-    MUSHROOM_FRONT("mushroomFront", (context, self) -> LeafType.evaluate(context, self, context.isMushroomFront())),
+    MUSHROOM_FRONT("mushroomFront", (context, self) -> evaluate(context, self, context.isMushroomFront())),
     /** Condition: Check if the ladybug is at the edge of the board. */
-    AT_EDGE("atEdge", (context, self) -> LeafType.evaluate(context, self, context.isAtEdge()));
+    AT_EDGE("atEdge", (context, self) -> evaluate(context, self, context.isAtEdge())),
+    EXISTS_PATH("existsPath", (context, self) -> {
+        Vector2D start = self.getStart();
+        Vector2D goal  = self.getGoal();
+        boolean ok = (start != null)
+                ? context.existsPath(start, goal)
+                : context.existsPath(goal);
+        return evaluate(context, self, ok);
+    }),
+
+    FLY("fly", ((context, self) -> {return null;}));
 
     private final String label;
     private final NodeBehavior<LeafNode> strategy;
@@ -53,11 +65,9 @@ public enum LeafType implements NodeType<LeafNode> {
 
     private static TickState evaluate(GameContext context, LeafNode self, boolean actionResult) {
         TickState state = actionResult ? TickState.SUCCESS : TickState.FAILURE;
-
-        if (LeafType.isActionType(self.getNodeType())) {
+        if (isActionType(self.getNodeType())) {
             context.markAction();
         }
-
         return state;
     }
 

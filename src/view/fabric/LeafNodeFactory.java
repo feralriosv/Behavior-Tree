@@ -1,27 +1,29 @@
 package view.fabric;
 
-import model.decisiontree.LeafType;
-import model.decisiontree.LeafNode;
-import model.decisiontree.Naming;
+import model.decisiontree.node.LeafType;
+import model.decisiontree.node.LeafNode;
+import model.decisiontree.node.Naming;
+import model.ladybug.Vector2D;
 import view.configuration.loader.LoadCallBack;
-import view.configuration.loader.TreeLoader;
 
 import java.util.Optional;
 
 /**
  * Factory class responsible for creating {@link LeafNode} instances.
- * It parses labels into {@link LeafType}s and ensures that created action nodes are properly registered in the {@link TreeLoader}.
+ * It parses labels into {@link LeafType}s and notifies a {@link LoadCallBack} when action nodes are created.
  *
  * @author ubpst
  */
 public class LeafNodeFactory implements NodeFactory {
+
+    private static final String TOKEN_SEPARATOR = " ";
 
     private final LoadCallBack callBack;
 
     /**
      * Creates a new factory for leaf nodes using the given tree loader.
      *
-     * @param loader the loader used to track created nodes, especially actions
+     * @param loader callback used to track created nodes, especially actions
      */
     public LeafNodeFactory(LoadCallBack loader) {
         this.callBack = loader;
@@ -37,18 +39,84 @@ public class LeafNodeFactory implements NodeFactory {
     @Override
     public Optional<LeafNode> create(Naming naming, String label) {
         Optional<LeafType> leafOpt = LeafType.fromLine(label);
-        if (leafOpt.isPresent()) {
-            LeafNode leafNode = new LeafNode(naming, leafOpt.get());
-
-            if (this.callBack != null) {
-                if (LeafType.isActionType(leafNode.getNodeType())) {
-                    this.callBack.markCreatedAction();
-                }
-            }
-
-            return Optional.of(leafNode);
+        if (leafOpt.isEmpty()) {
+            return Optional.empty();
         }
 
-        return Optional.empty();
+        LeafType type = leafOpt.get();
+        LeafNode leafNode;
+
+        if (requiresParameters(type)) {
+            Vector2D[] parameters = extractParameters(label, type);
+            if (parameters == null) {
+                return Optional.empty();
+            }
+
+            if (parameters.length == 2) {
+                leafNode = new LeafNode(naming, type, parameters[0], parameters[1]);
+            } else if (parameters.length == 1) {
+                leafNode = new LeafNode(naming, type, parameters[0], null);
+            } else {
+                return Optional.empty();
+            }
+        } else {
+            leafNode = new LeafNode(naming, type, null, null);
+        }
+
+        if (this.callBack != null) {
+            if (LeafType.isActionType(leafNode.getNodeType())) {
+                this.callBack.markCreatedAction();
+            }
+        }
+
+        return Optional.of(leafNode);
+    }
+
+    private boolean requiresParameters(LeafType type) {
+        return type == LeafType.FLY || type == LeafType.EXISTS_PATH;
+    }
+
+    private Vector2D[] extractParameters(String label, LeafType type) {
+        return switch (type) {
+            case FLY -> parseFlyParameters(label);
+            case EXISTS_PATH -> parseExistsPathParameters(label);
+            default -> null;
+        };
+    }
+
+    private Vector2D[] parseExistsPathParameters(String label) {
+        String[] tokens = label.trim().split(TOKEN_SEPARATOR);
+        int[] coordinates = new int[4];
+
+        for (int i = 0; i < 4; i++) {
+            try {
+                coordinates[i] = Integer.parseInt(tokens[i + 1]);
+            } catch (NumberFormatException e) {
+                return null;
+            }
+        }
+
+        Vector2D[] vectors = new Vector2D[2];
+        for (int i = 0; i < 2; i++) {
+            vectors[i] = new Vector2D(coordinates[i * 2], coordinates[i * 2 + 1]);
+        }
+
+        return vectors;
+    }
+
+
+    private Vector2D[] parseFlyParameters(String label) {
+        String[] tokens = label.trim().split(TOKEN_SEPARATOR);
+
+        int xDimension;
+        int yDimension;
+        try {
+            xDimension = Integer.parseInt(tokens[1]);
+            yDimension = Integer.parseInt(tokens[2]);
+        } catch (NumberFormatException e) {
+            return null;
+        }
+
+        return new Vector2D[]{new Vector2D(xDimension, yDimension)};
     }
 }
