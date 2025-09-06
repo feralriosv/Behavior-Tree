@@ -59,6 +59,9 @@ public class CompositeNode extends Node<CompositeType> {
         }
     }
 
+    /**
+     * Sets the currently active child node for this composite.
+     */
     protected void activateNextChild() {
         getTree().setActiveNode(getChildren().get(this.localPointer));
     }
