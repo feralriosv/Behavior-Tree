@@ -69,7 +69,7 @@ public enum CompositeType implements NodeType<CompositeNode> {
             TickResult childResult = self.tickNextChild(context);
 
             if (context.wasActionExecuted()) {
-                return TickState.STAND_BY;
+                return TickState.WAITS_SUCCESS;
             }
 
             if (childResult.getState() == TickState.SUCCESS) {
@@ -85,16 +85,16 @@ public enum CompositeType implements NodeType<CompositeNode> {
     private static TickState runSequence(GameContext context, CompositeNode self) {
         int lastIndex = self.getChildren().size() - 1;
 
-        while (self.ticksUnCompleted() && self.getLastState() != TickState.STAND_BY) {
+        while (self.ticksUnCompleted() && self.getLastState() != TickState.WAITS_SUCCESS && self.getLastState() != TickState.WAITS_FAILURE) {
             TickResult childResult = self.tickNextChild(context);
 
             if (context.wasActionExecuted()) {
                 if (self.localPointer() == lastIndex && childResult.getState() == TickState.SUCCESS) {
-                    return TickState.STAND_BY;
+                    return TickState.WAITS_SUCCESS;
                 }
 
                 if (childResult.getState() == TickState.FAILURE) {
-                    return TickState.FAILURE;
+                    return TickState.WAITS_FAILURE;
                 }
 
                 if (childResult.getState() == TickState.SUCCESS) {
@@ -112,7 +112,11 @@ public enum CompositeType implements NodeType<CompositeNode> {
             self.advancePointer();
         }
 
-        return TickState.SUCCESS;
+        if (self.getLastState() == TickState.WAITS_FAILURE) {
+            return TickState.FAILURE;
+        } else {
+            return TickState.SUCCESS;
+        }
     }
 
     private static TickState runParallel(GameContext context, CompositeNode self) {

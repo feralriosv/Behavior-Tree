@@ -51,11 +51,11 @@ public class CompositeNode extends Node<CompositeType> {
 
         TickState state =  this.getNodeType().behavior(context, this);
 
-        if (state != TickState.ENTRY && state != TickState.STAND_BY) {
+        if (state != TickState.ENTRY && state != TickState.WAITS_SUCCESS && state != TickState.WAITS_FAILURE) {
             this.saveState(context, state);
             this.localPointer = 0;
-        } else if (state == TickState.STAND_BY) {
-            this.setLastState(TickState.STAND_BY);
+        } else if (state == TickState.WAITS_SUCCESS || state == TickState.WAITS_FAILURE) {
+            this.setLastState(state);
         }
     }
 
