@@ -127,19 +127,16 @@ public class Game {
      * @return true if the leaf was successfully placed, false otherwise
      */
     public boolean placeLeaf(LadyBug bug) {
-        if (!bug.isCarryingLeaf()) {
+        if (!board.isInside(bug.positionAhead())) {
             return false;
         }
-        Vector2D aheadPosition = frontOf(bug);
-        if (!board.isInside(aheadPosition)) {
-            return false;
-        }
-        Tile tile = board.tileAt(aheadPosition);
+
+        Tile tile = board.tileAt(bug.positionAhead());
         if (!TileType.EMPTY.matches(tile)) {
             return false;
         }
 
-        board.setTileAt(aheadPosition, new Tile(TileType.LEAF));
+        board.setTileAt(bug.positionAhead(), new Tile(TileType.LEAF));
         bug.setCarryingLeaf(false);
         return true;
     }

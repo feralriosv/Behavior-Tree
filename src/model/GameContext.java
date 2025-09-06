@@ -132,11 +132,9 @@ public class GameContext {
      * @return true if the ladybug moved successfully, false otherwise
      */
     public boolean move() {
-        Vector2D frontPos = location().sum(getLadybugFacing().delta());
-        return this.boardView.isInside(frontPos)
-                && !game.hasLadybugAt(frontPos)
+        return this.boardView.isInside(this.activeLadybug.positionAhead())
+                && !game.hasLadybugAt(this.activeLadybug.positionAhead())
                 && this.game.moveAhead(this.activeLadybug);
-
     }
 
     /**
