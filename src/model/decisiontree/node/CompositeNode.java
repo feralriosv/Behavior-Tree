@@ -125,6 +125,7 @@ public class CompositeNode extends Node<CompositeType> {
 
     @Override
     public void handleSkippedChildren(Node<?> target) {
+        getTree().setActiveNode(this);
         int resetLimit = getChildren().indexOf(target);
 
         CompositeType type = this.getNodeType();
