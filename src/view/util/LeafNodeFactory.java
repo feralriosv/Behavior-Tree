@@ -98,10 +98,9 @@ public class LeafNodeFactory implements NodeFactory {
         }
 
         Vector2D[] vectors = new Vector2D[2];
-        for (int i = 0; i < 2; i++) {
-            vectors[i] = new Vector2D(coordinates[i * 2], coordinates[i * 2 + 1]);
-        }
 
+        vectors[0] = new Vector2D(coordinates[1], coordinates[0]);
+        vectors[1] = new Vector2D(coordinates[3], coordinates[2]);
         return vectors;
     }
 
