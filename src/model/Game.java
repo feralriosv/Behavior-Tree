@@ -86,7 +86,7 @@ public class Game {
             }
 
             Tile pushToTile = board.tileAt(pushTo);
-            if (pushToTile.isEmptyTile()) {
+            if (!pushToTile.isEmptyTile()) {
                 return false;
             }
 
