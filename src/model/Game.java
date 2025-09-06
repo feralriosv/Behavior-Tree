@@ -116,7 +116,6 @@ public class Game {
         }
 
         board.setTileAt(aheadPosition, new Tile(TileType.EMPTY));
-        bug.setCarryingLeaf(true);
         return true;
     }
 
@@ -137,7 +136,6 @@ public class Game {
         }
 
         board.setTileAt(bug.positionAhead(), new Tile(TileType.LEAF));
-        bug.setCarryingLeaf(false);
         return true;
     }
 

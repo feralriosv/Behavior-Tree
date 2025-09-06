@@ -4,6 +4,8 @@ import model.decisiontree.node.LeafType;
 import model.decisiontree.node.LeafNode;
 import model.decisiontree.node.Naming;
 import model.util.Vector2D;
+import view.Arguments;
+import view.InvalidArgumentException;
 import view.configuration.loader.LoadCallBack;
 
 import java.util.Optional;
@@ -16,8 +18,8 @@ import java.util.Optional;
  */
 public class LeafNodeFactory implements NodeFactory {
 
-    private static final String LABEL_SEPARATOR = " ";
-    private static final String PARAMETER_SEPARATOR = "[,\\s]+";
+    private static final String LABEL_PARTS_SEPARATOR = " ";
+    private static final String VECTOR_SEPARATOR = "\\s*,\\s*";
 
     private final LoadCallBack callBack;
 
@@ -39,7 +41,9 @@ public class LeafNodeFactory implements NodeFactory {
 
     @Override
     public Optional<LeafNode> create(Naming naming, String label) {
-        Optional<LeafType> leafOpt = LeafType.fromLine(label.split(LABEL_SEPARATOR)[0]);
+        String[] parts = label.trim().split(LABEL_PARTS_SEPARATOR, 2);
+
+        Optional<LeafType> leafOpt = LeafType.fromLine(parts[0]);
         if (leafOpt.isEmpty()) {
             return Optional.empty();
         }
@@ -47,19 +51,15 @@ public class LeafNodeFactory implements NodeFactory {
         LeafType type = leafOpt.get();
         LeafNode leafNode;
 
-        if (requiresParameters(type)) {
-            Vector2D[] parameters = extractParameters(label, type);
-            if (parameters == null) {
+        if (requiresVectors(type)) {
+            Vector2D[] vectorsFound = extractVectors(parts[1]);
+            if (vectorsFound == null || vectorsFound.length == 0 || vectorsFound.length > 2) {
                 return Optional.empty();
             }
 
-            if (parameters.length == 2) {
-                leafNode = new LeafNode(naming, type, parameters[0], parameters[1]);
-            } else if (parameters.length == 1) {
-                leafNode = new LeafNode(naming, type, null, parameters[0]);
-            } else {
-                return Optional.empty();
-            }
+            leafNode = (vectorsFound.length == 2)
+                    ? new LeafNode(naming, type, vectorsFound[0], vectorsFound[1])
+                    : new LeafNode(naming, type, null, vectorsFound[0]);
         } else {
             leafNode = new LeafNode(naming, type);
         }
@@ -73,50 +73,17 @@ public class LeafNodeFactory implements NodeFactory {
         return Optional.of(leafNode);
     }
 
-    private boolean requiresParameters(LeafType type) {
+    private boolean requiresVectors(LeafType type) {
         return type == LeafType.FLY || type == LeafType.EXISTS_PATH;
     }
 
-    private Vector2D[] extractParameters(String label, LeafType type) {
-        return switch (type) {
-            case FLY -> parseFlyParameters(label);
-            case EXISTS_PATH -> parseExistsPathParameters(label);
-            default -> null;
-        };
-    }
+    private Vector2D[] extractVectors(String vectorArguments) {
+        Arguments argumentHolder = new Arguments(vectorArguments.split(VECTOR_SEPARATOR));
 
-    private Vector2D[] parseExistsPathParameters(String label) {
-        String[] tokens = label.trim().split(PARAMETER_SEPARATOR);
-        int[] coordinates = new int[4];
-
-        for (int i = 0; i < 4; i++) {
-            try {
-                coordinates[i] = Integer.parseInt(tokens[i + 1]) - 1;
-            } catch (NumberFormatException e) {
-                return null;
-            }
-        }
-
-        Vector2D[] vectors = new Vector2D[2];
-
-        vectors[0] = new Vector2D(coordinates[1], coordinates[0]);
-        vectors[1] = new Vector2D(coordinates[3], coordinates[2]);
-        return vectors;
-    }
-
-
-    private Vector2D[] parseFlyParameters(String label) {
-        String[] tokens = label.trim().split(PARAMETER_SEPARATOR);
-
-        int horizontal;
-        int vertical;
         try {
-            horizontal = Integer.parseInt(tokens[1]) - 1;
-            vertical = Integer.parseInt(tokens[2]) - 1;
-        } catch (NumberFormatException e) {
+            return argumentHolder.parseVectors();
+        } catch (InvalidArgumentException e) {
             return null;
         }
-
-        return new Vector2D[]{new Vector2D(vertical, horizontal)};
     }
 }

@@ -12,7 +12,6 @@ public class LadyBug {
     private final Identifier id;
     private Vector2D location;
     private Facing facing;
-    private boolean carryingLeaf;
 
     /**
      * Creates a new {@code LadyBug} with the given id, starting location, and facing direction.
@@ -25,16 +24,6 @@ public class LadyBug {
         this.id = id;
         this.location = location;
         this.facing = facing;
-        this.carryingLeaf = false;
-    }
-
-    /**
-     * Checks whether this ladybug is currently carrying a leaf.
-     *
-     * @return true if the ladybug is carrying a leaf, false otherwise
-     */
-    public boolean isCarryingLeaf() {
-        return this.carryingLeaf;
     }
 
     /**
@@ -100,15 +89,6 @@ public class LadyBug {
      */
     public void setFacing(Facing facing) {
         this.facing = facing;
-    }
-
-    /**
-     * Sets whether this ladybug is carrying a leaf.
-     *
-     * @param carryingLeaf true if the ladybug should carry a leaf, false otherwise
-     */
-    public void setCarryingLeaf(boolean carryingLeaf) {
-        this.carryingLeaf = carryingLeaf;
     }
 
     /**

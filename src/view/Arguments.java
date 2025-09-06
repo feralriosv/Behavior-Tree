@@ -2,6 +2,7 @@ package view;
 
 import model.decisiontree.node.Naming;
 import model.ladybug.Identifier;
+import model.util.Vector2D;
 import view.configuration.NodeToken;
 
 import java.nio.file.Path;
@@ -38,6 +39,34 @@ public class Arguments {
      */
     public boolean isExhausted() {
         return this.argumentIndex >= this.arguments.length;
+    }
+
+    /**
+     * Parses all remaining arguments as a sequence of 1-based board coordinates (x y),
+     * converting them into zero-based {@link Vector2D} instances.
+     *
+     * @return an array of parsed {@link Vector2D}
+     * @throws InvalidArgumentException if any coordinate pair is invalid
+     */
+    public Vector2D[] parseVectors() throws InvalidArgumentException {
+        List<Vector2D> vectors = new ArrayList<>();
+        while (!isExhausted()) {
+            vectors.add(parseVector());
+        }
+        return vectors.toArray(new Vector2D[0]);
+    }
+
+    /**
+     * Parses the next two arguments as a 1-based board coordinate (x y)
+     * and returns it as a zero-based {@link Vector2D}.
+     *
+     * @return the parsed {@link Vector2D}
+     * @throws InvalidArgumentException if fewer than two integers remain or format is invalid
+     */
+    private Vector2D parseVector() throws InvalidArgumentException {
+        int horizontal = parseInteger();
+        int vertical = parseInteger();
+        return new Vector2D(horizontal - 1, vertical - 1);
     }
 
     /**
