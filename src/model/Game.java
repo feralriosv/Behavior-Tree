@@ -185,7 +185,7 @@ public class Game {
      *         or {@code null} if the ladybug has no assigned tree
      */
     public Node<?> getBugActiveNode(LadyBug ladyBug) {
-        return bugsAndTrees.get(ladyBug).getActiveNode();
+        return this.bugsAndTrees.get(ladyBug).getActiveNode();
     }
 
     /**

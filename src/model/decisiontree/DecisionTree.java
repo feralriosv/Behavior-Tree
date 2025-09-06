@@ -88,7 +88,7 @@ public class DecisionTree {
      * @return the currently active {@link Node}, or {@code null} if no node has been activated yet
      */
     public Node<?> getActiveNode() {
-        return activeNode;
+        return this.activeNode;
     }
 
     /**

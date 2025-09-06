@@ -59,6 +59,10 @@ public class CompositeNode extends Node<CompositeType> {
         }
     }
 
+    protected void activateNextChild() {
+        getTree().setActiveNode(getChildren().get(this.localPointer));
+    }
+
     /**
      * Retrieves the current child node at the local pointer, executes its tick method,
      * and returns the resulting state and child node.
