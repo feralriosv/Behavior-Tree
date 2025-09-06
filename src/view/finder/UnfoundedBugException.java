@@ -9,7 +9,7 @@ import model.ladybug.Identifier;
  */
 public class UnfoundedBugException extends Exception {
 
-    private static final String UNFOUNDED_LADYBUG_MESSAGE = "LadyBug with identifier %d not found";
+    private static final String UNFOUNDED_LADYBUG_MESSAGE = "LadyBug with identifier %s not found";
 
     /**
      * Constructs a new UnfoundedBugException with a message indicating the ladybug identifier that was not found.
