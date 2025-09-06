@@ -56,7 +56,7 @@ public class LeafNodeFactory implements NodeFactory {
             if (parameters.length == 2) {
                 leafNode = new LeafNode(naming, type, parameters[0], parameters[1]);
             } else if (parameters.length == 1) {
-                leafNode = new LeafNode(naming, type, parameters[0], null);
+                leafNode = new LeafNode(naming, type, null, parameters[0]);
             } else {
                 return Optional.empty();
             }
@@ -91,7 +91,7 @@ public class LeafNodeFactory implements NodeFactory {
 
         for (int i = 0; i < 4; i++) {
             try {
-                coordinates[i] = Integer.parseInt(tokens[i + 1]);
+                coordinates[i] = Integer.parseInt(tokens[i + 1]) - 1;
             } catch (NumberFormatException e) {
                 return null;
             }
@@ -112,8 +112,8 @@ public class LeafNodeFactory implements NodeFactory {
         int xDimension;
         int yDimension;
         try {
-            xDimension = Integer.parseInt(tokens[1]);
-            yDimension = Integer.parseInt(tokens[2]);
+            xDimension = Integer.parseInt(tokens[1]) - 1;
+            yDimension = Integer.parseInt(tokens[2]) - 1;
         } catch (NumberFormatException e) {
             return null;
         }

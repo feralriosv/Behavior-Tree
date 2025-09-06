@@ -27,7 +27,7 @@ public enum LeafType implements NodeType<LeafNode> {
     /** Action: Teleports the ladybug to the specified target coordinates, ignoring any intermediate obstacles. */
     FLY("fly", ((context, self) -> {
         Vector2D goal = self.getGoal();
-        boolean ok = goal != null && context.fly(goal);
+        boolean ok = context.fly(goal);
         return evaluate(context, self, ok);
     })),
 

@@ -14,7 +14,6 @@ import java.util.Optional;
  */
 public class BoardLoader implements Loader<GameBoard> {
 
-    // ASCII border characters
     private static final String ASCII_CORNER = "+";
     private static final String ASCII_VERTICAL = "|";
 
