@@ -187,6 +187,12 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
         return this.lastState;
     }
 
+    /**
+     * Hook invoked when this node is being skipped by a jump-to operation.
+     */
+    protected void handleSkip() {
+    }
+
     @Override
     public abstract Iterator<Node<?>> iterator();
 }

@@ -136,11 +136,17 @@ public class CompositeNode extends Node<CompositeType> {
 
         for (int i = 0; i < resetLimit; i++) {
             Node<?> skipped = getChildren().get(i);
+            skipped.handleSkip();
             skipped.setLastState(implied);
         }
 
         this.localPointer = 0;
         setLastState(TickState.ENTRY);
+    }
+
+    @Override
+    protected void handleSkip() {
+        this.localPointer = 0;
     }
 
     @Override
