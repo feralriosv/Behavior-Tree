@@ -203,10 +203,7 @@ public class GameContext {
      * @return true if the ladybug was moved, false if the target is invalid or blocked
      */
     public boolean fly(Vector2D goal) {
-        if (!boardView.isInside(goal)) {
-            return false;
-        }
-        if (!boardView.tileAt(goal).isEmptyTile()) {
+        if (!boardView.isInside(goal) || !boardView.tileAt(goal).isEmptyTile() || game.hasLadybugAt(goal)) {
             return false;
         }
 
