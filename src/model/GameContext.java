@@ -135,8 +135,8 @@ public class GameContext {
         Vector2D frontPos = location().sum(getLadybugFacing().delta());
         return this.boardView.isInside(frontPos)
                 && this.boardView.tileAt(frontPos).isEmptyTile()
-                && !game.hasLadybugAt(frontPos)
-                && game.moveAhead(activeLadybug);
+                && !this.game.hasLadybugAt(frontPos)
+                && this.game.moveAhead(this.activeLadybug);
 
     }
 

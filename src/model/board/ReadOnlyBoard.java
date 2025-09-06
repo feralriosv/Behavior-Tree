@@ -40,4 +40,9 @@ public class ReadOnlyBoard implements BoardView {
     public boolean isInside(Vector2D location) {
         return this.delegate.isInside(location);
     }
+
+    @Override
+    public boolean isEmpty(Vector2D location) {
+        return delegate.isEmpty(location);
+    }
 }
