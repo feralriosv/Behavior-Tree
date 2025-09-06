@@ -1,8 +1,8 @@
 package view.fabric;
 
-import model.decisiontree.node.LeafType;
-import model.decisiontree.node.LeafNode;
-import model.decisiontree.node.Naming;
+import model.decisiontree.LeafType;
+import model.decisiontree.LeafNode;
+import model.decisiontree.Naming;
 import view.configuration.loader.LoadCallBack;
 import view.configuration.loader.TreeLoader;
 

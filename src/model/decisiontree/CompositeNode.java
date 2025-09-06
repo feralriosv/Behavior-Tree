@@ -1,8 +1,6 @@
-package model.decisiontree.node;
+package model.decisiontree;
 
 import model.GameContext;
-import model.decisiontree.TickResult;
-import model.decisiontree.TickState;
 
 import java.util.Iterator;
 
@@ -125,7 +123,7 @@ public class CompositeNode extends Node<CompositeType> {
 
     @Override
     public void handleSkippedChildren(Node<?> target) {
-        getTree().setActiveNode(this);
+        getTree().setActiveNode(target);
         int resetLimit = getChildren().indexOf(target);
 
         CompositeType type = this.getNodeType();

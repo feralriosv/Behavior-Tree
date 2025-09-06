@@ -1,7 +1,7 @@
 package view.fabric;
 
-import model.decisiontree.node.Naming;
-import model.decisiontree.node.Node;
+import model.decisiontree.Naming;
+import model.decisiontree.Node;
 import view.configuration.loader.LoadCallBack;
 import view.configuration.loader.LoadingException;
 

@@ -1,6 +1,6 @@
 package view.finder;
 
-import model.decisiontree.node.Naming;
+import model.decisiontree.Naming;
 
 /**
  * Exception thrown when a node cannot be found in a ladybug's decision tree.

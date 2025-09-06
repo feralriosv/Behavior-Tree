@@ -1,4 +1,4 @@
-package model.decisiontree.node;
+package model.decisiontree;
 
 import java.util.Objects;
 

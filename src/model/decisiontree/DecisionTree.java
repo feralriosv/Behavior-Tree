@@ -1,8 +1,6 @@
 package model.decisiontree;
 
 import model.GameContext;
-import model.decisiontree.node.Naming;
-import model.decisiontree.node.Node;
 import model.ladybug.LadyBug;
 
 import java.util.HashMap;

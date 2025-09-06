@@ -1,8 +1,8 @@
 package view.configuration.mermaid;
 
 import model.decisiontree.DecisionTree;
-import model.decisiontree.node.Naming;
-import model.decisiontree.node.Node;
+import model.decisiontree.Naming;
+import model.decisiontree.Node;
 import view.fabric.NodeCreationException;
 import view.fabric.NodeFabric;
 import view.configuration.loader.LoadCallBack;

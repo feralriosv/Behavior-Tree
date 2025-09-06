@@ -4,7 +4,7 @@ import model.board.GameBoard;
 import model.board.Tile;
 import model.board.TileType;
 import model.decisiontree.DecisionTree;
-import model.decisiontree.node.Node;
+import model.decisiontree.Node;
 import model.ladybug.LadyBug;
 import model.ladybug.Identifier;
 import model.ladybug.Vector2D;

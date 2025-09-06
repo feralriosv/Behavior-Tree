@@ -1,8 +1,6 @@
-package model.decisiontree.node;
+package model.decisiontree;
 
 import model.GameContext;
-import model.decisiontree.TickResult;
-import model.decisiontree.TickState;
 
 import java.util.List;
 import java.util.Objects;

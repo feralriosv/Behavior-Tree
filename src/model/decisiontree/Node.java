@@ -1,9 +1,6 @@
-package model.decisiontree.node;
+package model.decisiontree;
 
 import model.GameContext;
-import model.decisiontree.DecisionTree;
-import model.decisiontree.TickResult;
-import model.decisiontree.TickState;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -147,7 +144,7 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
      *
      * @param parent the parent node to set
      */
-    public void setParent(Node<?> parent) {
+    protected void setParent(Node<?> parent) {
         this.parent = parent;
     }
 
@@ -156,7 +153,7 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
      *
      * @return the {@link DecisionTree} this node is part of, or {@code null} if unassigned
      */
-    public DecisionTree getTree() {
+    protected DecisionTree getTree() {
         return this.tree;
     }
 
@@ -165,7 +162,7 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
      *
      * @param tree the decision tree to set
      */
-    public void setTree(DecisionTree tree) {
+    protected void setTree(DecisionTree tree) {
         this.tree = tree;
     }
 

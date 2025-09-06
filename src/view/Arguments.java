@@ -1,6 +1,6 @@
 package view;
 
-import model.decisiontree.node.Naming;
+import model.decisiontree.Naming;
 import model.ladybug.Identifier;
 
 import java.nio.file.Path;

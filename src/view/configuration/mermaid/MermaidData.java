@@ -1,6 +1,6 @@
 package view.configuration.mermaid;
 
-import model.decisiontree.node.Naming;
+import model.decisiontree.Naming;
 
 import java.util.Collections;
 import java.util.List;
