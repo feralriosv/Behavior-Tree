@@ -140,7 +140,7 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
         return this.gameBoard != null;
     }
 
-    public boolean isCompleted() {
+    private boolean isCompleted() {
         return this.gameBoard != null
                 && this.registeredBugs != null
                 && this.trees != null
