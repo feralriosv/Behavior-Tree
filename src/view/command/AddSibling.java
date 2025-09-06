@@ -16,7 +16,7 @@ import view.Command;
 import view.util.NodeCreationException;
 import view.util.NodeFabric;
 import view.Result;
-import view.NodeToken;
+import view.configuration.NodeToken;
 
 /**
  * Command implementation that allows adding a new sibling configuration

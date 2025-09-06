@@ -1,4 +1,4 @@
-package view;
+package view.configuration;
 
 import java.util.Optional;
 

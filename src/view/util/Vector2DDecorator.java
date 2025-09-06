@@ -11,7 +11,7 @@ import model.util.Vector2D;
 public class Vector2DDecorator {
 
     private static final String FORMAT_CSV = "%d,%d";
-    private static final String FORMAT_TUPLE = "(%d,%d)";
+    private static final String FORMAT_TUPLE = "(%d, %d)";
 
     private final Vector2D vector2D;
 

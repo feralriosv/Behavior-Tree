@@ -2,6 +2,7 @@ package view;
 
 import model.decisiontree.node.Naming;
 import model.ladybug.Identifier;
+import view.configuration.NodeToken;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
