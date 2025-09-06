@@ -51,11 +51,11 @@ public class CompositeNode extends Node<CompositeType> {
 
         TickState state =  this.getNodeType().behavior(context, this);
 
-        if (state != TickState.ENTRY && state != TickState.WAITS_SUCCESS && state != TickState.WAITS_FAILURE) {
+        if (state != TickState.ENTRY && state != TickState.STAND_BY) {
             this.saveState(context, state);
             this.localPointer = 0;
-        } else if (state == TickState.WAITS_SUCCESS || state == TickState.WAITS_FAILURE) {
-            this.setLastState(state);
+        } else if (state == TickState.STAND_BY) {
+            this.setLastState(TickState.STAND_BY);
         }
     }
 
@@ -91,18 +91,6 @@ public class CompositeNode extends Node<CompositeType> {
         this.setLastState(TickState.ENTRY);
         this.localPointer = index;
         return true;
-    }
-
-    /**
-     * Checks whether the given node is currently in a waiting state or if it is ready to produce a definitive result.
-     *
-     * @param self the node to check for a waiting state
-     * @return {@code true} if the node is still waiting for a result
-     *         {@code false} if it is ready to produce a definitive result
-     */
-    protected boolean waitsResult() {
-        return this.getLastState() != TickState.WAITS_SUCCESS
-                && this.getLastState() != TickState.WAITS_FAILURE;
     }
 
     /**

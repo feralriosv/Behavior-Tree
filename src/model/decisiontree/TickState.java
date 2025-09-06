@@ -12,8 +12,6 @@ public enum TickState {
     FAILURE,
     /** Marks the entry point of a tick before execution begins. */
     ENTRY,
-    /** Used internally by composite nodes when it should only emit the SUCCESS on the next tick cycle. */
-    WAITS_SUCCESS,
-    /** Used internally by composite nodes when it should only emit the FAILURE on the next tick cycle. */
-    WAITS_FAILURE;
+    /** Indicates that the node is idle or waiting, without producing a definitive result yet. */
+    STAND_BY
 }
