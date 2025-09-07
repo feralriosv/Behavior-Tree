@@ -88,26 +88,9 @@ public class CompositeNode extends Node<CompositeType> {
         child.setParent(this);
         super.insertChildAt(index, child);
 
-        this.invalidateUpwardsFrom(index);
+        this.setLastState(TickState.ENTRY);
+        this.localPointer = index;
         return true;
-    }
-
-    @Override
-    public void invalidateUpwardsFrom(int pointerForThis) {
-        this.localPointer = pointerForThis;
-        this.setLastState(TickState.ENTRY);
-
-        Node<?> node = this.getParent();
-        while (node != null) {
-            node.resetNode();
-            node = node.getParent();
-        }
-    }
-
-    @Override
-    protected void resetNode() {
-        this.handleSkip();
-        this.setLastState(TickState.ENTRY);
     }
 
     /**
