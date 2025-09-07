@@ -94,7 +94,7 @@ public enum CompositeType implements NodeType<CompositeNode> {
         int lastIndex = self.getChildren().size() - 1;
 
         if (self.getLastState() == TickState.WAITS_SUCCESS) {
-            return TickState.SUCCESS
+            return TickState.SUCCESS;
         }
 
         while (self.ticksUnCompleted()) {
