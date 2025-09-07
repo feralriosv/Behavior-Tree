@@ -70,7 +70,7 @@ public class AddSibling implements Command<Game> {
         Node<?> newSibling;
 
         try {
-            newSibling = fabric.createNode(nodeNaming, nodeToken.label());
+            newSibling = fabric.createNode(new Naming(nodeToken.name()), nodeToken.label());
         } catch (NodeCreationException e) {
             return Result.error(e.getMessage());
         }
