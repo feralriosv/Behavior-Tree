@@ -28,14 +28,29 @@ public class ConsoleIORessources {
         this.errorStream = errorStream;
     }
 
+    /**
+     * Returns the default output stream associated with this I/O resource.
+     *
+     * @return the {@link PrintStream} used for standard output
+     */
     public PrintStream getDefaultStream() {
         return this.defaultStream;
     }
 
+    /**
+     * Returns the error output stream associated with this I/O resource.
+     *
+     * @return the {@link PrintStream} used for error output
+     */
     public PrintStream getErrorStream() {
         return this.errorStream;
     }
 
+    /**
+     * Returns the input source associated with this I/O resource.
+     *
+     * @return the {@link Scanner} used for reading input
+     */
     public Scanner getInputSource() {
         return this.inputSource;
     }
