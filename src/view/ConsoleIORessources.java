@@ -29,17 +29,17 @@ public class ConsoleIORessources implements IORessources {
     }
 
     @Override
-    public PrintStream defaultStream() {
+    public PrintStream getDefaultStream() {
         return this.defaultStream;
     }
 
     @Override
-    public PrintStream errorStream() {
+    public PrintStream getErrorStream() {
         return this.errorStream;
     }
 
     @Override
-    public Scanner inputSource() {
+    public Scanner getInputSource() {
         return this.scanner;
     }
 }

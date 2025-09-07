@@ -15,19 +15,19 @@ public interface IORessources {
      *
      * @return the {@link Scanner} instance for user input
      */
-    Scanner inputSource();
+    Scanner getInputSource();
 
     /**
      * Returns the default output stream.
      *
      * @return the {@link PrintStream} used for standard output
      */
-    PrintStream defaultStream();
+    PrintStream getDefaultStream();
 
     /**
      * Returns the error output stream.
      *
      * @return the {@link PrintStream} used for error output
      */
-    PrintStream errorStream();
+    PrintStream getErrorStream();
 }

@@ -81,8 +81,8 @@ public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
      * @see Scanner#hasNextLine()
      */
     protected void handleUserInput() {
-        if (this.running && this.ioRessources.inputSource().hasNextLine()) {
-            handleLine(this.ioRessources.inputSource().nextLine());
+        if (this.running && this.ioRessources.getInputSource().hasNextLine()) {
+            handleLine(this.ioRessources.getInputSource().nextLine());
         }
     }
 
@@ -133,8 +133,8 @@ public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
         }
 
         PrintStream outputStream = switch (result.getType()) {
-            case SUCCESS -> this.ioRessources.defaultStream();
-            case FAILURE -> this.ioRessources.errorStream();
+            case SUCCESS -> this.ioRessources.getDefaultStream();
+            case FAILURE -> this.ioRessources.getErrorStream();
         };
         outputStream.println((result.getType().equals(ResultType.FAILURE) ? ERROR_PREFIX : "") + result.getMessage());
     }
@@ -154,7 +154,7 @@ public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
      * @param message the message to print
      */
     public void printOnDefault(String message) {
-        this.ioRessources.defaultStream().println(message);
+        this.ioRessources.getDefaultStream().println(message);
     }
 
     /**
@@ -174,6 +174,6 @@ public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
      * @param errorMessage the error message to print
      */
     private void printError(String errorMessage) {
-        this.ioRessources.errorStream().println(ERROR_PREFIX + errorMessage);
+        this.ioRessources.getErrorStream().println(ERROR_PREFIX + errorMessage);
     }
 }

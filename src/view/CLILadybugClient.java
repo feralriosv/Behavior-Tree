@@ -30,7 +30,7 @@ public class CLILadybugClient implements GameClient, AutoCloseable {
      *                     used to read user commands and print messages
      */
     public CLILadybugClient(IORessources ioRessources) {
-        this.scanner = ioRessources.inputSource();
+        this.scanner = ioRessources.getInputSource();
         this.executer = new CommandExecuter<>(ioRessources, ModelKeyword.class);
     }
 
