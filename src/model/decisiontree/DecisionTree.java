@@ -112,18 +112,11 @@ public class DecisionTree {
 
     /**
      * Returns the node that was last active at the end of the previous tick cycle.
+     *
+     * @return the last ticked node
      */
     public Node<?> getLastTicked() {
         return this.lastTicked;
-    }
-
-    /**
-     * Sets the node that should be considered as last ticked. Useful after structural edits.
-     *
-     * @param the last node ticked to be set
-     */
-    public void setLastTicked(Node<?> node) {
-        this.lastTicked = node;
     }
 
     /**
