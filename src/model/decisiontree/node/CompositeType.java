@@ -64,15 +64,30 @@ public enum CompositeType implements NodeType<CompositeNode> {
     }
 
     private static TickState runFallback(GameContext context, CompositeNode self) {
+        int lastIndex = self.getChildren().size() - 1;
+
         while (self.ticksUnCompleted()) {
             TickResult childResult = self.tickNextChild(context);
 
-            if (childResult.getState() == TickState.SUCCESS) {
-                return TickState.SUCCESS;
+            if (context.wasActionExecuted()) {
+                if (self.localPointer() == lastIndex && childResult.getState() == TickState.SUCCESS) {
+                    return TickState.WAITS_SUCCESS;
+                }
+
+                if (childResult.getState() == TickState.SUCCESS) {
+                    return TickState.SUCCESS;
+                }
+
+                if (childResult.getState() == TickState.FAILURE) {
+                    self.advancePointer();
+                    self.activateNextChild();
+                }
+
+                return TickState.ENTRY;
             }
 
-            if (context.wasActionExecuted()) {
-                return TickState.WAITS_SUCCESS;
+            if (childResult.getState() == TickState.SUCCESS) {
+                return TickState.SUCCESS;
             }
 
             self.advancePointer();
