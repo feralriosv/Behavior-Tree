@@ -97,7 +97,7 @@ public class CompositeNode extends Node<CompositeType> {
      * Advances the local pointer to the next child if there are remaining children.
      */
     protected void advancePointer() {
-        if (this.localPointer < getChildren().size() - 1) {
+        if (this.localPointer < getChildren().size()) {
             this.localPointer++;
         }
     }
@@ -117,8 +117,8 @@ public class CompositeNode extends Node<CompositeType> {
      * @return {@code true} if not all children have been processed yet,
      *         {@code false} if the pointer has reached or exceeded the number of children
      */
-    protected boolean ticksCompleted() {
-        return this.localPointer >= getChildren().size() - 1;
+    protected boolean ticksUnCompleted() {
+        return this.localPointer < getChildren().size();
     }
 
     /**
