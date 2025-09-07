@@ -49,7 +49,7 @@ public class CompositeNode extends Node<CompositeType> {
             saveState(context, TickState.ENTRY);
         }
 
-        TickState state =  this.getNodeType().behavior(context, this);
+        TickState state = this.getNodeType().behavior(context, this);
 
         if (state != TickState.ENTRY && state != TickState.STAND_BY) {
             this.saveState(context, state);

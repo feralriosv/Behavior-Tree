@@ -1,6 +1,7 @@
 package model.decisiontree;
 
 import model.GameContext;
+import model.decisiontree.node.CompositeType;
 import model.decisiontree.node.Naming;
 import model.decisiontree.node.Node;
 import model.ladybug.LadyBug;
@@ -36,6 +37,28 @@ public class DecisionTree {
         this.nodeIndex = null;
         this.rootNode = null;
         this.activeNode = null;
+    }
+
+    /**
+     * Attempts to insert a new sibling node immediately after a given target node in the decision tree.
+     *
+     * @param targetNode the node after which the new sibling should be inserted
+     * @param newSibling the node to insert as a sibling
+     * @return {@code true} if the sibling was successfully inserted; {@code false} otherwise
+     */
+    public boolean addSibling(Node<?> targetNode, Node<?> newSibling) {
+        if (targetNode.isRoot() || this.containsNode(newSibling.getNaming())) {
+            return false;
+        }
+
+        Node<?> parent = targetNode.getParent();
+        if (!(CompositeType.isCompositeType(parent.getNodeType()))) {
+            return false;
+        }
+
+        int indexOfTarget = parent.getChildren().indexOf(targetNode);
+        parent.insertChildAt(indexOfTarget + 1, newSibling);
+        return true;
     }
 
     /**
@@ -109,13 +132,7 @@ public class DecisionTree {
         return nodeIndex.get(naming);
     }
 
-    /**
-     * Checks whether a node with the specified {@link Naming} exists in this decision tree.
-     *
-     * @param naming the {@link Naming} identifier of the node to check for
-     * @return {@code true} if a node with the given naming exists in this tree; {@code false} otherwise
-     */
-    public boolean containsNode(Naming naming) {
+    private boolean containsNode(Naming naming) {
         return nodeIndex.containsKey(naming);
     }
 

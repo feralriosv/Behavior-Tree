@@ -3,7 +3,6 @@ package view.command;
 
 import model.Game;
 import model.decisiontree.DecisionTree;
-import model.decisiontree.node.CompositeType;
 import model.decisiontree.node.Naming;
 import model.decisiontree.node.Node;
 import model.util.BugFinder;
@@ -26,8 +25,7 @@ import view.configuration.NodeToken;
  */
 public class AddSibling implements Command<Game> {
 
-    private static final String ERROR_NODE_ALREADY_EXISTS = "node with naming %s already exists";
-    private static final String ERROR_PARENT_ROOT_NODE =  "cannot add sibling to root node %s";
+    private static final String ERROR_SIBLING_NOT_ADDED = "node %s could not be added";
 
     private final Identifier identifier;
     private final Naming nodeNaming;
@@ -61,44 +59,24 @@ public class AddSibling implements Command<Game> {
         DecisionTree decisionTree = handle.getBugDecisionTree(ladyBug);
         NodeFinder nodeFinder = new NodeFinder(decisionTree);
 
-        Node<?> targetNode;
+        Node<?> treeNode;
         try {
-            targetNode = nodeFinder.findByName(this.nodeNaming);
+            treeNode = nodeFinder.findByName(this.nodeNaming);
         } catch (UnfoundedNodeException e) {
             return Result.error(e.getMessage());
         }
 
-        if (targetNode.isRoot()) {
-            return Result.error(ERROR_PARENT_ROOT_NODE.formatted(targetNode.getNaming()));
-        }
-
-        Node<?> parent = targetNode.getParent();
-        if (!(CompositeType.isCompositeType(parent.getNodeType()))) {
-            return Result.error("parent of %s is not composite; cannot add sibling"
-                    .formatted(targetNode.getNaming()));
-        }
-
-        int indexOfTarget = parent.getChildren().indexOf(targetNode);
-
-        String label = this.nodeToken.label();
-        Naming nodeName = new Naming(this.nodeToken.name());
-
-        if (decisionTree.containsNode(nodeName)) {
-            return Result.error(ERROR_NODE_ALREADY_EXISTS);
-        }
-
         NodeFabric fabric = new NodeFabric();
-        Node<?> node;
+        Node<?> newSibling;
 
         try {
-            node = fabric.createNode(nodeName, label);
+            newSibling = fabric.createNode(nodeNaming, nodeToken.label());
         } catch (NodeCreationException e) {
             return Result.error(e.getMessage());
         }
 
-        boolean ok = parent.insertChildAt(indexOfTarget + 1, node);
-        if (!ok) {
-            return Result.error("could not insert sibling after %s".formatted(targetNode.getNaming().value()));
+        if (!decisionTree.addSibling(treeNode, newSibling)) {
+            return Result.error(ERROR_SIBLING_NOT_ADDED.formatted(nodeToken.toString()));
         }
 
         return Result.success();
