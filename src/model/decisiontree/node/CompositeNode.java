@@ -45,15 +45,15 @@ public class CompositeNode extends Node<CompositeType> {
     public void tick(GameContext context) {
         super.tick(context);
 
-        if (this.localPointer() == 0 && this.getLastState() != TickState.ENTRY && this.getLastState() != TickState.STAND_BY) {
+        if (this.localPointer() == 0 && this.getLastState() != TickState.ENTRY && this.getLastState() != TickState.WAITS_SUCCESS) {
             saveState(context, TickState.ENTRY);
             this.setLastState(TickState.ENTRY);
         }
 
         TickState state = this.getNodeType().behavior(context, this);
 
-        if (state == TickState.STAND_BY) {
-            this.setLastState(TickState.STAND_BY);
+        if (state == TickState.WAITS_SUCCESS) {
+            this.setLastState(TickState.WAITS_SUCCESS);
             return;
         }
 
