@@ -149,6 +149,7 @@ public class CompositeNode extends Node<CompositeType> {
             skipped.setLastState(implied);
         }
 
+        this.setLastState(TickState.ENTRY);
         this.localPointer = resetLimit;
     }
 
