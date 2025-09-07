@@ -83,23 +83,17 @@ public enum CompositeType implements NodeType<CompositeNode> {
     }
 
     private static TickState runSequence(GameContext context, CompositeNode self) {
-        int lastIndex = self.getChildren().size() - 1;
-
         while (self.ticksUnCompleted() && self.getLastState() != TickState.SUCCESS && self.getLastState() != TickState.FAILURE) {
             TickResult childResult = self.tickNextChild(context);
 
             if (context.wasActionExecuted()) {
                 if (childResult.getState() == TickState.SUCCESS) {
-                    return TickState.WAITS_SUCCES;
+                    self.advancePointer();
+                    self.activateNextChild();
                 }
 
                 if (childResult.getState() == TickState.FAILURE) {
                     return TickState.WAITS_FAILURE;
-                }
-
-                if (childResult.getState() == TickState.SUCCESS) {
-                    self.advancePointer();
-                    self.activateNextChild();
                 }
 
                 return TickState.ENTRY;
