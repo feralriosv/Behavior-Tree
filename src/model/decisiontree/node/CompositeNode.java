@@ -51,13 +51,11 @@ public class CompositeNode extends Node<CompositeType> {
 
         TickState state =  this.getNodeType().behavior(context, this);
 
-        if (state != TickState.ENTRY && state != TickState.WAITS_SUCCES && state != TickState.WAITS_FAILURE) {
+        if (state != TickState.ENTRY && state != TickState.STAND_BY) {
             this.saveState(context, state);
             this.localPointer = 0;
-        } else if (state == TickState.WAITS_SUCCES) {
-            this.setLastState(TickState.SUCCESS);
-        } else if (state == TickState.WAITS_FAILURE) {
-            this.setLastState(TickState.FAILURE);
+        } else if (state == TickState.STAND_BY) {
+            this.setLastState(TickState.STAND_BY);
         }
     }
 
@@ -99,7 +97,7 @@ public class CompositeNode extends Node<CompositeType> {
      * Advances the local pointer to the next child if there are remaining children.
      */
     protected void advancePointer() {
-        if (this.localPointer < getChildren().size() - 1) {
+        if (this.localPointer < getChildren().size()) {
             this.localPointer++;
         }
     }
