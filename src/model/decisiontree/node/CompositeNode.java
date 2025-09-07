@@ -46,7 +46,7 @@ public class CompositeNode extends Node<CompositeType> {
         Node<?> prevActive = getTree().getLastTicked();
         super.tick(context);
 
-        if (prevActive != this) {
+        if (prevActive != this && this.getLastState() != TickState.ENTRY) {
             saveState(context, TickState.ENTRY);
             this.setLastState(TickState.ENTRY);
         }
