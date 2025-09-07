@@ -107,7 +107,21 @@ public class DecisionTree {
      */
     public void resetTree() {
         this.activeNode = this.rootNode;
+        this.resetSubtree(this.rootNode);
         this.lastTicked = null;
+    }
+
+    /**
+     * Recursively resets a subtree by invoking {@code resetNode()} on each node.
+     */
+    private void resetSubtree(Node<?> node) {
+        if (node == null) {
+            return;
+        }
+        node.handleReset();
+        for (Node<?> child : node.getChildren()) {
+            resetSubtree(child);
+        }
     }
 
     /**

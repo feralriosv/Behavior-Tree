@@ -93,7 +93,7 @@ public class LeafNode extends Node<LeafType> {
     }
 
     @Override
-    protected void handleSkip() {
+    public void handleReset() {
 
     }
 

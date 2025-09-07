@@ -145,7 +145,7 @@ public class CompositeNode extends Node<CompositeType> {
 
         for (int i = 0; i < resetLimit; i++) {
             Node<?> skipped = getChildren().get(i);
-            skipped.handleSkip();
+            skipped.handleReset();
             skipped.setLastState(implied);
         }
 
@@ -153,7 +153,8 @@ public class CompositeNode extends Node<CompositeType> {
     }
 
     @Override
-    protected void handleSkip() {
+    public void handleReset() {
+        this.setLastState(null);
         this.localPointer = 0;
     }
 
