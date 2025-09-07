@@ -13,5 +13,5 @@ public enum TickState {
     /** Marks the entry point of a tick before execution begins. */
     ENTRY,
     /** Indicates that the node is idle or waiting, without producing a definitive result yet. */
-    WAITS_SUCCESS
+    STAND_BY
 }
