@@ -88,8 +88,8 @@ public class LeafNode extends Node<LeafType> {
     }
 
     @Override
-    public boolean insertChildAt(int index, Node<?> child) {
-        return false;
+    public void insertChildAt(int index, Node<?> child) {
+
     }
 
     @Override
