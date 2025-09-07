@@ -4,10 +4,7 @@ import model.Game;
 import model.GameClient;
 import view.command.ModelKeyword;
 
-import java.io.InputStream;
-import java.io.PrintStream;
 import java.util.Scanner;
-
 
 /**
  * Command-line interface client for the Ladybug game.
@@ -22,7 +19,6 @@ import java.util.Scanner;
 
 public class CLILadybugClient implements GameClient, AutoCloseable {
 
-    private final PrintStream defaultStream;
     private final CommandExecuter<Game, ?> executer;
     private final Scanner scanner;
     private boolean wasQuit = false;
@@ -30,20 +26,18 @@ public class CLILadybugClient implements GameClient, AutoCloseable {
     /**
      * Constructs a new CLI client for the Ladybug game.
      *
-     * @param inputSource the input stream from which user commands are read
-     * @param defaultOutputStream the stream for normal command output
-     * @param errorStream the stream for error messages
+     * @param ioRessources abstraction that provides the input source and output streams
+     *                     used to read user commands and print messages
      */
-    public CLILadybugClient(InputStream inputSource, PrintStream defaultOutputStream, PrintStream errorStream) {
-        this.scanner = new Scanner(inputSource);
-        this.defaultStream = defaultOutputStream;
-        this.executer = new CommandExecuter<>(this.scanner, defaultOutputStream, errorStream, ModelKeyword.class);
+    public CLILadybugClient(IORessources ioRessources) {
+        this.scanner = ioRessources.inputSource();
+        this.executer = new CommandExecuter<>(ioRessources, ModelKeyword.class);
     }
 
 
     @Override
     public Game createGame() {
-        return new GameFactory(this.executer).createGame();
+        return new GameFactory(this.executer.getIoRessources()).createGame();
     }
 
     @Override

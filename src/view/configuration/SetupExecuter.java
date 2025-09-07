@@ -4,6 +4,7 @@ import model.ladybug.LadyBug;
 import model.board.GameBoard;
 import model.decisiontree.DecisionTree;
 import view.CommandExecuter;
+import view.IORessources;
 import view.Keyword;
 import view.Result;
 import view.command.SetupKeyword;
@@ -32,7 +33,7 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
     private List<LadyBug> registeredBugs;
     private List<DecisionTree> trees;
 
-    private SetupExecuter(CommandExecuter<?, ?> ioRessources, Class<K> keywordClass) {
+    private SetupExecuter(IORessources ioRessources, Class<K> keywordClass) {
         super(ioRessources, keywordClass);
         setModel(this);
     }
@@ -118,7 +119,7 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
      *
      * @return a new setup instance
      */
-    public static SetupExecuter<Configuration, SetupKeyword> createSetup(CommandExecuter<?, ?> ioRessources) {
+    public static SetupExecuter<Configuration, SetupKeyword> createSetup(IORessources ioRessources) {
         return new SetupExecuter<>(ioRessources, SetupKeyword.class);
     }
 

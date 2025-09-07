@@ -3,6 +3,8 @@ package program;
 import model.GameRunner;
 import view.Arguments;
 import view.CLILadybugClient;
+import view.ConsoleIORessources;
+import view.IORessources;
 
 /**
  * The class offering the entry point for the application.
@@ -31,7 +33,9 @@ public final class KaraTrees {
             return;
         }
 
-        try (CLILadybugClient client = new CLILadybugClient(System.in, System.out, System.err)) {
+        IORessources ioRessources = new ConsoleIORessources(System.in, System.out, System.err);
+
+        try (CLILadybugClient client = new CLILadybugClient(ioRessources)) {
             GameRunner runner = new GameRunner(client);
             runner.start();
         }

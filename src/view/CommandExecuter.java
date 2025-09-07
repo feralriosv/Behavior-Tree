@@ -34,36 +34,20 @@ public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
 
     private final Set<? extends Keyword<M>> modelKeywords;
     private final Set<ViewKeyword> viewKeywords = EnumSet.allOf(ViewKeyword.class);
-    private final Scanner scanner;
-    private final PrintStream defaultStream;
-    private final PrintStream errorStream;
+    private final IORessources ioRessources;
     private M model;
     private boolean running;
 
     /**
      * Constructs a new command executer using the provided input source and output streams when interacting.
      *
-     * @param inputSource the input source used to retrieve the user input
-     * @param defaultOutputStream the stream used to print the default output
-     * @param errorStream the stream used to print the error output
+     * @param ioRessources
      * @param keywordClass the class of the command provider to look up possible commands
      */
-    public CommandExecuter(Scanner inputSource, PrintStream defaultOutputStream, PrintStream errorStream, Class<K> keywordClass) {
-        this.scanner = inputSource;
-        this.defaultStream = defaultOutputStream;
-        this.errorStream = errorStream;
+    public CommandExecuter(IORessources ioRessources, Class<K> keywordClass) {
+        this.ioRessources = ioRessources;
         this.modelKeywords = EnumSet.allOf(keywordClass);
         this.running = true;
-    }
-
-    /**
-     * Constructs a new command executer using the same input and output ressources as the provided one.
-     *
-     * @param ioRessources another executer to retrieve input and output ressources from
-     * @param keywordClass the class of the command provider to look up possible commands
-     */
-    public CommandExecuter(CommandExecuter<?, ?> ioRessources, Class<K> keywordClass) {
-        this(ioRessources.scanner, ioRessources.defaultStream, ioRessources.errorStream, keywordClass);
     }
 
     /**
@@ -97,8 +81,8 @@ public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
      * @see Scanner#hasNextLine()
      */
     protected void handleUserInput() {
-        if (this.running && this.scanner.hasNextLine()) {
-            handleLine(this.scanner.nextLine());
+        if (this.running && this.ioRessources.inputSource().hasNextLine()) {
+            handleLine(this.ioRessources.inputSource().nextLine());
         }
     }
 
@@ -149,8 +133,8 @@ public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
         }
 
         PrintStream outputStream = switch (result.getType()) {
-            case SUCCESS -> this.defaultStream;
-            case FAILURE -> this.errorStream;
+            case SUCCESS -> this.ioRessources.defaultStream();
+            case FAILURE -> this.ioRessources.errorStream();
         };
         outputStream.println((result.getType().equals(ResultType.FAILURE) ? ERROR_PREFIX : "") + result.getMessage());
     }
@@ -170,7 +154,16 @@ public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
      * @param message the message to print
      */
     public void printOnDefault(String message) {
-        this.defaultStream.println(message);
+        this.ioRessources.defaultStream().println(message);
+    }
+
+    /**
+     * Returns the I/O resources used by this command executer.
+     *
+     * @return the {@link IORessources} instance backing this executer
+     */
+    public IORessources getIoRessources() {
+        return this.ioRessources;
     }
 
     /**
@@ -180,7 +173,7 @@ public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
      *
      * @param errorMessage the error message to print
      */
-    protected void printError(String errorMessage) {
-        this.errorStream.println(ERROR_PREFIX + errorMessage);
+    private void printError(String errorMessage) {
+        this.ioRessources.errorStream().println(ERROR_PREFIX + errorMessage);
     }
 }
