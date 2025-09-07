@@ -15,7 +15,6 @@ public class CompositeNode extends Node<CompositeType> {
 
     private final int parameter;
     private int localPointer;
-    private boolean siblingAdded;
 
     /**
      * Constructs a new composite node with an explicit parameter.
@@ -28,7 +27,6 @@ public class CompositeNode extends Node<CompositeType> {
         super(nodeId, nodeType);
         this.localPointer = 0;
         this.parameter = parameter;
-        this.siblingAdded = false;
     }
 
     /**
@@ -47,11 +45,9 @@ public class CompositeNode extends Node<CompositeType> {
     public void tick(GameContext context) {
         super.tick(context);
 
-        if (this.localPointer() == 0 && this.getLastState() != TickState.ENTRY || siblingAdded) {
+        if (this.localPointer() == 0 && this.getLastState() != TickState.ENTRY) {
             saveState(context, TickState.ENTRY);
-            this.siblingAdded = false;
         }
-
         TickState state = this.getNodeType().behavior(context, this);
 
         if (state == TickState.STAND_BY) {
@@ -92,7 +88,6 @@ public class CompositeNode extends Node<CompositeType> {
         super.insertChildAt(index, child);
         this.setLastState(TickState.ENTRY);
         this.localPointer = index;
-        this.siblingAdded = true;
     }
 
     /**
