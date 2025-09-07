@@ -52,11 +52,13 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
     }
 
     /**
-     * Executes the tick logic for this node using the provided game context.
+     * Marks this node as the currently active node in its decision tree.
      *
-     * @param context the game context for the tick
+     * @param context the game context in which this tick is executed
      */
-    public abstract void tick(GameContext context);
+    public void tick(GameContext context) {
+        this.tree.setActiveNode(this);
+    }
 
     /**
      * Called when a jump targets a child of this node.
@@ -186,8 +188,7 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
     /**
      * Hook invoked when this node is being skipped by a jump-to operation.
      */
-    protected void handleSkip() {
-    }
+    protected abstract void handleSkip();
 
     @Override
     public abstract Iterator<Node<?>> iterator();

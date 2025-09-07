@@ -43,19 +43,23 @@ public class CompositeNode extends Node<CompositeType> {
 
     @Override
     public void tick(GameContext context) {
-        this.getTree().setActiveNode(this);
+        super.tick(context);
 
-        if (this.localPointer() == 0) {
+        if (this.localPointer() == 0 && this.getLastState() != TickState.ENTRY) {
             saveState(context, TickState.ENTRY);
         }
 
         TickState state = this.getNodeType().behavior(context, this);
 
-        if (state != TickState.ENTRY && state != TickState.STAND_BY) {
+        if (state == TickState.STAND_BY) {
+            this.setLastState(TickState.STAND_BY);
+            return;
+        }
+
+        if (state != TickState.ENTRY) {
             this.saveState(context, state);
             this.localPointer = 0;
-        } else if (state == TickState.STAND_BY) {
-            this.setLastState(TickState.STAND_BY);
+            this.setLastState(state);
         }
     }
 

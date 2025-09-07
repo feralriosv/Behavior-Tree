@@ -1,7 +1,6 @@
 package model.decisiontree;
 
 import model.GameContext;
-import model.decisiontree.node.CompositeType;
 import model.decisiontree.node.Naming;
 import model.decisiontree.node.Node;
 import model.ladybug.LadyBug;
@@ -52,11 +51,12 @@ public class DecisionTree {
         }
 
         Node<?> parent = targetNode.getParent();
-        if (!(CompositeType.isCompositeType(parent.getNodeType()))) {
+        int indexOfTarget = parent.getChildren().indexOf(targetNode);
+
+        if (indexOfTarget < 0) {
             return false;
         }
 
-        int indexOfTarget = parent.getChildren().indexOf(targetNode);
         parent.insertChildAt(indexOfTarget + 1, newSibling);
         return true;
     }
@@ -101,7 +101,7 @@ public class DecisionTree {
     /**
      * Resets the decision tree to its initial state.
      */
-    public void reset() {
+    public void resetTree() {
         this.activeNode = this.rootNode;
     }
 
@@ -129,11 +129,11 @@ public class DecisionTree {
      * @return the node if present, or {@code null} if not found
      */
     public Node<?> findByName(Naming naming) {
-        return nodeIndex.get(naming);
+        return this.nodeIndex.get(naming);
     }
 
     private boolean containsNode(Naming naming) {
-        return nodeIndex.containsKey(naming);
+        return this.nodeIndex.containsKey(naming);
     }
 
     private void assignTree(Node<?> node) {

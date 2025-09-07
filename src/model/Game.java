@@ -174,7 +174,7 @@ public class Game {
      * @param ladyBug the {@link LadyBug} whose decision tree should be reset
      */
     public void resetBugTree(LadyBug ladyBug) {
-        this.bugsAndTrees.get(ladyBug).reset();
+        this.bugsAndTrees.get(ladyBug).resetTree();
     }
 
     /**

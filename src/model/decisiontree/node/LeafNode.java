@@ -66,7 +66,7 @@ public class LeafNode extends Node<LeafType> {
 
     @Override
     public void tick(GameContext context) {
-        this.getTree().setActiveNode(this);
+        super.tick(context);
         TickState tickState = getNodeType().behavior(context, this);
         this.saveState(context, tickState);
     }
@@ -89,6 +89,11 @@ public class LeafNode extends Node<LeafType> {
 
     @Override
     public void insertChildAt(int index, Node<?> child) {
+
+    }
+
+    @Override
+    protected void handleSkip() {
 
     }
 
