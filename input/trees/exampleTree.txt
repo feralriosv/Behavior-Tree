@@ -1,13 +1,10 @@
 flowchart TD
-Root[=1>] --> FlyLeft[fly 2,3]
-Root --> ToggleLeftPath[?]
-ToggleLeftPath --> CloseLeftIfOpen[->]
-CloseLeftIfOpen --> IsLeftOpen([existsPath 1,1])
-CloseLeftIfOpen --> CloseLeftPath[placeLeaf]
-ToggleLeftPath --> OpenLeftIfClosed[takeLeaf]
-Root --> FlyRight[fly 9,3]
-Root --> ToggleRightPath[?]
-ToggleRightPath --> CloseRightIfOpen[->]
-CloseRightIfOpen --> IsRightOpen([existsPath 10,1 10,8])
-CloseRightIfOpen --> CloseRightPath[placeLeaf]
-ToggleRightPath --> OpenRightIfClosed[takeLeaf]
+Root[=1>] --> Fallback[?]
+Fallback --> FallbackFail([treeFront])
+Fallback --> FallbackSuccess([atEdge])
+Root --> Sequence[->]
+Sequence --> SequenceSuccess([atEdge])
+Root --> Parallel[=2>]
+Parallel --> ParallelFail([treeFront])
+Parallel --> ParallelSuccess([atEdge])
+Root --> IterationDone[move]

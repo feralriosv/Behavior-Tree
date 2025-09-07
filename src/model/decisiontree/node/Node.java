@@ -172,7 +172,7 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
      *
      * @param lastState the last tick state to set
      */
-    protected void setLastState(TickState lastState) {
+    public void setLastState(TickState lastState) {
         this.lastState = lastState;
     }
 
