@@ -97,6 +97,19 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
     }
 
     /**
+     * Invalidates this node and all ancestor composites so they re-evaluate on the next tick.
+     *
+     * @param index the index of the child that should become the current focus
+     *              of this composite after invalidation
+     */
+    protected abstract void invalidateUpwardsFrom(int index);
+
+    /**
+     * Resets the internal state of this node so that it can be re-evaluated from scratch on the next tick.
+     */
+    protected abstract void resetNode();
+
+    /**
      * Saves the given tick state in the context and updates the last state of this node.
      *
      * @param context the game context

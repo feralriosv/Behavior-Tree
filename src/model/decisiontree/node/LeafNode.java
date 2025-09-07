@@ -72,9 +72,7 @@ public class LeafNode extends Node<LeafType> {
     }
 
     @Override
-    public void handleSkippedChildren(Node<?> target) {
-
-    }
+    public void handleSkippedChildren(Node<?> target) {}
 
     @Override
     public Iterator<Node<?>> iterator() {
@@ -90,6 +88,14 @@ public class LeafNode extends Node<LeafType> {
     @Override
     public boolean insertChildAt(int index, Node<?> child) {
         return false;
+    }
+
+    @Override
+    public void invalidateUpwardsFrom(int pointerForThis) {}
+
+    @Override
+    protected void resetNode() {
+
     }
 
     @Override
