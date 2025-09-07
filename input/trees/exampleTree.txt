@@ -1,10 +1,3 @@
 flowchart TD
-Root[=1>] --> Fallback[?]
-Fallback --> FallbackFail([treeFront])
-Fallback --> FallbackSuccess([atEdge])
-Root --> Sequence[->]
-Sequence --> SequenceSuccess([atEdge])
-Root --> Parallel[=2>]
-Parallel --> ParallelFail([treeFront])
-Parallel --> ParallelSuccess([atEdge])
-Root --> IterationDone[move]
+DontThink[?] --> Run[move]
+DontThink --> AvoidWall[turnRight]
