@@ -88,8 +88,11 @@ public enum CompositeType implements NodeType<CompositeNode> {
 
             if (context.wasActionExecuted()) {
                 if (childResult.getState() == TickState.SUCCESS) {
-                    self.advancePointer();
-                    self.activateNextChild();
+                    int lastIndex = self.getChildren().size() - 1;
+                    if (self.localPointer() < lastIndex) {
+                        self.advancePointer();
+                    }
+                    return TickState.WAITS_SUCCES;
                 }
 
                 if (childResult.getState() == TickState.FAILURE) {
