@@ -25,7 +25,7 @@ import view.configuration.NodeToken;
  */
 public class AddSibling implements Command<Game> {
 
-    private static final String ERROR_SIBLING_NOT_ADDED = "node %s could not be added";
+    private static final String ERROR_SIBLING_NOT_ADDED = "node %s %s could not be added";
 
     private final Identifier identifier;
     private final Naming nodeNaming;
@@ -76,7 +76,7 @@ public class AddSibling implements Command<Game> {
         }
 
         if (!decisionTree.addSibling(treeNode, newSibling)) {
-            return Result.error(ERROR_SIBLING_NOT_ADDED.formatted(nodeToken.toString()));
+            return Result.error(ERROR_SIBLING_NOT_ADDED.formatted(nodeToken.name(), nodeToken.label()));
         }
 
         return Result.success();

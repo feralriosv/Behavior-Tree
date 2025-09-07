@@ -12,6 +12,7 @@ import java.util.Optional;
  */
 public record NodeToken(String name, String label) {
 
+    private static final String TOKEN_STRING_FORMAT = "%s %s";
     private static final String EMPTY_LINE = "";
     private static final String BRACKET_OPEN_SYMBOL = "[";
     private static final String BRACKET_CLOSE_SYMBOL = "]";
@@ -48,5 +49,10 @@ public record NodeToken(String name, String label) {
         }
 
         return Optional.of(new NodeToken(id, label));
+    }
+
+    @Override
+    public String toString() {
+        return TOKEN_STRING_FORMAT.formatted(this.name, this.label);
     }
 }
