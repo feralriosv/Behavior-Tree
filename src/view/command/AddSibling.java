@@ -25,7 +25,7 @@ import view.configuration.NodeToken;
  */
 public class AddSibling implements Command<Game> {
 
-    private static final String ERROR_SIBLING_NOT_ADDED = "node %s %s could not be added";
+    private static final String ERROR_SIBLING_NOT_ADDED = "node could not be added";
 
     private final Identifier identifier;
     private final Naming nodeNaming;
