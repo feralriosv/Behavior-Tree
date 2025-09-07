@@ -29,7 +29,7 @@ public class CLILadybugClient implements GameClient, AutoCloseable {
      * @param ioRessources abstraction that provides the input source and output streams
      *                     used to read user commands and print messages
      */
-    public CLILadybugClient(IORessources ioRessources) {
+    public CLILadybugClient(ConsoleIORessources ioRessources) {
         this.scanner = ioRessources.getInputSource();
         this.executer = new CommandExecuter<>(ioRessources, ModelKeyword.class);
     }

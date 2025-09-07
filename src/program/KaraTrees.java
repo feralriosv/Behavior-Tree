@@ -4,7 +4,6 @@ import model.GameRunner;
 import view.Arguments;
 import view.CLILadybugClient;
 import view.ConsoleIORessources;
-import view.IORessources;
 
 /**
  * The class offering the entry point for the application.
@@ -14,8 +13,7 @@ import view.IORessources;
  */
 public final class KaraTrees {
 
-    private static final String ERROR_PREFIX = "Error, ";
-    private static final String ERROR_TOO_MANY_ARGUMENTS = ERROR_PREFIX + "too many arguments";
+    private static final String ERROR_TOO_MANY_ARGUMENTS = "Error, too many arguments";
 
     private KaraTrees() {
         // Utility Class
@@ -33,7 +31,7 @@ public final class KaraTrees {
             return;
         }
 
-        IORessources ioRessources = new ConsoleIORessources(System.in, System.out, System.err);
+        ConsoleIORessources ioRessources = new ConsoleIORessources(System.in, System.out, System.err);
 
         try (CLILadybugClient client = new CLILadybugClient(ioRessources)) {
             GameRunner runner = new GameRunner(client);

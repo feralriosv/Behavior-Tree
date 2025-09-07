@@ -9,9 +9,9 @@ import java.util.Scanner;
  *
  * @author ubpst
  */
-public class ConsoleIORessources implements IORessources {
+public class ConsoleIORessources {
 
-    private final Scanner scanner;
+    private final Scanner inputSource;
     private final PrintStream defaultStream;
     private final PrintStream errorStream;
 
@@ -23,23 +23,20 @@ public class ConsoleIORessources implements IORessources {
      * @param errorStream   the stream used for error output
      */
     public ConsoleIORessources(InputStream inputStream, PrintStream defaultStream, PrintStream errorStream) {
-        this.scanner = new Scanner(inputStream);
+        this.inputSource = new Scanner(inputStream);
         this.defaultStream = defaultStream;
         this.errorStream = errorStream;
     }
 
-    @Override
     public PrintStream getDefaultStream() {
         return this.defaultStream;
     }
 
-    @Override
     public PrintStream getErrorStream() {
         return this.errorStream;
     }
 
-    @Override
     public Scanner getInputSource() {
-        return this.scanner;
+        return this.inputSource;
     }
 }

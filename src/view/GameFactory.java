@@ -15,14 +15,14 @@ import view.configuration.SetupExecuter;
  */
 public class GameFactory {
 
-    private final IORessources ioRessources;
+    private final ConsoleIORessources ioRessources;
 
     /**
      * Creates a new factory instance.
      *
      * @param ioRessources an executer containing the communication ressources to be used
      */
-    public GameFactory(IORessources ioRessources) {
+    public GameFactory(ConsoleIORessources ioRessources) {
         this.ioRessources = ioRessources;
     }
 

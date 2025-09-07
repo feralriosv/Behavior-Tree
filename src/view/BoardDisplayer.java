@@ -23,7 +23,6 @@ public final class BoardDisplayer {
     private final BoardView boardView;
     private final List<LadyBug> bugsOnBoard;
 
-
     /**
      * Constructs a {@code BoardDisplayer} for the given board view and ladybugs.
      *

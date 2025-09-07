@@ -17,8 +17,6 @@ import view.Result;
  */
 public class PrintPosition implements Command<Game> {
 
-    private static final String ERROR_UNFOUNDED_LADYBUG = "ladybug could not be found";
-
     private final Identifier identifier;
 
     /**

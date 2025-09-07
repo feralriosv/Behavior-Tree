@@ -5,7 +5,6 @@ import model.decisiontree.TickResult;
 import model.decisiontree.TickState;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Enumeration of composite node types in a behavior tree.
@@ -145,20 +144,5 @@ public enum CompositeType implements NodeType<CompositeNode> {
         }
 
         return (successes >= self.getParameter()) ? TickState.SUCCESS : TickState.FAILURE;
-    }
-
-    /**
-     * Checks whether a given {@link NodeType} corresponds to one of the composite types ({@link CompositeType}).
-     *
-     * @param nodeType the node type to check; returns {@code false} if {@code null}
-     * @return {@code true} if the node type represents a composite, {@code false} otherwise
-     */
-    public static boolean isCompositeType(NodeType<?> nodeType) {
-        for (CompositeType type : values()) {
-            if (Objects.equals(type.label, nodeType.label())) {
-                return true;
-            }
-        }
-        return false;
     }
 }

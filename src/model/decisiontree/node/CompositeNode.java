@@ -45,9 +45,11 @@ public class CompositeNode extends Node<CompositeType> {
     public void tick(GameContext context) {
         super.tick(context);
 
-        if (this.localPointer() == 0 && this.getLastState() != TickState.ENTRY) {
+        if (this.localPointer() == 0 && this.getLastState() != TickState.ENTRY
+        && this.getLastState() != TickState.STAND_BY) {
             saveState(context, TickState.ENTRY);
         }
+
         TickState state = this.getNodeType().behavior(context, this);
 
         if (state == TickState.STAND_BY) {

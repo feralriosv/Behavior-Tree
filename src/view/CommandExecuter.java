@@ -34,7 +34,7 @@ public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
 
     private final Set<? extends Keyword<M>> modelKeywords;
     private final Set<ViewKeyword> viewKeywords = EnumSet.allOf(ViewKeyword.class);
-    private final IORessources ioRessources;
+    private final ConsoleIORessources ioRessources;
     private M model;
     private boolean running;
 
@@ -44,7 +44,7 @@ public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
      * @param ioRessources
      * @param keywordClass the class of the command provider to look up possible commands
      */
-    public CommandExecuter(IORessources ioRessources, Class<K> keywordClass) {
+    public CommandExecuter(ConsoleIORessources ioRessources, Class<K> keywordClass) {
         this.ioRessources = ioRessources;
         this.modelKeywords = EnumSet.allOf(keywordClass);
         this.running = true;
@@ -162,7 +162,7 @@ public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
      *
      * @return the {@link IORessources} instance backing this executer
      */
-    public IORessources getIoRessources() {
+    public ConsoleIORessources getIoRessources() {
         return this.ioRessources;
     }
 

@@ -19,6 +19,8 @@ import java.util.Optional;
 public class Arguments {
 
     private static final String ERROR_TOO_FEW_ARGUMENTS = "too few arguments";
+    private static final String ERROR_NOT_AN_INTEGER = "integers must be numbers greater than 0";
+    private static final String ERROR_INVALID_TOKEN = "unrecognizable token: %s";
 
     private final String[] arguments;
     private int argumentIndex;
@@ -80,7 +82,7 @@ public class Arguments {
 
         Optional<NodeToken> nodeTokenOpt = NodeToken.fromLine(argument);
         if (nodeTokenOpt.isEmpty()) {
-            throw new InvalidArgumentException("unrecognizable token: " + argument);
+            throw new InvalidArgumentException(ERROR_INVALID_TOKEN.formatted(argument));
         }
 
         return nodeTokenOpt.get();
@@ -137,11 +139,11 @@ public class Arguments {
         try {
             integer = Integer.parseInt(retrieveArgument());
         } catch (NumberFormatException e) {
-            throw new InvalidArgumentException("invalid integer format");
+            throw new InvalidArgumentException(ERROR_NOT_AN_INTEGER);
         }
 
         if (integer < 0) {
-            throw new InvalidArgumentException("integers must be greater than 0");
+            throw new InvalidArgumentException(ERROR_NOT_AN_INTEGER);
         }
 
         return integer;
