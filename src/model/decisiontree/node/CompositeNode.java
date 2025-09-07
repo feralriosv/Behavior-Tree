@@ -99,7 +99,7 @@ public class CompositeNode extends Node<CompositeType> {
      * Advances the local pointer to the next child if there are remaining children.
      */
     protected void advancePointer() {
-        if (this.localPointer < getChildren().size()) {
+        if (this.localPointer < getChildren().size() - 1) {
             this.localPointer++;
         }
     }
