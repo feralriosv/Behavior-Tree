@@ -46,7 +46,7 @@ public class CompositeNode extends Node<CompositeType> {
         Node<?> prevActive = getTree().getLastTicked();
         super.tick(context);
 
-        if (prevActive != this && this.getLastState() != TickState.ENTRY && this.getLastState() != TickState.WAITS_SUCCESS) {
+        if (prevActive != this && this.getLastState() != TickState.ENTRY && !waitsResult()) {
             saveState(context, TickState.ENTRY);
             this.setLastState(TickState.ENTRY);
         }
@@ -55,6 +55,11 @@ public class CompositeNode extends Node<CompositeType> {
 
         if (state == TickState.WAITS_SUCCESS) {
             this.setLastState(TickState.WAITS_SUCCESS);
+            return;
+        }
+
+        if (state == TickState.WAITS_FAILURE) {
+            this.setLastState(TickState.WAITS_FAILURE);
             return;
         }
 
@@ -131,6 +136,11 @@ public class CompositeNode extends Node<CompositeType> {
     protected int getParameter() {
         return this.parameter;
     }
+
+    private boolean waitsResult() {
+        return this.getLastState() == TickState.WAITS_FAILURE || this.getLastState() == TickState.WAITS_SUCCESS;
+    }
+
 
     @Override
     public void handleSkippedChildren(Node<?> target) {
