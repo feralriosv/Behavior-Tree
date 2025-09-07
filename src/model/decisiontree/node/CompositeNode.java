@@ -117,8 +117,8 @@ public class CompositeNode extends Node<CompositeType> {
      * @return {@code true} if not all children have been processed yet,
      *         {@code false} if the pointer has reached or exceeded the number of children
      */
-    protected boolean ticksUnCompleted() {
-        return this.localPointer < getChildren().size();
+    protected boolean ticksCompleted() {
+        return this.localPointer >= getChildren().size() - 1;
     }
 
     /**
