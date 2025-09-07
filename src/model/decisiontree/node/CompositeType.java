@@ -68,8 +68,6 @@ public enum CompositeType implements NodeType<CompositeNode> {
             return TickState.SUCCESS;
         }
 
-        int lastIndex = self.getChildren().size() - 1;
-
         while (self.ticksUnCompleted()) {
             TickResult childResult = self.tickNextChild(context);
 
