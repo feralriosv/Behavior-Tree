@@ -76,7 +76,7 @@ public class AddSibling implements Command<Game> {
         }
 
         if (!decisionTree.addSibling(treeNode, newSibling)) {
-            return Result.error(ERROR_SIBLING_NOT_ADDED.formatted(nodeToken.name(), nodeToken.label()));
+            return Result.error(ERROR_SIBLING_NOT_ADDED);
         }
 
         return Result.success();

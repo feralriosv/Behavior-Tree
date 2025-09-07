@@ -84,16 +84,10 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
      *
      * @param index the position at which to insert the child
      * @param child the child node to insert
-     * @return true if the child was inserted successfully, false otherwise
      */
-    public boolean insertChildAt(int index, Node<?> child) {
-        if (child == null || index < 0 || index > getChildren().size()) {
-            return false;
-        }
-
+    public void insertChildAt(int index, Node<?> child) {
         child.setTree(this.tree);
         this.children.add(index, child);
-        return true;
     }
 
     /**

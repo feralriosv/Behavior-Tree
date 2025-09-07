@@ -80,17 +80,11 @@ public class CompositeNode extends Node<CompositeType> {
     }
 
     @Override
-    public boolean insertChildAt(int index, Node<?> child) {
-        if (child == null || index < 0 || index > getChildren().size()) {
-            return false;
-        }
-
+    public void insertChildAt(int index, Node<?> child) {
         child.setParent(this);
         super.insertChildAt(index, child);
-
         this.setLastState(TickState.ENTRY);
         this.localPointer = index;
-        return true;
     }
 
     /**
