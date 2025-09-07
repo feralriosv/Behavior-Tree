@@ -119,6 +119,8 @@ public class DecisionTree {
 
     /**
      * Sets the node that should be considered as last ticked. Useful after structural edits.
+     *
+     * @param the last node ticked to be set
      */
     public void setLastTicked(Node<?> node) {
         this.lastTicked = node;
