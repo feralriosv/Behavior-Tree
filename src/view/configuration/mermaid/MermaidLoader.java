@@ -83,7 +83,8 @@ public class MermaidLoader implements Loader<MermaidData> {
             }
         }
 
-        edges.add(new Edge(new Naming(tokens[0].name()), new Naming(tokens[1].name())));
+        Edge edge = new Edge(new Naming(tokens[0].name()), new Naming(tokens[1].name()));
+        this.edges.add(edge);
         return true;
     }
 

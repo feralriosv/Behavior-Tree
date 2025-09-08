@@ -28,7 +28,7 @@ public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
 
     private static final String COMMAND_SEPARATOR = " ";
     private static final String ERROR_PREFIX = "Error, ";
-    private static final String ERROR_UNKNOWN_COMMAND = "unknown command";
+    private static final String ERROR_UNKNOWN_COMMAND = "invalid command";
     private static final String ERROR_TOO_MANY_ARGUMENTS = "too many arguments provided.";
     private static final String ERROR_INVALID_PRECONDITION = "command cannot be used right now.";
 

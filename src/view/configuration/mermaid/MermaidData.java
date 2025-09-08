@@ -51,12 +51,12 @@ public final class MermaidData {
     }
 
     /**
-     * Returns the mapping of node IDs to labels.
+     * Returns a read-only view of the node definitions in this Mermaid diagram.
      *
-     * @return unmodifiable map from {@link Naming} to node label
+     * @return an unmodifiable set of map entries representing node IDs and their labels
      */
-    public Map<Naming, String> getNodeDefinitions() {
-        return this.nodeDefinitions;
+    public Set<Map.Entry<Naming, String>> getNodeDefinitions() {
+        return this.nodeDefinitions.entrySet();
     }
 
     /**

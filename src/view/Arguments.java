@@ -22,6 +22,10 @@ public class Arguments {
     private static final String ERROR_NOT_AN_INTEGER = "integers must be numbers greater than 0";
     private static final String ERROR_INVALID_TOKEN = "unrecognizable token: %s";
 
+    private static final String EMPTY_SPACE = " ";
+    private static final String NODE_LABEL_OPEN = "[";
+    private static final String NODE_LABEL_CLOSE = "]";
+
     private final String[] arguments;
     private int argumentIndex;
 
@@ -156,9 +160,9 @@ public class Arguments {
 
         StringBuilder sb = new StringBuilder(arguments[argumentIndex++]);
 
-        if (sb.indexOf("[") != -1 && !sb.toString().endsWith("]")) {
-            while (!isExhausted() && !sb.toString().endsWith("]")) {
-                sb.append(" ").append(arguments[argumentIndex++]);
+        if (sb.indexOf(NODE_LABEL_OPEN) != -1 && !sb.toString().endsWith(NODE_LABEL_CLOSE)) {
+            while (!isExhausted() && !sb.toString().endsWith(NODE_LABEL_CLOSE)) {
+                sb.append(EMPTY_SPACE).append(arguments[argumentIndex++]);
             }
         }
 

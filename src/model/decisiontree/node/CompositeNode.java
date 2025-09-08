@@ -141,7 +141,6 @@ public class CompositeNode extends Node<CompositeType> {
         return this.getLastState() == TickState.WAITS_FAILURE || this.getLastState() == TickState.WAITS_SUCCESS;
     }
 
-
     @Override
     public void handleSkippedChildren(Node<?> target) {
         getTree().setActiveNode(target);

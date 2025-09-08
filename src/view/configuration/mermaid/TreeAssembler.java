@@ -23,7 +23,7 @@ public class TreeAssembler {
     private final NodeFabric fabric;
     private final MermaidData mermaidData;
 
-    private final Map<Naming, Node<?>> nodes;
+    private final Map<Naming, Node<?>> nodesCreated;
     private final Set<Naming> children;
 
     /**
@@ -36,7 +36,7 @@ public class TreeAssembler {
     public TreeAssembler(MermaidData mermaidData, LoadCallBack loadCallBack) {
         this.mermaidData = mermaidData;
         this.fabric = new NodeFabric(loadCallBack);
-        this.nodes = new HashMap<>();
+        this.nodesCreated = new HashMap<>();
         this.children = new HashSet<>();
     }
 
@@ -51,16 +51,16 @@ public class TreeAssembler {
             return Optional.empty();
         }
 
-        Naming rootName = findRoot(nodes.keySet(), children);
+        Naming rootName = findRoot(nodesCreated.keySet(), children);
         if (rootName == null) {
             return Optional.empty();
         }
 
-        return Optional.of(nodes.get(rootName));
+        return Optional.of(nodesCreated.get(rootName));
     }
 
     private boolean allNodesCreated() {
-        for (Map.Entry<Naming, String> entry : mermaidData.getNodeDefinitions().entrySet()) {
+        for (Map.Entry<Naming, String> entry : this.mermaidData.getNodeDefinitions()) {
             Naming naming = entry.getKey();
             String label  = entry.getValue();
 
@@ -71,14 +71,14 @@ public class TreeAssembler {
                 return false;
             }
 
-            nodes.put(naming, createdNode);
+            nodesCreated.put(naming, createdNode);
         }
         return true;
     }
 
     private boolean allNodesReferenced() {
         for (Naming naming : mermaidData.getReferencedIds()) {
-            if (!nodes.containsKey(naming)) {
+            if (!nodesCreated.containsKey(naming)) {
                 return false;
             }
         }
@@ -87,17 +87,19 @@ public class TreeAssembler {
 
     private boolean onlyCompositeParents() {
         for (Edge edge : mermaidData.getEdges()) {
-            Node<?> parent = nodes.get(edge.from());
-            Node<?> child  = nodes.get(edge.to());
+            Node<?> parent = nodesCreated.get(edge.from());
+            Node<?> child  = nodesCreated.get(edge.to());
+
             if (parent == null || child == null) {
                 return false;
             }
 
-            children.add(edge.to());
+            this.children.add(edge.to());
             if (!parent.addChild(child)) {
                 return false;
             }
         }
+
         return true;
     }
 
