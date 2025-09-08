@@ -60,6 +60,7 @@ public class DecisionTree {
         }
 
         parent.insertChildAt(indexOfTarget + 1, newSibling);
+        this.lastTicked = lastTicked.getParent();
         return true;
     }
 
