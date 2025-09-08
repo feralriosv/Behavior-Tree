@@ -9,13 +9,13 @@ import model.util.Vector2D;
  */
 public enum Facing {
     /** Facing north (upward). */
-    NORTH('^', new Vector2D(0, -1)),
+    NORTH('^', new Vector2D(-1, 0)),
     /** Facing east (right). */
-    EAST('>', new Vector2D(1, 0)),
+    EAST('>', new Vector2D(0, 1)),
     /** Facing south (downward). */
-    SOUTH('v', new Vector2D(0, 1)),
+    SOUTH('v', new Vector2D(1, 0)),
     /** Facing west (left). */
-    WEST('<', new Vector2D(-1, 0));
+    WEST('<', new Vector2D(0, -1));
 
     private final char symbol;
     private final Vector2D delta;
