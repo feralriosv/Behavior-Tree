@@ -5,7 +5,6 @@ import model.board.ReadOnlyBoard;
 import model.board.Tile;
 import model.board.TileType;
 import model.decisiontree.TickResult;
-import model.decisiontree.node.Node;
 import model.ladybug.Facing;
 import model.ladybug.LadyBug;
 import model.util.Vector2D;
@@ -27,7 +26,6 @@ public class GameContext {
     private final BoardView boardView;
     private final List<TickResult> tickLog;
     private boolean actionExecuted;
-    private Node<?> actorNode;
 
     /**
      * Creates a new game context bound to the specified game.
@@ -39,7 +37,6 @@ public class GameContext {
         this.boardView = new ReadOnlyBoard(game.getBoard());
         this.tickLog = new ArrayList<>();
         this.actionExecuted = false;
-        this.actorNode = null;
     }
 
     /**
@@ -66,23 +63,11 @@ public class GameContext {
     }
 
     /**
-     * Marks that an action has been executed during the current tick and records the node that performed it.
+     * Marks that an action has been executed during the current tick.
      *
-     * @param actorNode the node that executed the action
      */
-    public void markAction(Node<?> actorNode) {
-        this.actorNode = actorNode;
+    public void markAction() {
         this.actionExecuted = true;
-    }
-
-    /**
-     * Returns the node that executed the last action during the current tick.
-     *
-     * @return the node that executed the action in this tick,
-     *         or {@code null} if no action has been executed yet
-     */
-    public Node<?> getActorNode() {
-        return actorNode;
     }
 
     /**

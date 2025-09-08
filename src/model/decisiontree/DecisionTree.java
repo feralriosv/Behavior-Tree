@@ -95,9 +95,7 @@ public class DecisionTree {
             this.rootNode.tick(context);
         }
 
-        List<TickResult> results = context.endTick();
-        Node<?> actor = context.getActorNode();
-        return results;
+        return context.endTick();
     }
 
     /**
