@@ -44,7 +44,6 @@ public class CompositeNode extends Node<CompositeType> {
     @Override
     public void tick(GameContext context) {
         Node<?> prevActive = getTree().getLastTicked();
-        super.tick(context);
 
         if (prevActive != this && this.getLastState() != TickState.ENTRY && !waitsResult()) {
             saveState(context, TickState.ENTRY);
@@ -52,6 +51,7 @@ public class CompositeNode extends Node<CompositeType> {
         }
 
         TickState state = this.getNodeType().behavior(context, this);
+        super.tick(context);
 
         if (state == TickState.WAITS_SUCCESS) {
             this.setLastState(TickState.WAITS_SUCCESS);
