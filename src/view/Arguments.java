@@ -153,6 +153,15 @@ public class Arguments {
         if (isExhausted()) {
             throw new InvalidArgumentException(ERROR_TOO_FEW_ARGUMENTS);
         }
-        return arguments[argumentIndex++];
+
+        StringBuilder sb = new StringBuilder(arguments[argumentIndex++]);
+
+        if (sb.indexOf("[") != -1 && !sb.toString().endsWith("]")) {
+            while (!isExhausted() && !sb.toString().endsWith("]")) {
+                sb.append(" ").append(arguments[argumentIndex++]);
+            }
+        }
+
+        return sb.toString();
     }
 }
