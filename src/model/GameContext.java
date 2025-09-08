@@ -66,9 +66,9 @@ public class GameContext {
     }
 
     /**
-     * Marks that an action has been executed during this tick.
+     * Marks that an action has been executed during the current tick and records the node that performed it.
      *
-     * @param actorNode r
+     * @param actorNode the node that executed the action
      */
     public void markAction(Node<?> actorNode) {
         this.actorNode = actorNode;
@@ -76,9 +76,10 @@ public class GameContext {
     }
 
     /**
-     * Standard Description.
+     * Returns the node that executed the last action during the current tick.
      *
-     * @return standard return.
+     * @return the node that executed the action in this tick,
+     *         or {@code null} if no action has been executed yet
      */
     public Node<?> getActorNode() {
         return actorNode;
