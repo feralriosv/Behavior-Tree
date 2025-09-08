@@ -95,7 +95,6 @@ public class CompositeNode extends Node<CompositeType> {
     public void insertChildAt(int index, Node<?> child) {
         child.setParent(this);
         super.insertChildAt(index, child);
-        this.setLastState(TickState.ENTRY);
         this.localPointer = index;
     }
 
