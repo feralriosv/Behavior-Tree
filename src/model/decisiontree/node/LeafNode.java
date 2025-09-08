@@ -72,7 +72,7 @@ public class LeafNode extends Node<LeafType> {
     }
 
     @Override
-    public void handleSkippedChildren(Node<?> target) {
+    public void skipToChild(Node<?> target) {
 
     }
 

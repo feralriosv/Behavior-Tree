@@ -9,5 +9,5 @@ public interface LoadCallBack {
     /**
      * Marks that at least one action node was created during the current load cycle.
      */
-    void markCreatedAction();
+    void markCreatedActionNode();
 }

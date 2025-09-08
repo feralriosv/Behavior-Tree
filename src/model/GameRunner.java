@@ -5,6 +5,7 @@ package model;
  * See {@link GameClient} for more information about those events.
  *
  * @author Programmieren-Team
+ * @author ubpst
  */
 public class GameRunner {
 

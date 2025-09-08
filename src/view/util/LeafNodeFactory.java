@@ -66,7 +66,7 @@ public class LeafNodeFactory implements NodeFactory {
 
         if (this.callBack != null) {
             if (LeafType.isActionType(leafNode.getNodeType())) {
-                this.callBack.markCreatedAction();
+                this.callBack.markCreatedActionNode();
             }
         }
 

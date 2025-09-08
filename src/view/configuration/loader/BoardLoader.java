@@ -14,14 +14,14 @@ import java.util.Optional;
  */
 public class BoardLoader implements Loader<GameBoard> {
 
-    private static final String ASCII_CORNER = "+";
-    private static final String ASCII_VERTICAL = "|";
+    private static final String BOARD_ASCII_CORNER = "+";
+    private static final String BOARD_ASCII_VERTICAL = "|";
 
 
     @Override
     public GameBoard load(List<String> lines) {
-        if (hasAsciiBorder(lines)) {
-            return GameBoard.emptyBoard();
+        if (hasAlreadyBorders(lines)) {
+            return GameBoard.unplayableBoard();
         }
 
         Tile[][] grid = new Tile[lines.size()][lines.getFirst().length()];
@@ -45,21 +45,21 @@ public class BoardLoader implements Loader<GameBoard> {
         return new GameBoard(grid);
     }
 
-    private static boolean hasAsciiBorder(List<String> lines) {
+    private static boolean hasAlreadyBorders(List<String> lines) {
         if (lines.isEmpty()) {
             return false;
         }
 
-        String first = lines.get(0);
-        String last  = lines.get(lines.size() - 1);
+        String first = lines.getFirst();
+        String last  = lines.getLast();
 
-        if ((first.startsWith(ASCII_CORNER) && first.endsWith(ASCII_CORNER))
-                || (last.startsWith(ASCII_CORNER) && last.endsWith(ASCII_CORNER))) {
+        if ((first.startsWith(BOARD_ASCII_CORNER) && first.endsWith(BOARD_ASCII_CORNER))
+                || (last.startsWith(BOARD_ASCII_CORNER) && last.endsWith(BOARD_ASCII_CORNER))) {
             return true;
         }
 
         for (String line : lines) {
-            if (line.startsWith(ASCII_VERTICAL) && line.endsWith(ASCII_VERTICAL)) {
+            if (line.startsWith(BOARD_ASCII_VERTICAL) && line.endsWith(BOARD_ASCII_VERTICAL)) {
                 return true;
             }
         }

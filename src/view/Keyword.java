@@ -7,8 +7,8 @@ package view;
  * This interface represents a keyword that can be used to identify a command.
  *
  * @param <T> the type of the value that is handled by the command
- * @author ubpst
  * @author Programmieren-Team
+ * @author ubpst
  */
 public interface Keyword<T> extends CommandProvider<T> {
     /**

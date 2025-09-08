@@ -8,8 +8,8 @@ import view.ConsoleIORessources;
 /**
  * The class offering the entry point for the application.
  *
- * @author ubpst
  * @author Programmieren-Team
+ * @author ubpst
  */
 public final class KaraTrees {
 

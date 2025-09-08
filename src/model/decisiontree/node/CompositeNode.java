@@ -64,8 +64,8 @@ public class CompositeNode extends Node<CompositeType> {
 
         if (state != TickState.ENTRY) {
             this.saveState(context, state);
-            this.localPointer = 0;
             this.setLastState(state);
+            this.localPointer = 0;
         }
     }
 
@@ -79,22 +79,15 @@ public class CompositeNode extends Node<CompositeType> {
     }
 
     /**
-     * Retrieves the current child node at the local pointer, executes its tick method,
-     * and returns the resulting state and child node.
+     * Ticks the child node currently pointed to by the local pointer.
      *
-     * @param context the game context used for ticking the child
-     * @return a TickResult containing the child's last state and the child node itself
+     * @param context the {@link GameContext} in which the child is executed
+     * @return the {@link TickState} produced by the child after ticking
      */
-    protected TickResult tickNextChild(GameContext context) {
+    protected TickState tickNextChild(GameContext context) {
         Node<?> child = getChildren().get(this.localPointer);
         child.tick(context);
-        return new TickResult(child.getLastState(), child);
-    }
-
-    @Override
-    public void insertChildAt(int index, Node<?> child) {
-        child.setParent(this);
-        super.insertChildAt(index, child);
+        return new TickResult(child.getLastState(), child).getState();
     }
 
     /**
@@ -139,12 +132,18 @@ public class CompositeNode extends Node<CompositeType> {
     }
 
     @Override
-    public void handleSkippedChildren(Node<?> target) {
+    public void insertChildAt(int index, Node<?> child) {
+        child.setParent(this);
+        super.insertChildAt(index, child);
+    }
+
+    @Override
+    public void skipToChild(Node<?> target) {
         getTree().setActiveNode(target);
         int resetLimit = getChildren().indexOf(target);
 
         CompositeType type = this.getNodeType();
-        TickState implied = switch (type) {
+        TickState impliedState = switch (type) {
             case FALLBACK, PARALLEL -> TickState.FAILURE;
             case SEQUENCE -> TickState.SUCCESS;
         };
@@ -152,7 +151,7 @@ public class CompositeNode extends Node<CompositeType> {
         for (int i = 0; i < resetLimit; i++) {
             Node<?> skipped = getChildren().get(i);
             skipped.handleReset();
-            skipped.setLastState(implied);
+            skipped.setLastState(impliedState);
         }
 
         this.setLastState(TickState.ENTRY);

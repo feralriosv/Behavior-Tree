@@ -34,8 +34,8 @@ public enum TileType {
      *
      * @return the character symbol for this tile type
      */
-    public char toChar() {
-        return representation;
+    protected char toChar() {
+        return this.representation;
     }
 
     /**

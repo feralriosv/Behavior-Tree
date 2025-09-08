@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
 /**
  * A command that loads decision trees from one or more files.
  * It validates that the game board is already configured, ensures the number of trees

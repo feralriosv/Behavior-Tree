@@ -10,6 +10,7 @@ import view.Keyword;
 /**
  * Defines the available keywords for general view-level commands.
  *
+ * @author Programmieren-team
  * @author ubpst
  */
 public enum ViewKeyword implements Keyword<CommandExecuter<?, ?>> {

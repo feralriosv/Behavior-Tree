@@ -33,7 +33,7 @@ public class Tile {
      *
      * @return the tile type
      */
-    public TileType getTileType() {
+    protected TileType getTileType() {
         return tileType;
     }
 

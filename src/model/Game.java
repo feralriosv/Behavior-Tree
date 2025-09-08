@@ -19,8 +19,6 @@ import java.util.Set;
 
 /**
  * Represents the main game logic, managing the game board, ladybugs, and their associated decision trees.
- * A {@code Game} instance is initialized with a {@link Configuration} which provides the board,
- * the registered ladybugs, and their decision trees.
  *
  * @author ubpst
  */
@@ -32,7 +30,6 @@ public class Game {
 
     /**
      * Creates a new {@code Game} instance using the given configuration.
-     * Initializes the game board, registered ladybugs, and their decision trees.
      *
      * @param config the configuration providing the board, ladybugs, and decision trees
      */
@@ -181,8 +178,7 @@ public class Game {
      * Returns the root node of the decision tree associated with the given ladybug.
      *
      * @param ladyBug the ladybug whose decision tree root should be retrieved
-     * @return the root {@link Node} of the specified ladybug's decision tree,
-     *         or {@code null} if the ladybug has no assigned tree
+     * @return the root {@link Node} of the specified ladybug's decision tree
      */
     public Node<?> getBugActiveNode(LadyBug ladyBug) {
         return this.bugsAndTrees.get(ladyBug).getActiveNode();

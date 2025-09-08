@@ -14,6 +14,7 @@ import java.util.Scanner;
  * with the game lifecycle and {@link AutoCloseable} for resource cleanup.
  * </p>
  *
+ * @author Programmieren-Team
  * @author ubpst
  */
 

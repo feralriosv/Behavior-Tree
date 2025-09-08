@@ -23,6 +23,7 @@ import java.util.Set;
  * @param <K> the type of the model commands provider
  *
  * @author Programmieren-Team
+ * @author ubpst
  */
 public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
 

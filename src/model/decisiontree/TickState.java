@@ -1,7 +1,7 @@
 package model.decisiontree;
 
 /**
- * Represents the possible states resulting from executing a tick in the decision tree.
+ * Defines the possible states a node can report during the execution (tick) of a decision tree.
  *
  * @author ubpst
  */
@@ -12,8 +12,8 @@ public enum TickState {
     FAILURE,
     /** Marks the entry point of a tick before execution begins. */
     ENTRY,
-    /** Indicates that the node is idle or waiting, without producing a definitive result yet. */
+    /** The node is paused and waiting, expected to eventually succeed. */
     WAITS_SUCCESS,
-    /** Indicates that the node is idle or waiting, without producing a definitive result yet. */
+    /** The node is paused and waiting, expected to eventually fail. */
     WAITS_FAILURE;
 }

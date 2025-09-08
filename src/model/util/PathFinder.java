@@ -7,7 +7,7 @@ import java.util.ArrayDeque;
 /**
  * Utility class providing static methods for pathfinding on a board.
  * <p>
- * In particular, this class offers methods to check if a path of empty tiles exists
+ * In particular, this class offers a moethod to check if a path of empty tiles exists
  * between two coordinates using breadth-first search (BFS).
  *
  * @author ubpst

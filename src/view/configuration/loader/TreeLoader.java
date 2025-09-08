@@ -30,7 +30,7 @@ public class TreeLoader implements Loader<DecisionTree>, LoadCallBack {
         TreeAssembler assembler = new TreeAssembler(mermaidData, this);
         Optional<Node<?>> rootNodeOpt = assembler.assemble();
 
-        if (!actionCreated) {
+        if (!this.actionCreated) {
             return DecisionTree.unplayableTree();
         }
 
@@ -42,7 +42,7 @@ public class TreeLoader implements Loader<DecisionTree>, LoadCallBack {
     }
 
     @Override
-    public void markCreatedAction() {
+    public void markCreatedActionNode() {
         this.actionCreated = true;
     }
 }

@@ -8,16 +8,17 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Immutable container for parsed Mermaid tree data.
+ * Immutable container for parsed Mermaid diagram data.
  * <p>
- * This class represents the definitions of nodes, their edges, and all referenced IDs
- * extracted from a Mermaid flowchart input.
+ * This class encapsulates the structural information extracted from a Mermaid flowchart,
+ * including node definitions, directed edges, and all referenced node identifiers.
+ *
  * @author ubpst
  */
 public final class MermaidData {
     private final Map<Naming, String> nodeDefinitions;
     private final List<Edge> edges;
-    private final Set<Naming> referencedIds;
+    private final Set<Naming> namingsFound;
     private final boolean invalid;
 
     /**
@@ -25,19 +26,19 @@ public final class MermaidData {
      *
      * @param nodeDefinitions map of node IDs ({@link Naming}) to their labels
      * @param edges           list of directed edges between nodes
-     * @param referencedIds   set of all node IDs referenced in the tree
+     * @param namings   set of all node namings referenced in the tree
      */
-    public MermaidData(Map<Naming, String> nodeDefinitions, List<Edge> edges, Set<Naming> referencedIds) {
+    public MermaidData(Map<Naming, String> nodeDefinitions, List<Edge> edges, Set<Naming> namings) {
         this.edges = Collections.unmodifiableList(edges);
         this.nodeDefinitions = Collections.unmodifiableMap(nodeDefinitions);
-        this.referencedIds = Collections.unmodifiableSet(referencedIds);
+        this.namingsFound = Collections.unmodifiableSet(namings);
         this.invalid = false;
     }
 
     private MermaidData(Map<Naming, String> nodeDefinitions, List<Edge> edges, Set<Naming> referencedIds, boolean invalid) {
         this.edges = Collections.unmodifiableList(edges);
         this.nodeDefinitions = Collections.unmodifiableMap(nodeDefinitions);
-        this.referencedIds = Collections.unmodifiableSet(referencedIds);
+        this.namingsFound = Collections.unmodifiableSet(referencedIds);
         this.invalid = invalid;
     }
 
@@ -64,8 +65,8 @@ public final class MermaidData {
      *
      * @return unmodifiable set of {@link Naming}
      */
-    public Set<Naming> getReferencedIds() {
-        return this.referencedIds;
+    public Set<Naming> getNamingsFound() {
+        return this.namingsFound;
     }
 
     /**

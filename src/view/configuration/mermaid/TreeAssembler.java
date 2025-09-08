@@ -77,7 +77,7 @@ public class TreeAssembler {
     }
 
     private boolean allNodesReferenced() {
-        for (Naming naming : mermaidData.getReferencedIds()) {
+        for (Naming naming : mermaidData.getNamingsFound()) {
             if (!nodesCreated.containsKey(naming)) {
                 return false;
             }

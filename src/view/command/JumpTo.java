@@ -57,7 +57,7 @@ public class JumpTo implements Command<Game> {
         }
 
         Node<?> parentNode = target.getParent();
-        parentNode.handleSkippedChildren(target);
+        parentNode.skipToChild(target);
         return Result.success();
     }
 }

@@ -4,8 +4,8 @@ package view;
  * This interface represents a command that can be executed to handle the given value.
  *
  * @param <T> the type of the value to be handled
- * @author ubpst
  * @author Programmieren-Team
+ * @author ubpst
  */
 @FunctionalInterface
 public interface Command<T> {

@@ -6,8 +6,8 @@ package view;
 /**
  * Signals that parsing/retrieving an argument failed.
  *
- * @author ubpst
  * @author Programmieren-Team
+ * @author ubpst
  */
 public class InvalidArgumentException extends Exception {
 

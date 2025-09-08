@@ -61,15 +61,6 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
     }
 
     /**
-     * Called when a jump targets a child of this node.
-     * Implementations should mark all children before the target as skipped,
-     * setting their states appropriately and adjusting internal pointers if needed.
-     *
-     * @param target the child node that is the new active target
-     */
-    public abstract void handleSkippedChildren(Node<?> target);
-
-    /**
      * Adds a child node to this node.
      *
      * @param child the child node to add
@@ -99,7 +90,7 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
      * @param state the tick state to save
      */
     protected void saveState(GameContext context, TickState state) {
-        context.logResult(new TickResult(state, this));
+        context.registerResult(new TickResult(state, this));
         this.setLastState(state);
     }
 
@@ -189,6 +180,14 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
      * Hook invoked when this node is being reset by a jump-to operation.
      */
     public abstract void handleReset();
+
+    /**
+     * Called when a jump targets a child of this node.
+     *
+     * @param target the child node that is the new active target
+     */
+    public abstract void skipToChild(Node<?> target);
+
 
     @Override
     public abstract Iterator<Node<?>> iterator();

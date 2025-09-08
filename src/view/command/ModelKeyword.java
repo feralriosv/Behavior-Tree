@@ -10,8 +10,8 @@ import view.Keyword;
 /**
  * This enum represents all keywords for commands handling a {@link Game}.
  *
- * @author ubpst
  * @author Programmieren-Team
+ * @author ubpst
  */
 public enum ModelKeyword implements Keyword<Game> {
     /** Command to add a sibling node in the decision tree. */

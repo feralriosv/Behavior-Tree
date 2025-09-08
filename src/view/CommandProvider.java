@@ -7,8 +7,8 @@ package view;
  * This interface provides a command instance constructed with the given arguments.
  * @param <T> the type of the value that is handled by the command
  *
- * @author ubpst
  * @author Programmieren-Team
+ * @author ubpst
  */
 public interface CommandProvider<T> {
 

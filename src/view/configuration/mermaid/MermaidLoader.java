@@ -26,7 +26,7 @@ public class MermaidLoader implements Loader<MermaidData> {
     private static final String MERMAID_HEADER = "flowchart TD";
 
     private final Map<Naming, String> nodeDefinitions = new HashMap<>();
-    private final List<Edge> edges = new ArrayList<>();
+    private final List<Edge> edgesFound = new ArrayList<>();
     private final Set<Naming> references = new HashSet<>();
 
     @Override
@@ -61,7 +61,7 @@ public class MermaidLoader implements Loader<MermaidData> {
             }
         }
 
-        return new MermaidData(nodeDefinitions, edges, references);
+        return new MermaidData(nodeDefinitions, edgesFound, references);
     }
 
     private boolean processPair(String[] parts) {
@@ -76,15 +76,15 @@ public class MermaidLoader implements Loader<MermaidData> {
 
         for (NodeToken token : tokens) {
             Naming naming = new Naming(token.name());
-            references.add(naming);
+            this.references.add(naming);
 
-            if (!putLabel(nodeDefinitions, naming, token.label())) {
+            if (!putLabel(naming, token.label())) {
                 return false;
             }
         }
 
         Edge edge = new Edge(new Naming(tokens[0].name()), new Naming(tokens[1].name()));
-        this.edges.add(edge);
+        this.edgesFound.add(edge);
         return true;
     }
 
@@ -96,16 +96,16 @@ public class MermaidLoader implements Loader<MermaidData> {
 
         Naming id = new Naming(tokenOpt.get().name());
         this.references.add(id);
-        return putLabel(nodeDefinitions, id, tokenOpt.get().label());
+        return putLabel(id, tokenOpt.get().label());
     }
 
-    private static boolean putLabel(Map<Naming, String> defs, Naming id, String rawLabel) {
+    private boolean putLabel(Naming id, String rawLabel) {
         String label = rawLabel == null ? "" : rawLabel.trim();
         if (label.isEmpty()) {
             return true;
         }
 
-        String prev = defs.putIfAbsent(id, label);
+        String prev = nodeDefinitions.putIfAbsent(id, label);
         return prev == null || prev.equals(label);
     }
 
@@ -127,7 +127,7 @@ public class MermaidLoader implements Loader<MermaidData> {
 
     private void resetLoader() {
         this.nodeDefinitions.clear();
-        this.edges.clear();
+        this.edgesFound.clear();
         this.references.clear();
     }
 }

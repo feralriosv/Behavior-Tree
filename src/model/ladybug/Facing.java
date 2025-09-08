@@ -8,31 +8,21 @@ import model.util.Vector2D;
  * @author ubpst
  */
 public enum Facing {
-    /**
-     * Facing north (upward).
-     */
-    NORTH('^', 0, -1),
-    /**
-     * Facing east (right).
-     */
-    EAST('>', 1,  0),
-    /**
-     * Facing south (downward).
-     */
-    SOUTH('v', 0,  1),
-    /**
-     * Facing west (left).
-     */
-    WEST('<', -1, 0);
+    /** Facing north (upward). */
+    NORTH('^', new Vector2D(0, -1)),
+    /** Facing east (right). */
+    EAST('>', new Vector2D(1, 0)),
+    /** Facing south (downward). */
+    SOUTH('v', new Vector2D(0, 1)),
+    /** Facing west (left). */
+    WEST('<', new Vector2D(-1, 0));
 
     private final char symbol;
-    private final int deltaX;
-    private final int deltaY;
+    private final Vector2D delta;
 
-    Facing(char symbol, int deltaX, int deltaY) {
+    Facing(char symbol, Vector2D delta) {
         this.symbol = symbol;
-        this.deltaX = deltaX;
-        this.deltaY = deltaY;
+        this.delta = delta;
     }
 
     /**
@@ -81,7 +71,7 @@ public enum Facing {
      * @return a {@link Vector2D} representing the movement direction
      */
     public Vector2D delta() {
-        return new Vector2D(deltaY, deltaX);
+        return this.delta;
     }
 
 

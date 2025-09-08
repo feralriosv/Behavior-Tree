@@ -1,8 +1,6 @@
 package view;
 
 import model.ladybug.LadyBug;
-import model.ladybug.Facing;
-import model.board.Tile;
 import model.board.BoardView;
 import model.util.Vector2D;
 
@@ -16,9 +14,9 @@ import java.util.List;
  */
 public final class BoardDisplayer {
 
-    private static final String CORNER_SYMBOL = "+";
-    private static final String HORIZONTAL_BORDER_SYMBOL = "-";
-    private static final String VERTICAL_BORDER_SYMBOL = "|";
+    private static final String BOARD_CORNER = "+";
+    private static final String BOARD_HORIZONTAL_BORDER = "-";
+    private static final String BOARD_VERTICAL_BORDER = "|";
 
     private final BoardView boardView;
     private final List<LadyBug> bugsOnBoard;
@@ -46,14 +44,14 @@ public final class BoardDisplayer {
 
         for (int vertical = 0; vertical < height; vertical++) {
             for (int horizontal = 0; horizontal < width; horizontal++) {
-                buffer[vertical][horizontal] = symbolFor(boardView.tileAt(new Vector2D(vertical, horizontal)));
+                buffer[vertical][horizontal] = boardView.tileAt(new Vector2D(vertical, horizontal)).getSymbol();
             }
         }
 
         for (LadyBug bug : bugsOnBoard) {
             Vector2D position = bug.getLocation();
             if (boardView.isInside(position)) {
-                buffer[position.vertical()][position.horizontal()] = symbolFor(bug.getFacing());
+                buffer[position.vertical()][position.horizontal()] = bug.getFacing().getSymbol();
             }
         }
 
@@ -65,11 +63,11 @@ public final class BoardDisplayer {
         decoratedBoard.append(horizontalEdge(width)).append(System.lineSeparator());
 
         for (char[] charsRow : buffer) {
-            decoratedBoard.append(VERTICAL_BORDER_SYMBOL);
+            decoratedBoard.append(BOARD_VERTICAL_BORDER);
             for (int col = 0; col < width; col++) {
                 decoratedBoard.append(charsRow[col]);
             }
-            decoratedBoard.append(VERTICAL_BORDER_SYMBOL).append(System.lineSeparator());
+            decoratedBoard.append(BOARD_VERTICAL_BORDER).append(System.lineSeparator());
         }
 
         decoratedBoard.append(horizontalEdge(width));
@@ -77,14 +75,6 @@ public final class BoardDisplayer {
     }
 
     private String horizontalEdge(int width) {
-        return CORNER_SYMBOL + HORIZONTAL_BORDER_SYMBOL.repeat(width) + CORNER_SYMBOL;
-    }
-
-    private static char symbolFor(Tile tile) {
-        return tile.getSymbol();
-    }
-
-    private static char symbolFor(Facing facing) {
-        return facing.getSymbol();
+        return BOARD_CORNER + BOARD_HORIZONTAL_BORDER.repeat(width) + BOARD_CORNER;
     }
 }

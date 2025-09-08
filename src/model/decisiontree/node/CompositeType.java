@@ -1,17 +1,12 @@
 package model.decisiontree.node;
 
 import model.GameContext;
-import model.decisiontree.TickResult;
 import model.decisiontree.TickState;
 
 import java.util.List;
 
 /**
- * Enumeration of composite node types in a behavior tree.
- * <p>
- * A composite node manages multiple children and determines its result
- * based on their evaluation strategy: fallback, sequence, or parallel.
- * </p>
+ * Defines the composite node types used in behavior trees.
  *
  * @author ubpst
  */
@@ -69,14 +64,14 @@ public enum CompositeType implements NodeType<CompositeNode> {
         }
 
         while (self.ticksUnCompleted()) {
-            TickResult childResult = self.tickNextChild(context);
+            TickState childState = self.tickNextChild(context);
 
             if (context.wasActionExecuted()) {
-                if (childResult.getState() == TickState.SUCCESS) {
+                if (childState == TickState.SUCCESS) {
                     return TickState.WAITS_SUCCESS;
                 }
 
-                if (childResult.getState() == TickState.FAILURE) {
+                if (childState == TickState.FAILURE) {
                     self.advancePointer();
                     self.activateNextChild();
                 }
@@ -84,7 +79,7 @@ public enum CompositeType implements NodeType<CompositeNode> {
                 return TickState.ENTRY;
             }
 
-            if (childResult.getState() == TickState.SUCCESS) {
+            if (childState == TickState.SUCCESS) {
                 return TickState.SUCCESS;
             }
 
@@ -100,14 +95,14 @@ public enum CompositeType implements NodeType<CompositeNode> {
         }
 
         while (self.ticksUnCompleted()) {
-            TickResult childResult = self.tickNextChild(context);
+            TickState childState = self.tickNextChild(context);
 
             if (context.wasActionExecuted()) {
-                if (childResult.getState() == TickState.FAILURE) {
+                if (childState == TickState.FAILURE) {
                     return TickState.WAITS_FAILURE;
                 }
 
-                if (childResult.getState() == TickState.SUCCESS) {
+                if (childState == TickState.SUCCESS) {
                     self.advancePointer();
                     self.activateNextChild();
                 }
@@ -115,7 +110,7 @@ public enum CompositeType implements NodeType<CompositeNode> {
                 return TickState.ENTRY;
             }
 
-            if (childResult.getState() == TickState.FAILURE) {
+            if (childState == TickState.FAILURE) {
                 return TickState.FAILURE;
             }
 
@@ -136,15 +131,13 @@ public enum CompositeType implements NodeType<CompositeNode> {
         }
 
         while (self.ticksUnCompleted()) {
-            TickResult childResult = self.tickNextChild(context);
-            if (childResult.getState() == TickState.SUCCESS) {
+            TickState childState = self.tickNextChild(context);
+            if (childState == TickState.SUCCESS) {
                 successes++;
             }
 
             if (context.wasActionExecuted()) {
-
-                TickState state = childResult.getState();
-                if (state == TickState.SUCCESS || state == TickState.FAILURE) {
+                if (childState == TickState.SUCCESS || childState == TickState.FAILURE) {
                     self.advancePointer();
                 }
 

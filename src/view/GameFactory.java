@@ -10,8 +10,8 @@ import view.configuration.SetupExecuter;
 /**
  * This class provides the setup for the game and its final creation.
  *
- * @author ubpst
  * @author Programmieren-Team
+ * @author ubpst
  */
 public class GameFactory {
 

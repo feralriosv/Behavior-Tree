@@ -10,8 +10,7 @@ import view.configuration.SetupExecuter;
 
 /**
  * Defines the available keywords for setup commands in the game configuration phase.
- * Each keyword maps to a specific command, such as {@link LoadBoard} or {@link LoadTrees},
- * and provides the logic for parsing arguments and creating the corresponding command.
+ * Each keyword maps to a specific command, such as {@link LoadBoard} or {@link LoadTrees}.
  *
  * @author ubpst
  */

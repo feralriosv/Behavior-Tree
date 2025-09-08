@@ -13,8 +13,8 @@ import java.util.Optional;
 /**
  * This class represents the arguments of a {@link Command}.
  *
- * @author ubpst
  * @author Programmieren-Team
+ * @author ubpst
  */
 public class Arguments {
 
@@ -60,19 +60,6 @@ public class Arguments {
             vectors.add(parseVector());
         }
         return vectors.toArray(new Vector2D[0]);
-    }
-
-    /**
-     * Parses the next two arguments as a 1-based board coordinate (x y)
-     * and returns it as a zero-based {@link Vector2D}.
-     *
-     * @return the parsed {@link Vector2D}
-     * @throws InvalidArgumentException if fewer than two integers remain or format is invalid
-     */
-    private Vector2D parseVector() throws InvalidArgumentException {
-        int horizontal = parseInteger();
-        int vertical = parseInteger();
-        return new Vector2D(vertical - 1, horizontal - 1);
     }
 
     /**
@@ -151,6 +138,12 @@ public class Arguments {
         }
 
         return integer;
+    }
+
+    private Vector2D parseVector() throws InvalidArgumentException {
+        int horizontal = parseInteger();
+        int vertical = parseInteger();
+        return new Vector2D(vertical - 1, horizontal - 1);
     }
 
     private String retrieveArgument() throws InvalidArgumentException {

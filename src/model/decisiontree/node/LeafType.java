@@ -7,8 +7,7 @@ import model.util.Vector2D;
 import java.util.Optional;
 
 /**
- * Defines the types of leaf nodes in the decision tree.
- * Each {@code LeafType} corresponds to an action or condition.
+ * Enumeration of all possible leaf node types in the decision tree.
  *
  * @author ubpst
  */
@@ -63,19 +62,6 @@ public enum LeafType implements NodeType<LeafNode> {
         this.strategy = strategy;
     }
 
-    @Override
-    public TickState behavior(GameContext context, LeafNode self) {
-        return this.strategy.run(context, self);
-    }
-
-    private static TickState evaluate(GameContext context, LeafNode self, boolean actionResult) {
-        TickState state = actionResult ? TickState.SUCCESS : TickState.FAILURE;
-        if (isActionType(self.getNodeType())) {
-            context.markAction();
-        }
-        return state;
-    }
-
     /**
      * Parses a line of text into a {@link LeafType}, if possible.
      *
@@ -106,8 +92,21 @@ public enum LeafType implements NodeType<LeafNode> {
                 || type.equals(FLY);
     }
 
+    private static TickState evaluate(GameContext context, LeafNode self, boolean actionResult) {
+        TickState state = actionResult ? TickState.SUCCESS : TickState.FAILURE;
+        if (isActionType(self.getNodeType())) {
+            context.markAction();
+        }
+        return state;
+    }
+
     @Override
     public String label() {
         return this.label;
+    }
+
+    @Override
+    public TickState behavior(GameContext context, LeafNode self) {
+        return this.strategy.run(context, self);
     }
 }

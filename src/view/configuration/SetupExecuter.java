@@ -116,7 +116,6 @@ public final class SetupExecuter<V, K extends Enum<K> & Keyword<SetupExecuter<V,
      * Creates a new dialog instance only accepting input matching the provided regex.
      *
      * @param ioRessources another command executer to use its ressources when requesting input or printing errors
-     *
      * @return a new setup instance
      */
     public static SetupExecuter<Configuration, SetupKeyword> createSetup(ConsoleIORessources ioRessources) {

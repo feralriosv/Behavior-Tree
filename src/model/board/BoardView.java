@@ -24,11 +24,10 @@ public interface BoardView {
     int height();
 
     /**
-     * Returns the tile at the specified location.
+     * Retrieves the {@link Tile} located at the given coordinates.
      *
-     * @param location the coordinates to query
-     * @return the {@link Tile} at the given location
-     * @throws IndexOutOfBoundsException if the location is outside the board
+     * @param location the {@link Vector2D} representing the coordinates to query
+     * @return the {@link Tile} present at the specified location
      */
     Tile tileAt(Vector2D location);
 

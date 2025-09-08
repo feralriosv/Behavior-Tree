@@ -35,12 +35,12 @@ public class GameBoard implements BoardView {
     }
 
     /**
-     * Checks whether this board is empty (uninitialized).
+     * Checks whether this board is unplayable.
      *
      * @return {@code true} if the board has no grid assigned,
      *         {@code false} otherwise
      */
-    public boolean isEmptyBoard() {
+    public boolean isUnplayableBoard() {
         return this.grid == null;
     }
 
@@ -49,7 +49,7 @@ public class GameBoard implements BoardView {
      *
      * @return a new {@link GameBoard} instance with no grid and size 0×0
      */
-    public static GameBoard emptyBoard() {
+    public static GameBoard unplayableBoard() {
         return new GameBoard();
     }
 

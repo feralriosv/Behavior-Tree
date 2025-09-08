@@ -46,8 +46,8 @@ public class GameContext {
      */
     public void beginTick(LadyBug activeLadybug) {
         this.tickLog.clear();
-        this.activeLadybug = activeLadybug;
         this.actionExecuted = false;
+        this.activeLadybug = activeLadybug;
     }
 
     /**
@@ -64,7 +64,6 @@ public class GameContext {
 
     /**
      * Marks that an action has been executed during the current tick.
-     *
      */
     public void markAction() {
         this.actionExecuted = true;
@@ -84,7 +83,7 @@ public class GameContext {
      *
      * @param tickResult the result to add
      */
-    public void logResult(TickResult tickResult) {
+    public void registerResult(TickResult tickResult) {
         this.tickLog.add(tickResult);
     }
 
@@ -94,10 +93,10 @@ public class GameContext {
      * @return true if the ladybug is at the edge, false otherwise
      */
     public boolean isAtEdge() {
-        return !this.boardView.isInside(location().sum(new Vector2D(-1, 0)))
-                || !this.boardView.isInside(location().sum(new Vector2D(1, 0)))
-                || !this.boardView.isInside(location().sum(new Vector2D(0, -1)))
-                || !this.boardView.isInside(location().sum(new Vector2D(0, 1)));
+        return !this.boardView.isInside(location().sum(Facing.NORTH.delta()))
+                || !this.boardView.isInside(location().sum(Facing.WEST.delta()))
+                || !this.boardView.isInside(location().sum(Facing.SOUTH.delta()))
+                || !this.boardView.isInside(location().sum(Facing.EAST.delta()));
     }
 
     /**
