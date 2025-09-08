@@ -16,5 +16,4 @@ public enum TickState {
     WAITS_SUCCESS,
     /** Indicates that the node is idle or waiting, without producing a definitive result yet. */
     WAITS_FAILURE,
-    CONTINUE;
 }
