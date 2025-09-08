@@ -27,6 +27,7 @@ public class GameContext {
     private final BoardView boardView;
     private final List<TickResult> tickLog;
     private boolean actionExecuted;
+    private Node<?> actorNode;
 
     /**
      * Creates a new game context bound to the specified game.
@@ -38,6 +39,7 @@ public class GameContext {
         this.boardView = new ReadOnlyBoard(game.getBoard());
         this.tickLog = new ArrayList<>();
         this.actionExecuted = false;
+        this.actorNode = null;
     }
 
     /**
@@ -66,11 +68,21 @@ public class GameContext {
     /**
      * Marks that an action has been executed during this tick.
      *
+     * @param actorNode r
      */
-    public void markAction() {
+    public void markAction(Node<?> actorNode) {
+        this.actorNode = actorNode;
         this.actionExecuted = true;
     }
 
+    /**
+     * Standard Description.
+     *
+     * @return standard return.
+     */
+    public Node<?> getActorNode() {
+        return actorNode;
+    }
 
     /**
      * Determines whether execution should stop because an action was already executed.
