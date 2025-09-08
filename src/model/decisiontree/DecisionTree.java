@@ -19,7 +19,6 @@ public class DecisionTree {
     private final Node<?> rootNode;
     private Node<?> activeNode;
     private final Map<Naming, Node<?>> nodeIndex;
-    private Node<?> lastTicked;
 
     /**
      * Creates a new decision tree with the given root node.
@@ -29,7 +28,6 @@ public class DecisionTree {
     public DecisionTree(Node<?> root) {
         this.rootNode = root;
         this.nodeIndex = new HashMap<>();
-        this.lastTicked = null;
         this.activeNode = root;
         this.assignTree(root);
     }
@@ -99,7 +97,6 @@ public class DecisionTree {
 
         List<TickResult> results = context.endTick();
         Node<?> actor = context.getActorNode();
-        this.lastTicked = (actor != null) ? actor : this.activeNode;
         return results;
     }
 
@@ -109,7 +106,6 @@ public class DecisionTree {
     public void resetTree() {
         this.activeNode = this.rootNode;
         this.resetSubtree(this.rootNode);
-        this.lastTicked = null;
     }
 
     /**
@@ -123,15 +119,6 @@ public class DecisionTree {
         for (Node<?> child : node.getChildren()) {
             resetSubtree(child);
         }
-    }
-
-    /**
-     * Returns the node that was last active at the end of the previous tick cycle.
-     *
-     * @return the last ticked node
-     */
-    public Node<?> getLastTicked() {
-        return this.lastTicked;
     }
 
     /**
