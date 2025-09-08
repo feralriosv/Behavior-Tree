@@ -98,7 +98,7 @@ public class DecisionTree {
         }
 
         List<TickResult> results = context.endTick();
-        Node<?> actor = context.getActorNode().getParent();
+        Node<?> actor = context.getActorNode();
         this.lastTicked = (actor != null) ? actor : this.activeNode;
         return results;
     }
