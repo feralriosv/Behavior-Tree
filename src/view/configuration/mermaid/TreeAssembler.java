@@ -1,8 +1,8 @@
 package view.configuration.mermaid;
 
-import model.decisiontree.DecisionTree;
-import model.decisiontree.node.Naming;
-import model.decisiontree.node.Node;
+import model.DecisionTree;
+import model.decisiontree.NodeNaming;
+import model.decisiontree.Node;
 import view.util.NodeCreationException;
 import view.util.NodeFabric;
 import view.configuration.loader.LoadCallBack;
@@ -23,8 +23,8 @@ public class TreeAssembler {
     private final NodeFabric fabric;
     private final MermaidData mermaidData;
 
-    private final Map<Naming, Node<?>> nodesCreated;
-    private final Set<Naming> children;
+    private final Map<NodeNaming, Node<?>> nodesCreated;
+    private final Set<NodeNaming> children;
 
     /**
      * Creates a new assembler that uses a {@link NodeFabric} (with the given callback)
@@ -51,7 +51,7 @@ public class TreeAssembler {
             return Optional.empty();
         }
 
-        Naming rootName = findRoot(nodesCreated.keySet(), children);
+        NodeNaming rootName = findRoot(nodesCreated.keySet(), children);
         if (rootName == null) {
             return Optional.empty();
         }
@@ -60,25 +60,25 @@ public class TreeAssembler {
     }
 
     private boolean allNodesCreated() {
-        for (Map.Entry<Naming, String> entry : this.mermaidData.getNodeDefinitions()) {
-            Naming naming = entry.getKey();
+        for (Map.Entry<NodeNaming, String> entry : this.mermaidData.getNodeDefinitions()) {
+            NodeNaming nodeNaming = entry.getKey();
             String label  = entry.getValue();
 
             Node<?> createdNode;
             try {
-                createdNode = fabric.createNode(naming, label);
+                createdNode = fabric.createNode(nodeNaming, label);
             } catch (NodeCreationException e) {
                 return false;
             }
 
-            nodesCreated.put(naming, createdNode);
+            nodesCreated.put(nodeNaming, createdNode);
         }
         return true;
     }
 
     private boolean allNodesReferenced() {
-        for (Naming naming : mermaidData.getNamingsFound()) {
-            if (!nodesCreated.containsKey(naming)) {
+        for (NodeNaming nodeNaming : mermaidData.getNamingsFound()) {
+            if (!nodesCreated.containsKey(nodeNaming)) {
                 return false;
             }
         }
@@ -103,11 +103,11 @@ public class TreeAssembler {
         return true;
     }
 
-    private static Naming findRoot(Set<Naming> all, Set<Naming> children) {
-        Naming root = null;
-        for (Naming naming : all) {
-            if (!children.contains(naming)) {
-                root = naming;
+    private static NodeNaming findRoot(Set<NodeNaming> all, Set<NodeNaming> children) {
+        NodeNaming root = null;
+        for (NodeNaming nodeNaming : all) {
+            if (!children.contains(nodeNaming)) {
+                root = nodeNaming;
             }
         }
         return root;

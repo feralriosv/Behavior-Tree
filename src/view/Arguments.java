@@ -1,6 +1,6 @@
 package view;
 
-import model.decisiontree.node.Naming;
+import model.decisiontree.NodeNaming;
 import model.ladybug.Identifier;
 import model.util.Vector2D;
 import view.configuration.NodeToken;
@@ -80,13 +80,13 @@ public class Arguments {
     }
 
     /**
-     * Parses the next argument as a {@link Naming}.
+     * Parses the next argument as a {@link NodeNaming}.
      *
-     * @return a {@link Naming} created from the next argument
+     * @return a {@link NodeNaming} created from the next argument
      * @throws InvalidArgumentException if there are no more arguments available
      */
-    public Naming parseNodeNaming() throws InvalidArgumentException {
-        return new Naming(retrieveArgument());
+    public NodeNaming parseNodeNaming() throws InvalidArgumentException {
+        return new NodeNaming(retrieveArgument());
     }
 
     /**

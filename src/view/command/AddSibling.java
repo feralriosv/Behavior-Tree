@@ -2,9 +2,9 @@ package view.command;
 
 
 import model.Game;
-import model.decisiontree.DecisionTree;
-import model.decisiontree.node.Naming;
-import model.decisiontree.node.Node;
+import model.DecisionTree;
+import model.decisiontree.NodeNaming;
+import model.decisiontree.Node;
 import model.util.BugFinder;
 import model.util.NodeFinder;
 import model.util.UnfoundedBugException;
@@ -28,7 +28,7 @@ public class AddSibling implements Command<Game> {
     private static final String ERROR_SIBLING_NOT_ADDED = "node could not be added";
 
     private final Identifier identifier;
-    private final Naming nodeNaming;
+    private final NodeNaming nodeNaming;
     private final NodeToken nodeToken;
 
     /**
@@ -38,7 +38,7 @@ public class AddSibling implements Command<Game> {
      * @param nodeNaming the naming of the existing node to which a sibling will be added
      * @param nodeToken  the token representing the new sibling node to be created and added
      */
-    public AddSibling(Identifier identifier, Naming nodeNaming, NodeToken nodeToken) {
+    public AddSibling(Identifier identifier, NodeNaming nodeNaming, NodeToken nodeToken) {
 
         this.identifier = identifier;
         this.nodeNaming = nodeNaming;
@@ -70,7 +70,7 @@ public class AddSibling implements Command<Game> {
         Node<?> newSibling;
 
         try {
-            newSibling = fabric.createNode(new Naming(nodeToken.name()), nodeToken.label());
+            newSibling = fabric.createNode(new NodeNaming(nodeToken.name()), nodeToken.label());
         } catch (NodeCreationException e) {
             return Result.error(e.getMessage());
         }

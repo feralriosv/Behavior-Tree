@@ -4,7 +4,6 @@ import model.board.BoardView;
 import model.board.ReadOnlyBoard;
 import model.board.Tile;
 import model.board.TileType;
-import model.decisiontree.TickResult;
 import model.ladybug.Facing;
 import model.ladybug.LadyBug;
 import model.util.Vector2D;

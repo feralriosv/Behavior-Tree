@@ -1,7 +1,7 @@
 package view.configuration.loader;
 
-import model.decisiontree.DecisionTree;
-import model.decisiontree.node.Node;
+import model.DecisionTree;
+import model.decisiontree.Node;
 import view.configuration.mermaid.MermaidData;
 import view.configuration.mermaid.MermaidLoader;
 import view.configuration.mermaid.TreeAssembler;

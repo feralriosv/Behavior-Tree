@@ -1,7 +1,6 @@
-package model.decisiontree.node;
+package model.decisiontree;
 
 import model.GameContext;
-import model.decisiontree.TickState;
 import model.util.Vector2D;
 import view.util.Vector2DDecorator;
 
@@ -30,7 +29,7 @@ public class LeafNode extends Node<LeafType> {
      * @param start   the starting coordinate relevant to the node's behavior, or {@code null} if not required
      * @param goal    the goal coordinate relevant to the node's behavior, or {@code null} if not required
      */
-    public LeafNode(Naming nodeId, LeafType nodeType, Vector2D start, Vector2D goal) {
+    public LeafNode(NodeNaming nodeId, LeafType nodeType, Vector2D start, Vector2D goal) {
         super(nodeId, nodeType);
         this.start = start;
         this.goal = goal;
@@ -42,7 +41,7 @@ public class LeafNode extends Node<LeafType> {
      * @param nodeId the unique identifier of this node
      * @param nodeType the type of the leaf, defining its behavior
      */
-    public LeafNode(Naming nodeId, LeafType nodeType) {
+    public LeafNode(NodeNaming nodeId, LeafType nodeType) {
         this(nodeId, nodeType, null, null);
     }
 

@@ -1,8 +1,7 @@
-package model.decisiontree;
+package model;
 
-import model.GameContext;
-import model.decisiontree.node.Naming;
-import model.decisiontree.node.Node;
+import model.decisiontree.NodeNaming;
+import model.decisiontree.Node;
 import model.ladybug.LadyBug;
 
 import java.util.HashMap;
@@ -18,7 +17,7 @@ public class DecisionTree {
 
     private final Node<?> rootNode;
     private Node<?> activeNode;
-    private final Map<Naming, Node<?>> nodeIndex;
+    private final Map<NodeNaming, Node<?>> nodeIndex;
 
     /**
      * Creates a new decision tree with the given root node.
@@ -138,16 +137,16 @@ public class DecisionTree {
     }
 
     /**
-     * Fast lookup of a node by its {@link Naming} using an internal index.
-     * @param naming the identifier to look up
+     * Fast lookup of a node by its {@link NodeNaming} using an internal index.
+     * @param nodeNaming the identifier to look up
      * @return the node if present, or {@code null} if not found
      */
-    public Node<?> findByName(Naming naming) {
-        return this.nodeIndex.get(naming);
+    public Node<?> findByName(NodeNaming nodeNaming) {
+        return this.nodeIndex.get(nodeNaming);
     }
 
-    private boolean containsNode(Naming naming) {
-        return this.nodeIndex.containsKey(naming);
+    private boolean containsNode(NodeNaming nodeNaming) {
+        return this.nodeIndex.containsKey(nodeNaming);
     }
 
     private void assignTree(Node<?> node) {

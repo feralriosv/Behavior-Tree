@@ -1,9 +1,9 @@
 package view.command;
 
 import model.Game;
-import model.decisiontree.DecisionTree;
-import model.decisiontree.node.Naming;
-import model.decisiontree.node.Node;
+import model.DecisionTree;
+import model.decisiontree.NodeNaming;
+import model.decisiontree.Node;
 import model.util.BugFinder;
 import model.util.NodeFinder;
 import model.util.UnfoundedBugException;
@@ -22,17 +22,17 @@ import view.Result;
 public class JumpTo implements Command<Game> {
 
     private final Identifier identifier;
-    private final Naming naming;
+    private final NodeNaming nodeNaming;
 
     /**
      * Creates a new JumpTo command to reposition a LadyBug's decision tree execution to the given node.
      *
      * @param identifier the bug to affect
-     * @param naming the target node name
+     * @param nodeNaming the target node name
      */
-    public JumpTo(Identifier identifier, Naming naming) {
+    public JumpTo(Identifier identifier, NodeNaming nodeNaming) {
         this.identifier = identifier;
-        this.naming = naming;
+        this.nodeNaming = nodeNaming;
     }
 
     @Override
@@ -51,7 +51,7 @@ public class JumpTo implements Command<Game> {
 
         Node<?> target;
         try {
-            target = nodeFinder.findByName(naming);
+            target = nodeFinder.findByName(nodeNaming);
         } catch (UnfoundedNodeException e) {
             return Result.error(e.getMessage());
         }

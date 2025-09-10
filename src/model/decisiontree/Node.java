@@ -1,9 +1,8 @@
-package model.decisiontree.node;
+package model.decisiontree;
 
 import model.GameContext;
-import model.decisiontree.DecisionTree;
-import model.decisiontree.TickResult;
-import model.decisiontree.TickState;
+import model.DecisionTree;
+import model.TickResult;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,7 +21,7 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
     private static final String STRING_FORMAT = "%s %s";
 
     private final T nodeType;
-    private final Naming naming;
+    private final NodeNaming nodeNaming;
     private final List<Node<?>> children;
     private TickState lastState;
     private DecisionTree tree;
@@ -34,8 +33,8 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
      * @param nodeId the unique identifier of this node
      * @param nodeType the type of this node
      */
-    protected Node(Naming nodeId, T nodeType) {
-        this.naming = nodeId;
+    protected Node(NodeNaming nodeId, T nodeType) {
+        this.nodeNaming = nodeId;
         this.nodeType = nodeType;
         this.children = new ArrayList<>();
         this.lastState = null;
@@ -100,8 +99,8 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
      * @return the node identifier
      *
      */
-    public Naming getNaming() {
-        return this.naming;
+    public NodeNaming getNaming() {
+        return this.nodeNaming;
     }
 
     /**
@@ -194,6 +193,6 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
 
     @Override
     public String toString() {
-        return STRING_FORMAT.formatted(this.naming, this.nodeType.label());
+        return STRING_FORMAT.formatted(this.nodeNaming, this.nodeType.label());
     }
 }

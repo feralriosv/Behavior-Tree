@@ -1,6 +1,6 @@
 package view.configuration.mermaid;
 
-import model.decisiontree.node.Naming;
+import model.decisiontree.NodeNaming;
 
 /**
  * Represents a directed edge in a Mermaid-style decision tree diagram.
@@ -9,5 +9,5 @@ import model.decisiontree.node.Naming;
  * @param to the ending node of the edge
  * @author ubpst
  */
-public record Edge(Naming from, Naming to) {
+public record Edge(NodeNaming from, NodeNaming to) {
 }

@@ -1,4 +1,4 @@
-package model.decisiontree.node;
+package model.decisiontree;
 
 import java.util.Objects;
 
@@ -11,7 +11,7 @@ import java.util.Objects;
  *
  * @author ubpst
  */
-public record Naming(String value) {
+public record NodeNaming(String value) {
 
     @Override
     public String toString() {
@@ -26,7 +26,7 @@ public record Naming(String value) {
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        Naming nodeName = (Naming) obj;
+        NodeNaming nodeName = (NodeNaming) obj;
         return Objects.equals(value, nodeName.value);
     }
 

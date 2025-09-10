@@ -1,8 +1,8 @@
 package model.util;
 
-import model.decisiontree.DecisionTree;
-import model.decisiontree.node.Naming;
-import model.decisiontree.node.Node;
+import model.DecisionTree;
+import model.decisiontree.NodeNaming;
+import model.decisiontree.Node;
 
 /**
  * Helper class to find nodes by name in a decision tree.
@@ -27,14 +27,14 @@ public class NodeFinder {
     /**
      * Finds a node in the decision tree by its naming.
      *
-     * @param naming the naming of the node to find
+     * @param nodeNaming the naming of the node to find
      * @return the node with the specified naming
      * @throws UnfoundedNodeException if no node with the specified naming is found
      */
-    public Node<?> findByName(Naming naming) throws UnfoundedNodeException {
-        Node<?> node = this.decisionTree.findByName(naming);
+    public Node<?> findByName(NodeNaming nodeNaming) throws UnfoundedNodeException {
+        Node<?> node = this.decisionTree.findByName(nodeNaming);
         if (node == null) {
-            throw new UnfoundedNodeException(naming);
+            throw new UnfoundedNodeException(nodeNaming);
         }
         return node;
     }

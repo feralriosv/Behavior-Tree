@@ -1,8 +1,8 @@
 package view.util;
 
-import model.decisiontree.node.LeafType;
-import model.decisiontree.node.LeafNode;
-import model.decisiontree.node.Naming;
+import model.decisiontree.LeafType;
+import model.decisiontree.LeafNode;
+import model.decisiontree.NodeNaming;
 import model.util.Vector2D;
 import view.Arguments;
 import view.InvalidArgumentException;
@@ -40,7 +40,7 @@ public class LeafNodeFactory implements NodeFactory {
     }
 
     @Override
-    public Optional<LeafNode> create(Naming naming, String label) {
+    public Optional<LeafNode> create(NodeNaming nodeNaming, String label) {
         String[] parts = label.trim().split(LABEL_PARTS_SEPARATOR, 2);
 
         Optional<LeafType> leafOpt = LeafType.fromLine(parts[0]);
@@ -58,10 +58,10 @@ public class LeafNodeFactory implements NodeFactory {
             }
 
             leafNode = (vectorsFound.length == 2)
-                    ? new LeafNode(naming, type, vectorsFound[0], vectorsFound[1])
-                    : new LeafNode(naming, type, null, vectorsFound[0]);
+                    ? new LeafNode(nodeNaming, type, vectorsFound[0], vectorsFound[1])
+                    : new LeafNode(nodeNaming, type, null, vectorsFound[0]);
         } else {
-            leafNode = new LeafNode(naming, type);
+            leafNode = new LeafNode(nodeNaming, type);
         }
 
         if (this.callBack != null) {

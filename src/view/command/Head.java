@@ -2,7 +2,7 @@ package view.command;
 
 
 import model.Game;
-import model.decisiontree.node.Node;
+import model.decisiontree.Node;
 import model.util.BugFinder;
 import model.util.UnfoundedBugException;
 import model.ladybug.Identifier;

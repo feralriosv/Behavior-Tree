@@ -1,7 +1,7 @@
 package view.util;
 
-import model.decisiontree.node.Naming;
-import model.decisiontree.node.Node;
+import model.decisiontree.NodeNaming;
+import model.decisiontree.Node;
 import view.configuration.loader.LoadCallBack;
 import view.configuration.loader.LoadingException;
 
@@ -46,7 +46,7 @@ public class NodeFabric {
      * @return a concrete {@link Node}
      * @throws NodeCreationException if the label is empty/blank or no factory recognizes the label
      */
-    public Node<?> createNode(Naming nodeName, String label) throws NodeCreationException {
+    public Node<?> createNode(NodeNaming nodeName, String label) throws NodeCreationException {
         for (NodeFactory factory : this.factories) {
             Optional<? extends Node<?>> nodeOpt = factory.create(nodeName, label);
             if (nodeOpt.isPresent()) {
