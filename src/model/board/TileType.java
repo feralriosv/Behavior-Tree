@@ -34,7 +34,7 @@ public enum TileType {
      *
      * @return the character symbol for this tile type
      */
-    protected char toChar() {
+    public char toChar() {
         return this.representation;
     }
 
@@ -45,7 +45,7 @@ public enum TileType {
      * @return true if the tile has the same type, false otherwise
      */
     public boolean matches(Tile tile) {
-        return tile.getTileType() == this;
+        return tile.tileType() == this;
     }
 
     /**

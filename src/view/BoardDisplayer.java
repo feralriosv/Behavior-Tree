@@ -44,7 +44,7 @@ public final class BoardDisplayer {
 
         for (int vertical = 0; vertical < height; vertical++) {
             for (int horizontal = 0; horizontal < width; horizontal++) {
-                buffer[vertical][horizontal] = boardView.tileAt(new Vector2D(vertical, horizontal)).getSymbol();
+                buffer[vertical][horizontal] = boardView.tileAt(new Vector2D(vertical, horizontal)).symbol();
             }
         }
 
