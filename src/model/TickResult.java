@@ -4,7 +4,10 @@ import model.node.Node;
 import model.node.TickState;
 
 /**
- * Represents the result of executing a single tick of a node in the decision tree.
+ * Represents the outcome of executing a single tick on a {@link Node}.
+ *
+ * @param state the {@link TickState} resulting from executing the tick
+ * @param node  the {@link Node} on which the tick was executed
  *
  * @author ubpst
  */

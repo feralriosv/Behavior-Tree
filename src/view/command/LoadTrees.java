@@ -17,8 +17,6 @@ import java.util.List;
 
 /**
  * A command that loads decision trees from one or more files.
- * It validates that the game board is already configured, ensures the number of trees
- * does not exceed the maximum allowed, and then parses the trees using {@link TreeLoader}.
  *
  * @author ubpst
  */

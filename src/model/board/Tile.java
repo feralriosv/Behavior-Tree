@@ -1,11 +1,12 @@
 package model.board;
 
+
 /**
- * Represents a single tile on the game board.
+ * Represents a single immutable tile on the game board.
  *
+ * @param tileType the type of this tile
  * @author ubpst
  */
-
 public record Tile(TileType tileType) {
 
     /**

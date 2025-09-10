@@ -71,10 +71,13 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
     }
 
     /**
-     * Inserts a child node at the specified index in the children list.
+     * Inserts a new sibling node into the list of children of this node, directly to the right of the given.
      *
-     * @param childNode the brother node at the left to the new one
-     * @param newSibling the child node to insert
+     * @param childNode   the existing child node whose right side will be used
+     *                    as the insertion position
+     * @param newSibling  the new node to insert as a sibling
+     * @return {@code true} if the sibling was successfully inserted,
+     *         {@code false} otherwise.
      */
     public abstract boolean insertSibling(Node<?> childNode, Node<?> newSibling);
 

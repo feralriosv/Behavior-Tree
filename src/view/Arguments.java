@@ -156,7 +156,7 @@ public class Arguments {
 
         StringBuilder argumentContent = new StringBuilder(arguments[argumentIndex++]);
 
-        if (!isInsideBrackets(argumentContent.toString())) {
+        if (isInsideBrackets(argumentContent.toString())) {
             while (!isExhausted() && !argumentContent.toString().endsWith(NODE_LABEL_CLOSE)) {
                 argumentContent.append(EMPTY_SPACE).append(arguments[argumentIndex++]);
             }
