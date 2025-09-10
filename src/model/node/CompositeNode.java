@@ -140,7 +140,7 @@ public class CompositeNode extends Node<CompositeType> {
         newSibling.setParent(this);
         newSibling.setTree(getTree());
         inserNodeAt(targetIndex, newSibling);
-        handleReset();
+        localPointer = 0;
         return true;
     }
 
