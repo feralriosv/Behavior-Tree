@@ -45,7 +45,7 @@ public enum TileType {
      * @return true if the tile has the same type, false otherwise
      */
     public boolean matches(Tile tile) {
-        return tile.tileType() == this;
+        return tile.getTileType() == this;
     }
 
     /**

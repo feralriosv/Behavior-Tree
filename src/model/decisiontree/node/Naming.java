@@ -1,14 +1,17 @@
-package model.node;
+package model.decisiontree.node;
 
 import java.util.Objects;
 
 /**
  * Represents a unique naming for a node in a decision tree.
+ * Encapsulates a string value and provides proper {@link #toString()},
+ * {@link #equals(Object)}, and {@link #hashCode()} implementations.
  *
  * @param value the string value of this node identifier
+ *
  * @author ubpst
  */
-public record NodeNaming(String value) {
+public record Naming(String value) {
 
     @Override
     public String toString() {
@@ -23,7 +26,7 @@ public record NodeNaming(String value) {
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        NodeNaming nodeName = (NodeNaming) obj;
+        Naming nodeName = (Naming) obj;
         return Objects.equals(value, nodeName.value);
     }
 

@@ -1,6 +1,8 @@
-package model.node;
+package model.decisiontree.node;
 
 import model.GameContext;
+import model.decisiontree.TickResult;
+import model.decisiontree.TickState;
 
 import java.util.Iterator;
 
@@ -21,7 +23,7 @@ public class CompositeNode extends Node<CompositeType> {
      * @param nodeType the composite type (Fallback, Sequence, Parallel)
      * @param parameter additional parameter (e.g. M for Parallel), 0 if unused
      */
-    public CompositeNode(NodeNaming nodeId, CompositeType nodeType, int parameter) {
+    public CompositeNode(Naming nodeId, CompositeType nodeType, int parameter) {
         super(nodeId, nodeType);
         this.localPointer = 0;
         this.parameter = parameter;
@@ -33,7 +35,7 @@ public class CompositeNode extends Node<CompositeType> {
      * @param nodeId the identifier of this node
      * @param type   the composite type
      */
-    public CompositeNode(NodeNaming nodeId, CompositeType type) {
+    public CompositeNode(Naming nodeId, CompositeType type) {
         super(nodeId, type);
         this.localPointer = 0;
         this.parameter = 0;
@@ -85,7 +87,7 @@ public class CompositeNode extends Node<CompositeType> {
     protected TickState tickNextChild(GameContext context) {
         Node<?> child = getChildren().get(this.localPointer);
         child.tick(context);
-        return child.getLastState();
+        return new TickResult(child.getLastState(), child).getState();
     }
 
     /**
@@ -130,18 +132,9 @@ public class CompositeNode extends Node<CompositeType> {
     }
 
     @Override
-    public boolean insertSibling(Node<?> childNode, Node<?> newSibling) {
-        int targetIndex = getChildren().indexOf(childNode);
-
-        if (targetIndex < 0) {
-            return false;
-        }
-
-        newSibling.setParent(this);
-        newSibling.setTree(getTree());
-        inserNodeAt(targetIndex, newSibling);
-        localPointer = 0;
-        return true;
+    public void insertChildAt(int index, Node<?> child) {
+        child.setParent(this);
+        super.insertChildAt(index, child);
     }
 
     @Override

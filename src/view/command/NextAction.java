@@ -1,9 +1,9 @@
 package view.command;
 
 import model.Game;
-import model.DecisionTree;
+import model.decisiontree.DecisionTree;
 import model.ladybug.LadyBug;
-import model.TickResult;
+import model.decisiontree.TickResult;
 import view.BoardDisplayer;
 import view.Command;
 import view.Result;

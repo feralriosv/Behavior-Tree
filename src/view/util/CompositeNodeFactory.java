@@ -1,8 +1,8 @@
 package view.util;
 
-import model.node.CompositeType;
-import model.node.CompositeNode;
-import model.node.NodeNaming;
+import model.decisiontree.node.CompositeType;
+import model.decisiontree.node.CompositeNode;
+import model.decisiontree.node.Naming;
 
 import java.util.Optional;
 
@@ -21,13 +21,13 @@ public class CompositeNodeFactory implements NodeFactory {
     private static final String PARALLEL_CLOSE_SYMBOL = ">";
 
     @Override
-    public Optional<CompositeNode> create(NodeNaming nodeNaming, String label) {
+    public Optional<CompositeNode> create(Naming naming, String label) {
         if (CompositeType.FALLBACK.getSymbol().equals(label)) {
-            return Optional.of(new CompositeNode(nodeNaming, CompositeType.FALLBACK));
+            return Optional.of(new CompositeNode(naming, CompositeType.FALLBACK));
         }
 
         if (CompositeType.SEQUENCE.getSymbol().equals(label)) {
-            return Optional.of(new CompositeNode(nodeNaming, CompositeType.SEQUENCE));
+            return Optional.of(new CompositeNode(naming, CompositeType.SEQUENCE));
         }
 
         if (isParallel(label)) {
@@ -35,7 +35,7 @@ public class CompositeNodeFactory implements NodeFactory {
             if (parameter < 0) {
                 return Optional.empty();
             }
-            return Optional.of(new CompositeNode(nodeNaming, CompositeType.PARALLEL, parameter));
+            return Optional.of(new CompositeNode(naming, CompositeType.PARALLEL, parameter));
         }
 
         return Optional.empty();

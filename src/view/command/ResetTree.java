@@ -3,7 +3,7 @@ package view.command;
 import model.Game;
 import model.util.BugFinder;
 import model.util.UnfoundedBugException;
-import model.ladybug.BugIdentifier;
+import model.ladybug.Identifier;
 import model.ladybug.LadyBug;
 import view.Command;
 import view.Result;
@@ -15,16 +15,16 @@ import view.Result;
  */
 public class ResetTree implements Command<Game> {
 
-    private final BugIdentifier bugIdentifier;
+    private final Identifier identifier;
 
     /**
      * Creates a new {@code ResetTree} command for the given ladybug identifier.
      *
-     * @param bugIdentifier the unique {@link BugIdentifier} of the ladybug whose decision tree
+     * @param identifier the unique {@link Identifier} of the ladybug whose decision tree
      *                   should be reset
      */
-    public ResetTree(BugIdentifier bugIdentifier) {
-        this.bugIdentifier = bugIdentifier;
+    public ResetTree(Identifier identifier) {
+        this.identifier = identifier;
     }
 
     @Override
@@ -33,7 +33,7 @@ public class ResetTree implements Command<Game> {
         LadyBug ladyBug;
 
         try {
-            ladyBug = finder.findById(this.bugIdentifier);
+            ladyBug = finder.findById(this.identifier);
         } catch (UnfoundedBugException e) {
             return Result.error(e.getMessage());
         }

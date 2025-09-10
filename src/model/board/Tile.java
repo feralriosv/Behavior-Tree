@@ -1,13 +1,23 @@
 package model.board;
 
-
 /**
- * Represents a single immutable tile on the game board.
+ * Represents a single tile on the game board.
  *
- * @param tileType the type of this tile
  * @author ubpst
  */
-public record Tile(TileType tileType) {
+
+public class Tile {
+
+    private final TileType tileType;
+
+    /**
+     * Creates a new tile with the specified type.
+     *
+     * @param tileType the type of the tile
+     */
+    public Tile(TileType tileType) {
+        this.tileType = tileType;
+    }
 
     /**
      * Checks whether this tile represents an empty cell.
@@ -19,11 +29,20 @@ public record Tile(TileType tileType) {
     }
 
     /**
+     * Returns the type of this tile.
+     *
+     * @return the tile type
+     */
+    protected TileType getTileType() {
+        return tileType;
+    }
+
+    /**
      * Returns the character symbol representing this tile, as defined by its {@link TileType}.
      *
      * @return the symbol of the tile
      */
-    public char symbol() {
+    public char getSymbol() {
         return this.tileType.toChar();
     }
 }

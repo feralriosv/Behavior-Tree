@@ -1,6 +1,6 @@
 package view.util;
 
-import model.ladybug.Vector2D;
+import model.util.Vector2D;
 
 /**
  * Utility decorator for {@link Vector2D} that provides formatted string representations of the vector.

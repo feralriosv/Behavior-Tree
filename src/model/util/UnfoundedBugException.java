@@ -1,6 +1,6 @@
 package model.util;
 
-import model.ladybug.BugIdentifier;
+import model.ladybug.Identifier;
 
 /**
  * Exception thrown when a ladybug with the given identifier cannot be found.
@@ -14,9 +14,9 @@ public class UnfoundedBugException extends Exception {
     /**
      * Constructs a new UnfoundedBugException with a message indicating the ladybug identifier that was not found.
      *
-     * @param bugIdentifier the identifier of the ladybug that could not be found
+     * @param identifier the identifier of the ladybug that could not be found
      */
-    public UnfoundedBugException(BugIdentifier bugIdentifier) {
-        super(UNFOUNDED_LADYBUG_MESSAGE.formatted(bugIdentifier));
+    public UnfoundedBugException(Identifier identifier) {
+        super(UNFOUNDED_LADYBUG_MESSAGE.formatted(identifier));
     }
 }

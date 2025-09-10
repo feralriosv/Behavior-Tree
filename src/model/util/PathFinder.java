@@ -1,12 +1,14 @@
 package model.util;
 
 import model.board.BoardView;
-import model.ladybug.Vector2D;
 
 import java.util.ArrayDeque;
 
 /**
  * Utility class providing static methods for pathfinding on a board.
+ * <p>
+ * In particular, this class offers a moethod to check if a path of empty tiles exists
+ * between two coordinates using breadth-first search (BFS).
  *
  * @author ubpst
  */
@@ -20,7 +22,7 @@ public final class PathFinder {
     }
 
     /**
-     * Checks if there is a path of empty tiles between start and goal using a BFS algorithm.
+     * Checks if there is a path of empty tiles between start and goal.
      *
      * @param boardView the board to check
      * @param start     starting coordinate

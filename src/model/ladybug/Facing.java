@@ -1,5 +1,7 @@
 package model.ladybug;
 
+import model.util.Vector2D;
+
 /**
  * Represents the four possible facing directions of a {@link LadyBug} on the board.
  *

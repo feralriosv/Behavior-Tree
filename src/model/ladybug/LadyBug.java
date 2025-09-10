@@ -1,5 +1,7 @@
 package model.ladybug;
 
+import model.util.Vector2D;
+
 /**
  * Represents a ladybug in the game world.
  *
@@ -7,7 +9,7 @@ package model.ladybug;
  */
 public class LadyBug {
 
-    private final BugIdentifier id;
+    private final Identifier id;
     private Vector2D location;
     private Facing facing;
 
@@ -18,7 +20,7 @@ public class LadyBug {
      * @param location the starting position of the ladybug
      * @param facing the initial facing direction of the ladybug
      */
-    public LadyBug(BugIdentifier id, Vector2D location, Facing facing) {
+    public LadyBug(Identifier id, Vector2D location, Facing facing) {
         this.id = id;
         this.location = location;
         this.facing = facing;
@@ -67,7 +69,7 @@ public class LadyBug {
      *
      * @return the identifier of the ladybug
      */
-    public BugIdentifier getId() {
+    public Identifier getId() {
         return this.id;
     }
 

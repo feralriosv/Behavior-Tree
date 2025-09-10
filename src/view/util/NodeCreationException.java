@@ -1,6 +1,6 @@
 package view.util;
 
-import model.node.NodeNaming;
+import model.decisiontree.node.Naming;
 
 /**
  * Exception thrown when a node with a specific naming and label cannot be created.
@@ -14,10 +14,10 @@ public class NodeCreationException extends Exception {
   /**
    * Constructs a new NodeCreationException with a detailed error message.
    *
-   * @param nodeNaming the naming of the node that could not be created
+   * @param naming the naming of the node that could not be created
    * @param label the label of the node that could not be created
    */
-    public NodeCreationException(NodeNaming nodeNaming, String label) {
-        super(ERROR_MESSAGE_FORMAT.formatted(nodeNaming, label));
+    public NodeCreationException(Naming naming, String label) {
+        super(ERROR_MESSAGE_FORMAT.formatted(naming, label));
     }
 }

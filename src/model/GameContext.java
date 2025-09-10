@@ -4,9 +4,10 @@ import model.board.BoardView;
 import model.board.ReadOnlyBoard;
 import model.board.Tile;
 import model.board.TileType;
+import model.decisiontree.TickResult;
 import model.ladybug.Facing;
 import model.ladybug.LadyBug;
-import model.ladybug.Vector2D;
+import model.util.Vector2D;
 import model.util.PathFinder;
 
 import java.util.ArrayList;
@@ -73,7 +74,7 @@ public class GameContext {
      *
      * @return true if an action was executed, false otherwise
      */
-    public boolean actionExecuted() {
+    public boolean wasActionExecuted() {
         return this.actionExecuted;
     }
 

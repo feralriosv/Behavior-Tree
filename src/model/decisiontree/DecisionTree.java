@@ -1,7 +1,8 @@
-package model;
+package model.decisiontree;
 
-import model.node.NodeNaming;
-import model.node.Node;
+import model.GameContext;
+import model.decisiontree.node.Naming;
+import model.decisiontree.node.Node;
 import model.ladybug.LadyBug;
 
 import java.util.HashMap;
@@ -17,7 +18,7 @@ public class DecisionTree {
 
     private final Node<?> rootNode;
     private Node<?> activeNode;
-    private final Map<NodeNaming, Node<?>> nodeIndex;
+    private final Map<Naming, Node<?>> nodeIndex;
 
     /**
      * Creates a new decision tree with the given root node.
@@ -40,17 +41,24 @@ public class DecisionTree {
     /**
      * Attempts to insert a new sibling node immediately after a given target node in the decision tree.
      *
-     * @param childNode the node after which the new sibling should be inserted
+     * @param targetNode the node after which the new sibling should be inserted
      * @param newSibling the node to insert as a sibling
      * @return {@code true} if the sibling was successfully inserted; {@code false} otherwise
      */
-    public boolean addSibling(Node<?> childNode, Node<?> newSibling) {
-        if (childNode.isRoot() || this.containsNode(newSibling.getNodeNaming())) {
+    public boolean addSibling(Node<?> targetNode, Node<?> newSibling) {
+        if (targetNode.isRoot() || this.containsNode(newSibling.getNaming())) {
             return false;
         }
 
-        Node<?> parent = childNode.getParent();
-        return parent.insertSibling(childNode, newSibling);
+        Node<?> parent = targetNode.getParent();
+        int indexOfTarget = parent.getChildren().indexOf(targetNode);
+
+        if (indexOfTarget < 0) {
+            return false;
+        }
+
+        parent.insertChildAt(indexOfTarget + 1, newSibling);
+        return true;
     }
 
     /**
@@ -83,7 +91,7 @@ public class DecisionTree {
     public List<TickResult> tick(GameContext context, LadyBug ladyBug) {
         context.beginTick(ladyBug);
 
-        while (!context.actionExecuted()) {
+        while (!context.wasActionExecuted()) {
             this.rootNode.tick(context);
         }
 
@@ -93,9 +101,31 @@ public class DecisionTree {
     /**
      * Resets the decision tree to its initial state.
      */
-    protected void resetTree() {
+    public void resetTree() {
         this.activeNode = this.rootNode;
         this.resetSubtree(this.rootNode);
+    }
+
+    /**
+     * Recursively resets a subtree by invoking {@code resetNode()} on each node.
+     */
+    private void resetSubtree(Node<?> node) {
+        if (node == null) {
+            return;
+        }
+        node.handleReset();
+        for (Node<?> child : node.getChildren()) {
+            resetSubtree(child);
+        }
+    }
+
+    /**
+     * Returns the node that is currently active in this decision tree.
+     *
+     * @return the currently active {@link Node}, or {@code null} if no node has been activated yet
+     */
+    public Node<?> getActiveNode() {
+        return this.activeNode;
     }
 
     /**
@@ -108,41 +138,21 @@ public class DecisionTree {
     }
 
     /**
-     * Fast lookup of a node by its {@link NodeNaming} using an internal index.
-     *
-     * @param nodeNaming the identifier to look up
+     * Fast lookup of a node by its {@link Naming} using an internal index.
+     * @param naming the identifier to look up
      * @return the node if present, or {@code null} if not found
      */
-    public Node<?> findByName(NodeNaming nodeNaming) {
-        return this.nodeIndex.get(nodeNaming);
+    public Node<?> findByName(Naming naming) {
+        return this.nodeIndex.get(naming);
     }
 
-    /**
-     * Returns the node that is currently active in this decision tree.
-     *
-     * @return the currently active {@link Node}, or {@code null} if no node has been activated yet
-     */
-    protected Node<?> getActiveNode() {
-        return this.activeNode;
-    }
-
-    private void resetSubtree(Node<?> node) {
-        if (node == null) {
-            return;
-        }
-        node.handleReset();
-        for (Node<?> child : node.getChildren()) {
-            resetSubtree(child);
-        }
-    }
-
-    private boolean containsNode(NodeNaming nodeNaming) {
-        return this.nodeIndex.containsKey(nodeNaming);
+    private boolean containsNode(Naming naming) {
+        return this.nodeIndex.containsKey(naming);
     }
 
     private void assignTree(Node<?> node) {
         node.setTree(this);
-        this.nodeIndex.put(node.getNodeNaming(), node);
+        this.nodeIndex.put(node.getNaming(), node);
 
         for (Node<?> child : node.getChildren()) {
             assignTree(child);

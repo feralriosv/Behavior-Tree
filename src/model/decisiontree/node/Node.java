@@ -1,8 +1,9 @@
-package model.node;
+package model.decisiontree.node;
 
 import model.GameContext;
-import model.DecisionTree;
-import model.TickResult;
+import model.decisiontree.DecisionTree;
+import model.decisiontree.TickResult;
+import model.decisiontree.TickState;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,6 +14,7 @@ import java.util.List;
  * Represents a node in a decision tree.
  *
  * @param <T> the type of node, extending {@link NodeType}
+ *
  * @author ubpst
  */
 public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
@@ -20,7 +22,7 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
     private static final String STRING_FORMAT = "%s %s";
 
     private final T nodeType;
-    private final NodeNaming nodeNaming;
+    private final Naming naming;
     private final List<Node<?>> children;
     private TickState lastState;
     private DecisionTree tree;
@@ -32,8 +34,8 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
      * @param nodeId the unique identifier of this node
      * @param nodeType the type of this node
      */
-    protected Node(NodeNaming nodeId, T nodeType) {
-        this.nodeNaming = nodeId;
+    protected Node(Naming nodeId, T nodeType) {
+        this.naming = nodeId;
         this.nodeType = nodeType;
         this.children = new ArrayList<>();
         this.lastState = null;
@@ -71,24 +73,14 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
     }
 
     /**
-     * Inserts a new sibling node into the list of children of this node, directly to the right of the given.
+     * Inserts a child node at the specified index in the children list.
      *
-     * @param childNode   the existing child node whose right side will be used
-     *                    as the insertion position
-     * @param newSibling  the new node to insert as a sibling
-     * @return {@code true} if the sibling was successfully inserted,
-     *         {@code false} otherwise.
+     * @param index the position at which to insert the child
+     * @param child the child node to insert
      */
-    public abstract boolean insertSibling(Node<?> childNode, Node<?> newSibling);
-
-    /**
-     * Inserts the given {@link Node} into the list of children at the specified index.
-     *
-     * @param index the position in the children list where the node should be inserted
-     * @param node  the node to insert
-     */
-    protected void inserNodeAt(int index, Node<?> node) {
-        this.children.add(index, node);
+    public void insertChildAt(int index, Node<?> child) {
+        child.setTree(this.tree);
+        this.children.add(index, child);
     }
 
     /**
@@ -108,8 +100,8 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
      * @return the node identifier
      *
      */
-    public NodeNaming getNodeNaming() {
-        return this.nodeNaming;
+    public Naming getNaming() {
+        return this.naming;
     }
 
     /**
@@ -202,6 +194,6 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
 
     @Override
     public String toString() {
-        return STRING_FORMAT.formatted(this.nodeNaming, this.nodeType.label());
+        return STRING_FORMAT.formatted(this.naming, this.nodeType.label());
     }
 }

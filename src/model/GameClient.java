@@ -1,6 +1,3 @@
-/*
- * Copyright (c) 2025, KASTEL. All rights reserved.
- */
 package model;
 
 /**

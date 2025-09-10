@@ -1,7 +1,8 @@
-package model.node;
+package model.decisiontree.node;
 
 import model.GameContext;
-import model.ladybug.Vector2D;
+import model.decisiontree.TickState;
+import model.util.Vector2D;
 import view.util.Vector2DDecorator;
 
 import java.util.Collections;
@@ -9,6 +10,7 @@ import java.util.Iterator;
 
 /**
  * Represents a leaf node in the decision tree.
+ * A leaf node contains an action or condition ({@link LeafType}) that can be executed
  *
  * @author ubpst
  */
@@ -28,7 +30,7 @@ public class LeafNode extends Node<LeafType> {
      * @param start   the starting coordinate relevant to the node's behavior, or {@code null} if not required
      * @param goal    the goal coordinate relevant to the node's behavior, or {@code null} if not required
      */
-    public LeafNode(NodeNaming nodeId, LeafType nodeType, Vector2D start, Vector2D goal) {
+    public LeafNode(Naming nodeId, LeafType nodeType, Vector2D start, Vector2D goal) {
         super(nodeId, nodeType);
         this.start = start;
         this.goal = goal;
@@ -40,8 +42,26 @@ public class LeafNode extends Node<LeafType> {
      * @param nodeId the unique identifier of this node
      * @param nodeType the type of the leaf, defining its behavior
      */
-    public LeafNode(NodeNaming nodeId, LeafType nodeType) {
+    public LeafNode(Naming nodeId, LeafType nodeType) {
         this(nodeId, nodeType, null, null);
+    }
+
+    /**
+     * Returns the starting position relevant to this leaf node's behavior.
+     *
+     * @return the start position, or null if not set
+     */
+    protected Vector2D getStart() {
+        return this.start;
+    }
+
+    /**
+     * Returns the goal position relevant to this leaf node's behavior.
+     *
+     * @return the goal position, or null if not set
+     */
+    protected Vector2D getGoal() {
+        return this.goal;
     }
 
     @Override
@@ -68,31 +88,13 @@ public class LeafNode extends Node<LeafType> {
     }
 
     @Override
-    public boolean insertSibling(Node<?> childNode, Node<?> newSibling) {
-        return false;
+    public void insertChildAt(int index, Node<?> child) {
+
     }
 
     @Override
     public void handleReset() {
 
-    }
-
-    /**
-     * Returns the starting position relevant to this leaf node's behavior.
-     *
-     * @return the start position, or null if not set
-     */
-    protected Vector2D getStart() {
-        return this.start;
-    }
-
-    /**
-     * Returns the goal position relevant to this leaf node's behavior.
-     *
-     * @return the goal position, or null if not set
-     */
-    protected Vector2D getGoal() {
-        return this.goal;
     }
 
     @Override

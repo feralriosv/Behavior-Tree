@@ -2,7 +2,7 @@
  * Copyright (c) 2025, KASTEL. All rights reserved.
  */
 
-package model.ladybug;
+package model.util;
 
 /**
  * Represents an immutable 2D vector with vertical and horizontal components.

@@ -1,4 +1,4 @@
-package model.node;
+package model.decisiontree;
 
 /**
  * Defines the possible states a node can report during the execution (tick) of a decision tree.

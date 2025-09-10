@@ -2,10 +2,10 @@ package view.command;
 
 
 import model.Game;
-import model.node.Node;
+import model.decisiontree.node.Node;
 import model.util.BugFinder;
 import model.util.UnfoundedBugException;
-import model.ladybug.BugIdentifier;
+import model.ladybug.Identifier;
 import model.ladybug.LadyBug;
 import view.Command;
 import view.Result;
@@ -17,16 +17,16 @@ import view.Result;
  */
 public class Head implements Command<Game> {
 
-    private final BugIdentifier bugIdentifier;
+    private final Identifier identifier;
 
     /**
      * Creates a new {@code Head} command for the specified ladybug identifier.
      *
-     * @param bugIdentifier the unique {@link BugIdentifier} of the ladybug whose active head node
+     * @param identifier the unique {@link Identifier} of the ladybug whose active head node
      *                   will be queried or manipulated by this command
      */
-    public Head(BugIdentifier bugIdentifier) {
-        this.bugIdentifier = bugIdentifier;
+    public Head(Identifier identifier) {
+        this.identifier = identifier;
     }
 
     @Override
@@ -35,12 +35,12 @@ public class Head implements Command<Game> {
         LadyBug ladyBug;
 
         try {
-            ladyBug = finder.findById(this.bugIdentifier);
+            ladyBug = finder.findById(this.identifier);
         } catch (UnfoundedBugException e) {
             return Result.error(e.getMessage());
         }
 
         Node<?> activeNode = handle.getBugActiveNode(ladyBug);
-        return Result.success(activeNode.getNodeNaming().toString());
+        return Result.success(activeNode.getNaming().toString());
     }
 }

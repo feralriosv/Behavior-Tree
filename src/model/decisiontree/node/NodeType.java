@@ -1,11 +1,13 @@
-package model.node;
+package model.decisiontree.node;
 
 import model.GameContext;
+import model.decisiontree.TickState;
 
 /**
  * Strategy-bearing type for decision tree nodes.
  *
  * @param <T> the concrete node class this type applies to
+ *
  * @author ubpst
  */
 public interface NodeType<T extends Node<?>> {

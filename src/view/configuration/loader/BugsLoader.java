@@ -2,8 +2,8 @@ package view.configuration.loader;
 
 import model.ladybug.LadyBug;
 import model.ladybug.Facing;
-import model.ladybug.BugIdentifier;
-import model.ladybug.Vector2D;
+import model.ladybug.Identifier;
+import model.util.Vector2D;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,8 +55,8 @@ public class BugsLoader implements Loader<List<LadyBug>> {
 
     private void processLadybug(char facingSymbol, int vertical, int horizontal) {
         Vector2D location = new Vector2D(vertical, horizontal);
-        BugIdentifier bugIdentifier = new BugIdentifier(loadedBugs.size() + 1);
+        Identifier identifier = new Identifier(loadedBugs.size() + 1);
         Facing facing = Facing.fromChar(facingSymbol);
-        loadedBugs.add(new LadyBug(bugIdentifier, location, facing));
+        loadedBugs.add(new LadyBug(identifier, location, facing));
     }
 }

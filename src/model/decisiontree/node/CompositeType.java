@@ -1,6 +1,7 @@
-package model.node;
+package model.decisiontree.node;
 
 import model.GameContext;
+import model.decisiontree.TickState;
 
 import java.util.List;
 
@@ -65,7 +66,7 @@ public enum CompositeType implements NodeType<CompositeNode> {
         while (self.ticksUnCompleted()) {
             TickState childState = self.tickNextChild(context);
 
-            if (context.actionExecuted()) {
+            if (context.wasActionExecuted()) {
                 if (childState == TickState.SUCCESS) {
                     return TickState.WAITS_SUCCESS;
                 }
@@ -96,7 +97,7 @@ public enum CompositeType implements NodeType<CompositeNode> {
         while (self.ticksUnCompleted()) {
             TickState childState = self.tickNextChild(context);
 
-            if (context.actionExecuted()) {
+            if (context.wasActionExecuted()) {
                 if (childState == TickState.FAILURE) {
                     return TickState.WAITS_FAILURE;
                 }
@@ -135,7 +136,7 @@ public enum CompositeType implements NodeType<CompositeNode> {
                 successes++;
             }
 
-            if (context.actionExecuted()) {
+            if (context.wasActionExecuted()) {
                 if (childState == TickState.SUCCESS || childState == TickState.FAILURE) {
                     self.advancePointer();
                 }

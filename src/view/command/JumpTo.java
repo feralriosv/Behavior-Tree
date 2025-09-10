@@ -1,14 +1,14 @@
 package view.command;
 
 import model.Game;
-import model.DecisionTree;
-import model.node.NodeNaming;
-import model.node.Node;
+import model.decisiontree.DecisionTree;
+import model.decisiontree.node.Naming;
+import model.decisiontree.node.Node;
 import model.util.BugFinder;
 import model.util.NodeFinder;
 import model.util.UnfoundedBugException;
 import model.util.UnfoundedNodeException;
-import model.ladybug.BugIdentifier;
+import model.ladybug.Identifier;
 import model.ladybug.LadyBug;
 import view.Command;
 import view.Result;
@@ -21,18 +21,18 @@ import view.Result;
  */
 public class JumpTo implements Command<Game> {
 
-    private final BugIdentifier bugIdentifier;
-    private final NodeNaming nodeNaming;
+    private final Identifier identifier;
+    private final Naming naming;
 
     /**
      * Creates a new JumpTo command to reposition a LadyBug's decision tree execution to the given node.
      *
-     * @param bugIdentifier the bug to affect
-     * @param nodeNaming the target node name
+     * @param identifier the bug to affect
+     * @param naming the target node name
      */
-    public JumpTo(BugIdentifier bugIdentifier, NodeNaming nodeNaming) {
-        this.bugIdentifier = bugIdentifier;
-        this.nodeNaming = nodeNaming;
+    public JumpTo(Identifier identifier, Naming naming) {
+        this.identifier = identifier;
+        this.naming = naming;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class JumpTo implements Command<Game> {
         LadyBug ladyBug;
 
         try {
-            ladyBug = bugFinder.findById(this.bugIdentifier);
+            ladyBug = bugFinder.findById(this.identifier);
         } catch (UnfoundedBugException e) {
             return Result.error(e.getMessage());
         }
@@ -51,7 +51,7 @@ public class JumpTo implements Command<Game> {
 
         Node<?> target;
         try {
-            target = nodeFinder.findByName(nodeNaming);
+            target = nodeFinder.findByName(naming);
         } catch (UnfoundedNodeException e) {
             return Result.error(e.getMessage());
         }
