@@ -1,3 +1,6 @@
+/*
+ * Copyright (c) 2025, KASTEL. All rights reserved.
+ */
 package view;
 
 import model.Game;

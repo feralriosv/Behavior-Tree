@@ -6,7 +6,7 @@ package model.board;
  * @param tileType the type of this tile
  * @author ubpst
  */
-public record Tile (TileType tileType) {
+public record Tile(TileType tileType) {
 
     /**
      * Checks whether this tile represents an empty cell.

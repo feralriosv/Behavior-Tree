@@ -4,11 +4,8 @@ import java.util.Objects;
 
 /**
  * Represents a unique naming for a node in a decision tree.
- * Encapsulates a string value and provides proper {@link #toString()},
- * {@link #equals(Object)}, and {@link #hashCode()} implementations.
  *
  * @param value the string value of this node identifier
- *
  * @author ubpst
  */
 public record NodeNaming(String value) {

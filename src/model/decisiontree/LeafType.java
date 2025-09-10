@@ -1,7 +1,7 @@
 package model.decisiontree;
 
 import model.GameContext;
-import model.util.Vector2D;
+import model.ladybug.Vector2D;
 
 import java.util.Optional;
 

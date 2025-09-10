@@ -1,7 +1,6 @@
 package model.decisiontree;
 
 import model.GameContext;
-import model.TickResult;
 
 import java.util.Iterator;
 
@@ -86,7 +85,7 @@ public class CompositeNode extends Node<CompositeType> {
     protected TickState tickNextChild(GameContext context) {
         Node<?> child = getChildren().get(this.localPointer);
         child.tick(context);
-        return new TickResult(child.getLastState(), child).state();
+        return child.getLastState();
     }
 
     /**

@@ -3,7 +3,7 @@ package view.util;
 import model.decisiontree.LeafType;
 import model.decisiontree.LeafNode;
 import model.decisiontree.NodeNaming;
-import model.util.Vector2D;
+import model.ladybug.Vector2D;
 import view.Arguments;
 import view.InvalidArgumentException;
 import view.configuration.loader.LoadCallBack;

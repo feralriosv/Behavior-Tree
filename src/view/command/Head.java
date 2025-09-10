@@ -5,7 +5,7 @@ import model.Game;
 import model.decisiontree.Node;
 import model.util.BugFinder;
 import model.util.UnfoundedBugException;
-import model.ladybug.Identifier;
+import model.ladybug.BugIdentifier;
 import model.ladybug.LadyBug;
 import view.Command;
 import view.Result;
@@ -17,16 +17,16 @@ import view.Result;
  */
 public class Head implements Command<Game> {
 
-    private final Identifier identifier;
+    private final BugIdentifier bugIdentifier;
 
     /**
      * Creates a new {@code Head} command for the specified ladybug identifier.
      *
-     * @param identifier the unique {@link Identifier} of the ladybug whose active head node
+     * @param bugIdentifier the unique {@link BugIdentifier} of the ladybug whose active head node
      *                   will be queried or manipulated by this command
      */
-    public Head(Identifier identifier) {
-        this.identifier = identifier;
+    public Head(BugIdentifier bugIdentifier) {
+        this.bugIdentifier = bugIdentifier;
     }
 
     @Override
@@ -35,7 +35,7 @@ public class Head implements Command<Game> {
         LadyBug ladyBug;
 
         try {
-            ladyBug = finder.findById(this.identifier);
+            ladyBug = finder.findById(this.bugIdentifier);
         } catch (UnfoundedBugException e) {
             return Result.error(e.getMessage());
         }

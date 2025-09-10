@@ -106,28 +106,6 @@ public class DecisionTree {
     }
 
     /**
-     * Recursively resets a subtree by invoking {@code resetNode()} on each node.
-     */
-    private void resetSubtree(Node<?> node) {
-        if (node == null) {
-            return;
-        }
-        node.handleReset();
-        for (Node<?> child : node.getChildren()) {
-            resetSubtree(child);
-        }
-    }
-
-    /**
-     * Returns the node that is currently active in this decision tree.
-     *
-     * @return the currently active {@link Node}, or {@code null} if no node has been activated yet
-     */
-    public Node<?> getActiveNode() {
-        return this.activeNode;
-    }
-
-    /**
      * Updates the reference to the node that is currently active in this decision tree.
      *
      * @param activeNode the {@link Node} that should be marked as active
@@ -143,6 +121,25 @@ public class DecisionTree {
      */
     public Node<?> findByName(NodeNaming nodeNaming) {
         return this.nodeIndex.get(nodeNaming);
+    }
+
+    /**
+     * Returns the node that is currently active in this decision tree.
+     *
+     * @return the currently active {@link Node}, or {@code null} if no node has been activated yet
+     */
+    protected Node<?> getActiveNode() {
+        return this.activeNode;
+    }
+
+    private void resetSubtree(Node<?> node) {
+        if (node == null) {
+            return;
+        }
+        node.handleReset();
+        for (Node<?> child : node.getChildren()) {
+            resetSubtree(child);
+        }
     }
 
     private boolean containsNode(NodeNaming nodeNaming) {

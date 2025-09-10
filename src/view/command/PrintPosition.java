@@ -5,7 +5,7 @@ import view.util.Vector2DDecorator;
 import model.util.BugFinder;
 import model.util.UnfoundedBugException;
 import model.ladybug.LadyBug;
-import model.ladybug.Identifier;
+import model.ladybug.BugIdentifier;
 import view.Command;
 import view.Result;
 
@@ -17,15 +17,15 @@ import view.Result;
  */
 public class PrintPosition implements Command<Game> {
 
-    private final Identifier identifier;
+    private final BugIdentifier bugIdentifier;
 
     /**
      * Creates a new {@code PrintPosition} command for the specified ladybug.
      *
-     * @param ladyBugIdentifier the unique identifier of the ladybug whose position will be printed
+     * @param ladyBugBugIdentifier the unique identifier of the ladybug whose position will be printed
      */
-    public PrintPosition(Identifier ladyBugIdentifier) {
-        this.identifier = ladyBugIdentifier;
+    public PrintPosition(BugIdentifier ladyBugBugIdentifier) {
+        this.bugIdentifier = ladyBugBugIdentifier;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class PrintPosition implements Command<Game> {
         LadyBug ladyBug;
 
         try {
-            ladyBug = finder.findById(this.identifier);
+            ladyBug = finder.findById(this.bugIdentifier);
         } catch (UnfoundedBugException e) {
             return Result.error(e.getMessage());
         }

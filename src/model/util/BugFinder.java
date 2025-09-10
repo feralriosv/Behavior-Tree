@@ -1,7 +1,7 @@
 package model.util;
 
 import model.Game;
-import model.ladybug.Identifier;
+import model.ladybug.BugIdentifier;
 import model.ladybug.LadyBug;
 
 import java.util.Optional;
@@ -27,16 +27,16 @@ public class BugFinder {
     /**
      * Finds a LadyBug by its identifier.
      *
-     * @param identifier the identifier of the ladybug to find
+     * @param bugIdentifier the identifier of the ladybug to find
      * @return the LadyBug with the specified identifier
      * @throws UnfoundedBugException if no LadyBug with the given identifier is found
      */
-    public LadyBug findById(Identifier identifier) throws UnfoundedBugException {
-        Optional<LadyBug> optionalLadyBug = this.game.getBugById(identifier);
+    public LadyBug findById(BugIdentifier bugIdentifier) throws UnfoundedBugException {
+        Optional<LadyBug> optionalLadyBug = this.game.getBugById(bugIdentifier);
         if (optionalLadyBug.isPresent()) {
             return optionalLadyBug.get();
         } else {
-            throw new UnfoundedBugException(identifier);
+            throw new UnfoundedBugException(bugIdentifier);
         }
     }
 }

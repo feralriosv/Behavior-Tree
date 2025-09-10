@@ -9,7 +9,7 @@ import model.util.BugFinder;
 import model.util.NodeFinder;
 import model.util.UnfoundedBugException;
 import model.util.UnfoundedNodeException;
-import model.ladybug.Identifier;
+import model.ladybug.BugIdentifier;
 import model.ladybug.LadyBug;
 import view.Command;
 import view.util.NodeCreationException;
@@ -27,20 +27,20 @@ public class AddSibling implements Command<Game> {
 
     private static final String ERROR_SIBLING_NOT_ADDED = "node could not be added";
 
-    private final Identifier identifier;
+    private final BugIdentifier bugIdentifier;
     private final NodeNaming nodeNaming;
     private final NodeToken nodeToken;
 
     /**
      * Constructs the AddSibling command.
      *
-     * @param identifier the identifier of the ladybug whose decision tree is being modified
+     * @param bugIdentifier the identifier of the ladybug whose decision tree is being modified
      * @param nodeNaming the naming of the existing node to which a sibling will be added
      * @param nodeToken  the token representing the new sibling node to be created and added
      */
-    public AddSibling(Identifier identifier, NodeNaming nodeNaming, NodeToken nodeToken) {
+    public AddSibling(BugIdentifier bugIdentifier, NodeNaming nodeNaming, NodeToken nodeToken) {
 
-        this.identifier = identifier;
+        this.bugIdentifier = bugIdentifier;
         this.nodeNaming = nodeNaming;
         this.nodeToken = nodeToken;
     }
@@ -51,7 +51,7 @@ public class AddSibling implements Command<Game> {
 
         LadyBug ladyBug;
         try {
-            ladyBug = finder.findById(this.identifier);
+            ladyBug = finder.findById(this.bugIdentifier);
         } catch (UnfoundedBugException e) {
             return Result.error(e.getMessage());
         }

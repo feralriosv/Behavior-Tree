@@ -6,8 +6,6 @@ import model.decisiontree.Node;
 
 /**
  * Helper class to find nodes by name in a decision tree.
- * <p>
- * This class standardizes object retrieval and error handling to avoid code duplication.
  *
  * @author ubpst
  */

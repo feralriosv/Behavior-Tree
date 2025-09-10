@@ -1,8 +1,11 @@
+/*
+ * Copyright (c) 2025, KASTEL. All rights reserved.
+ */
 package view;
 
 import model.decisiontree.NodeNaming;
-import model.ladybug.Identifier;
-import model.util.Vector2D;
+import model.ladybug.BugIdentifier;
+import model.ladybug.Vector2D;
 import view.configuration.NodeToken;
 
 import java.nio.file.Path;
@@ -95,8 +98,8 @@ public class Arguments {
      * @return standard return.
      * @throws InvalidArgumentException i
      */
-    public Identifier parseIdentifier() throws InvalidArgumentException {
-        return new Identifier(parseInteger());
+    public BugIdentifier parseIdentifier() throws InvalidArgumentException {
+        return new BugIdentifier(parseInteger());
     }
 
     /**
