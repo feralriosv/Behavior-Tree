@@ -139,7 +139,7 @@ public class CompositeNode extends Node<CompositeType> {
 
         newSibling.setParent(this);
         newSibling.setTree(getTree());
-        getChildren().add(targetIndex, newSibling);
+        inserNodeAt(targetIndex, newSibling);
         return true;
     }
 

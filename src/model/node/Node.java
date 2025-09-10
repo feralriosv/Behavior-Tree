@@ -82,6 +82,16 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
     public abstract boolean insertSibling(Node<?> childNode, Node<?> newSibling);
 
     /**
+     * Inserts the given {@link Node} into the list of children at the specified index.
+     *
+     * @param index the position in the children list where the node should be inserted
+     * @param node  the node to insert
+     */
+    protected void inserNodeAt(int index, Node<?> node) {
+        this.children.add(index, node);
+    }
+
+    /**
      * Saves the given tick state in the context and updates the last state of this node.
      *
      * @param context the game context
