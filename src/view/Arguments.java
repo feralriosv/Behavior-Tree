@@ -1,8 +1,11 @@
+/*
+ * Copyright (c) 2025, KASTEL. All rights reserved.
+ */
 package view;
 
-import model.decisiontree.node.Naming;
-import model.ladybug.Identifier;
-import model.util.Vector2D;
+import model.node.NodeNaming;
+import model.ladybug.BugIdentifier;
+import model.ladybug.Vector2D;
 import view.configuration.NodeToken;
 
 import java.nio.file.Path;
@@ -80,13 +83,13 @@ public class Arguments {
     }
 
     /**
-     * Parses the next argument as a {@link Naming}.
+     * Parses the next argument as a {@link NodeNaming}.
      *
-     * @return a {@link Naming} created from the next argument
+     * @return a {@link NodeNaming} created from the next argument
      * @throws InvalidArgumentException if there are no more arguments available
      */
-    public Naming parseNodeNaming() throws InvalidArgumentException {
-        return new Naming(retrieveArgument());
+    public NodeNaming parseNodeNaming() throws InvalidArgumentException {
+        return new NodeNaming(retrieveArgument());
     }
 
     /**
@@ -95,8 +98,8 @@ public class Arguments {
      * @return standard return.
      * @throws InvalidArgumentException i
      */
-    public Identifier parseIdentifier() throws InvalidArgumentException {
-        return new Identifier(parseInteger());
+    public BugIdentifier parseBugIdentifier() throws InvalidArgumentException {
+        return new BugIdentifier(parseInteger());
     }
 
     /**
@@ -151,14 +154,18 @@ public class Arguments {
             throw new InvalidArgumentException(ERROR_TOO_FEW_ARGUMENTS);
         }
 
-        StringBuilder sb = new StringBuilder(arguments[argumentIndex++]);
+        StringBuilder argumentContent = new StringBuilder(arguments[argumentIndex++]);
 
-        if (sb.indexOf(NODE_LABEL_OPEN) != -1 && !sb.toString().endsWith(NODE_LABEL_CLOSE)) {
-            while (!isExhausted() && !sb.toString().endsWith(NODE_LABEL_CLOSE)) {
-                sb.append(EMPTY_SPACE).append(arguments[argumentIndex++]);
+        if (!isInsideBrackets(argumentContent.toString())) {
+            while (!isExhausted() && !argumentContent.toString().endsWith(NODE_LABEL_CLOSE)) {
+                argumentContent.append(EMPTY_SPACE).append(arguments[argumentIndex++]);
             }
         }
 
-        return sb.toString();
+        return argumentContent.toString();
+    }
+
+    private boolean isInsideBrackets(String argument) {
+        return argument.startsWith(NODE_LABEL_OPEN) && argument.endsWith(NODE_LABEL_CLOSE);
     }
 }

@@ -33,7 +33,7 @@ public class ConsoleIORessources {
      *
      * @return the {@link PrintStream} used for standard output
      */
-    public PrintStream getDefaultStream() {
+    protected PrintStream getDefaultStream() {
         return this.defaultStream;
     }
 
@@ -42,7 +42,7 @@ public class ConsoleIORessources {
      *
      * @return the {@link PrintStream} used for error output
      */
-    public PrintStream getErrorStream() {
+    protected PrintStream getErrorStream() {
         return this.errorStream;
     }
 
@@ -51,7 +51,7 @@ public class ConsoleIORessources {
      *
      * @return the {@link Scanner} used for reading input
      */
-    public Scanner getInputSource() {
+    protected Scanner getInputSource() {
         return this.inputSource;
     }
 }

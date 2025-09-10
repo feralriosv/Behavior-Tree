@@ -1,6 +1,6 @@
 package view.configuration.mermaid;
 
-import model.decisiontree.node.Naming;
+import model.node.NodeNaming;
 import view.configuration.NodeToken;
 import view.configuration.loader.Loader;
 
@@ -25,9 +25,9 @@ public class MermaidLoader implements Loader<MermaidData> {
     private static final String MERMAID_EDGE_SYMBOL = "-->";
     private static final String MERMAID_HEADER = "flowchart TD";
 
-    private final Map<Naming, String> nodeDefinitions = new HashMap<>();
+    private final Map<NodeNaming, String> nodeDefinitions = new HashMap<>();
     private final List<Edge> edgesFound = new ArrayList<>();
-    private final Set<Naming> references = new HashSet<>();
+    private final Set<NodeNaming> references = new HashSet<>();
 
     @Override
     public MermaidData load(List<String> lines) {
@@ -75,15 +75,15 @@ public class MermaidLoader implements Loader<MermaidData> {
         NodeToken[] tokens = { leftTokenOpt.get(), rightTokenOpt.get() };
 
         for (NodeToken token : tokens) {
-            Naming naming = new Naming(token.name());
-            this.references.add(naming);
+            NodeNaming nodeNaming = new NodeNaming(token.name());
+            this.references.add(nodeNaming);
 
-            if (!putLabel(naming, token.label())) {
+            if (!putLabel(nodeNaming, token.label())) {
                 return false;
             }
         }
 
-        Edge edge = new Edge(new Naming(tokens[0].name()), new Naming(tokens[1].name()));
+        Edge edge = new Edge(new NodeNaming(tokens[0].name()), new NodeNaming(tokens[1].name()));
         this.edgesFound.add(edge);
         return true;
     }
@@ -94,12 +94,12 @@ public class MermaidLoader implements Loader<MermaidData> {
             return false;
         }
 
-        Naming id = new Naming(tokenOpt.get().name());
+        NodeNaming id = new NodeNaming(tokenOpt.get().name());
         this.references.add(id);
         return putLabel(id, tokenOpt.get().label());
     }
 
-    private boolean putLabel(Naming id, String rawLabel) {
+    private boolean putLabel(NodeNaming id, String rawLabel) {
         String label = rawLabel == null ? "" : rawLabel.trim();
         if (label.isEmpty()) {
             return true;

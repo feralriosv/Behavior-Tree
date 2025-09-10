@@ -1,8 +1,6 @@
-package model.decisiontree.node;
+package model.node;
 
 import model.GameContext;
-import model.decisiontree.TickResult;
-import model.decisiontree.TickState;
 
 import java.util.Iterator;
 
@@ -23,7 +21,7 @@ public class CompositeNode extends Node<CompositeType> {
      * @param nodeType the composite type (Fallback, Sequence, Parallel)
      * @param parameter additional parameter (e.g. M for Parallel), 0 if unused
      */
-    public CompositeNode(Naming nodeId, CompositeType nodeType, int parameter) {
+    public CompositeNode(NodeNaming nodeId, CompositeType nodeType, int parameter) {
         super(nodeId, nodeType);
         this.localPointer = 0;
         this.parameter = parameter;
@@ -35,7 +33,7 @@ public class CompositeNode extends Node<CompositeType> {
      * @param nodeId the identifier of this node
      * @param type   the composite type
      */
-    public CompositeNode(Naming nodeId, CompositeType type) {
+    public CompositeNode(NodeNaming nodeId, CompositeType type) {
         super(nodeId, type);
         this.localPointer = 0;
         this.parameter = 0;
@@ -87,7 +85,7 @@ public class CompositeNode extends Node<CompositeType> {
     protected TickState tickNextChild(GameContext context) {
         Node<?> child = getChildren().get(this.localPointer);
         child.tick(context);
-        return new TickResult(child.getLastState(), child).getState();
+        return child.getLastState();
     }
 
     /**
@@ -132,9 +130,17 @@ public class CompositeNode extends Node<CompositeType> {
     }
 
     @Override
-    public void insertChildAt(int index, Node<?> child) {
-        child.setParent(this);
-        super.insertChildAt(index, child);
+    public boolean insertSibling(Node<?> childNode, Node<?> newSibling) {
+        int targetIndex = getChildren().indexOf(childNode);
+
+        if (targetIndex < 0) {
+            return false;
+        }
+
+        newSibling.setParent(this);
+        newSibling.setTree(getTree());
+        getChildren().add(targetIndex, newSibling);
+        return true;
     }
 
     @Override

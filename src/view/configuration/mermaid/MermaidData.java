@@ -1,6 +1,6 @@
 package view.configuration.mermaid;
 
-import model.decisiontree.node.Naming;
+import model.node.NodeNaming;
 
 import java.util.Collections;
 import java.util.List;
@@ -16,26 +16,26 @@ import java.util.Set;
  * @author ubpst
  */
 public final class MermaidData {
-    private final Map<Naming, String> nodeDefinitions;
+    private final Map<NodeNaming, String> nodeDefinitions;
     private final List<Edge> edges;
-    private final Set<Naming> namingsFound;
+    private final Set<NodeNaming> namingsFound;
     private final boolean invalid;
 
     /**
      * Creates a new {@code MermaidData} instance representing valid parsed data.
      *
-     * @param nodeDefinitions map of node IDs ({@link Naming}) to their labels
+     * @param nodeDefinitions map of node IDs ({@link NodeNaming}) to their labels
      * @param edges           list of directed edges between nodes
-     * @param namings   set of all node namings referenced in the tree
+     * @param nodeNamings   set of all node namings referenced in the tree
      */
-    public MermaidData(Map<Naming, String> nodeDefinitions, List<Edge> edges, Set<Naming> namings) {
+    public MermaidData(Map<NodeNaming, String> nodeDefinitions, List<Edge> edges, Set<NodeNaming> nodeNamings) {
         this.edges = Collections.unmodifiableList(edges);
         this.nodeDefinitions = Collections.unmodifiableMap(nodeDefinitions);
-        this.namingsFound = Collections.unmodifiableSet(namings);
+        this.namingsFound = Collections.unmodifiableSet(nodeNamings);
         this.invalid = false;
     }
 
-    private MermaidData(Map<Naming, String> nodeDefinitions, List<Edge> edges, Set<Naming> referencedIds, boolean invalid) {
+    private MermaidData(Map<NodeNaming, String> nodeDefinitions, List<Edge> edges, Set<NodeNaming> referencedIds, boolean invalid) {
         this.edges = Collections.unmodifiableList(edges);
         this.nodeDefinitions = Collections.unmodifiableMap(nodeDefinitions);
         this.namingsFound = Collections.unmodifiableSet(referencedIds);
@@ -56,16 +56,16 @@ public final class MermaidData {
      *
      * @return an unmodifiable set of map entries representing node IDs and their labels
      */
-    public Set<Map.Entry<Naming, String>> getNodeDefinitions() {
+    public Set<Map.Entry<NodeNaming, String>> getNodeDefinitions() {
         return this.nodeDefinitions.entrySet();
     }
 
     /**
      * Returns all node IDs that were referenced in the Mermaid diagram.
      *
-     * @return unmodifiable set of {@link Naming}
+     * @return unmodifiable set of {@link NodeNaming}
      */
-    public Set<Naming> getNamingsFound() {
+    public Set<NodeNaming> getNamingsFound() {
         return this.namingsFound;
     }
 

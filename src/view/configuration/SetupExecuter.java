@@ -2,7 +2,7 @@ package view.configuration;
 
 import model.ladybug.LadyBug;
 import model.board.GameBoard;
-import model.decisiontree.DecisionTree;
+import model.DecisionTree;
 import view.CommandExecuter;
 import view.ConsoleIORessources;
 import view.Keyword;

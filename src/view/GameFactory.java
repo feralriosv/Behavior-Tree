@@ -31,7 +31,7 @@ public class GameFactory {
      *
      * @return a game instance when the game could be constructed, {@code null} if not.
      */
-    public Game createGame() {
+    protected Game createGame() {
         SetupExecuter<Configuration, ?> setupHandler = SetupExecuter.createSetup(this.ioRessources);
         setupHandler.handleUserInput();
 

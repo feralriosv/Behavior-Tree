@@ -3,11 +3,10 @@ package model;
 import model.board.GameBoard;
 import model.board.Tile;
 import model.board.TileType;
-import model.decisiontree.DecisionTree;
-import model.decisiontree.node.Node;
+import model.node.Node;
 import model.ladybug.LadyBug;
-import model.ladybug.Identifier;
-import model.util.Vector2D;
+import model.ladybug.BugIdentifier;
+import model.ladybug.Vector2D;
 import view.configuration.Configuration;
 
 import java.util.Collections;
@@ -197,12 +196,12 @@ public class Game {
     /**
      * Finds a ladybug in the game by its identifier.
      *
-     * @param identifier the unique identifier of the ladybug
+     * @param bugIdentifier the unique identifier of the ladybug
      * @return an {@link Optional} containing the ladybug if found, otherwise empty
      */
-    public Optional<LadyBug> getBugById(Identifier identifier) {
+    public Optional<LadyBug> getBugById(BugIdentifier bugIdentifier) {
         for (LadyBug ladyBug : bugsInGame) {
-            if (ladyBug.getId().equals(identifier)) {
+            if (ladyBug.getId().equals(bugIdentifier)) {
                 return Optional.of(ladyBug);
             }
         }

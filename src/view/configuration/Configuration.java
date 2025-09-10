@@ -2,7 +2,7 @@ package view.configuration;
 
 import model.board.GameBoard;
 import model.ladybug.LadyBug;
-import model.decisiontree.DecisionTree;
+import model.DecisionTree;
 
 import java.util.List;
 

@@ -1,8 +1,7 @@
-package model.decisiontree.node;
+package model.node;
 
 import model.GameContext;
-import model.decisiontree.TickState;
-import model.util.Vector2D;
+import model.ladybug.Vector2D;
 
 import java.util.Optional;
 

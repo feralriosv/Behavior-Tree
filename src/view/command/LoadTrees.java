@@ -1,6 +1,6 @@
 package view.command;
 
-import model.decisiontree.DecisionTree;
+import model.DecisionTree;
 import view.Command;
 import view.Result;
 import view.configuration.Configuration;

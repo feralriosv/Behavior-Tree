@@ -1,6 +1,6 @@
 package model.board;
 
-import model.util.Vector2D;
+import model.ladybug.Vector2D;
 
 /**
  * A read-only view of a {@link GameBoard}.

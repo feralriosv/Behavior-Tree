@@ -1,6 +1,6 @@
 package model.util;
 
-import model.decisiontree.node.Naming;
+import model.node.NodeNaming;
 
 /**
  * Exception thrown when a node cannot be found in a ladybug's decision tree.
@@ -14,9 +14,9 @@ public class UnfoundedNodeException extends Exception {
     /**
      * Initializes the exception with a standardized error message.
      *
-     * @param naming the naming of the node that could not be found
+     * @param nodeNaming the naming of the node that could not be found
      */
-    public UnfoundedNodeException(Naming naming) {
-        super(ERROR_NODE_SEARCH_FAILED.formatted(naming));
+    public UnfoundedNodeException(NodeNaming nodeNaming) {
+        super(ERROR_NODE_SEARCH_FAILED.formatted(nodeNaming));
     }
 }

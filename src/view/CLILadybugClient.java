@@ -1,3 +1,6 @@
+/*
+ * Copyright (c) 2025, KASTEL. All rights reserved.
+ */
 package view;
 
 import model.Game;
@@ -34,7 +37,6 @@ public class CLILadybugClient implements GameClient, AutoCloseable {
         this.scanner = ioRessources.getInputSource();
         this.executer = new CommandExecuter<>(ioRessources, ModelKeyword.class);
     }
-
 
     @Override
     public Game createGame() {

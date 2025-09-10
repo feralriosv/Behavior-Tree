@@ -6,7 +6,7 @@ package model.ladybug;
  * @param value the integer value of this identifier
  * @author ubpst
  */
-public record Identifier(int value) {
+public record BugIdentifier(int value) {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -15,7 +15,7 @@ public record Identifier(int value) {
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        Identifier other = (Identifier) obj;
+        BugIdentifier other = (BugIdentifier) obj;
         return value == other.value;
     }
 

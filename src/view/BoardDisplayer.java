@@ -1,8 +1,11 @@
+/*
+ * Copyright (c) 2025, KASTEL. All rights reserved.
+ */
 package view;
 
 import model.ladybug.LadyBug;
 import model.board.BoardView;
-import model.util.Vector2D;
+import model.ladybug.Vector2D;
 
 import java.util.Collections;
 import java.util.List;
@@ -44,7 +47,8 @@ public final class BoardDisplayer {
 
         for (int vertical = 0; vertical < height; vertical++) {
             for (int horizontal = 0; horizontal < width; horizontal++) {
-                buffer[vertical][horizontal] = boardView.tileAt(new Vector2D(vertical, horizontal)).getSymbol();
+                Vector2D location = new Vector2D(vertical, horizontal);
+                buffer[vertical][horizontal] = boardView.tileAt(location).symbol();
             }
         }
 
@@ -55,10 +59,10 @@ public final class BoardDisplayer {
             }
         }
 
-        return getDecoratedBoard(buffer, width);
+        return borderBoard(buffer, width);
     }
 
-    private String getDecoratedBoard(char[][] buffer, int width) {
+    private String borderBoard(char[][] buffer, int width) {
         StringBuilder decoratedBoard = new StringBuilder();
         decoratedBoard.append(horizontalEdge(width)).append(System.lineSeparator());
 
