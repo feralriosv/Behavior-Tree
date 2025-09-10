@@ -8,10 +8,6 @@ import java.util.Optional;
 
 /**
  * Factory for creating composite behavior tree nodes based on string labels.
- * <p>
- * Recognizes fallback ("?"), sequence ("->"), and parallel ("=M>") composite labels
- * and constructs corresponding {@link CompositeNode} instances.
- * </p>
  *
  * @author ubpst
  */

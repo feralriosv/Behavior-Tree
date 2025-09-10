@@ -90,7 +90,7 @@ public class DecisionTree {
     public List<TickResult> tick(GameContext context, LadyBug ladyBug) {
         context.beginTick(ladyBug);
 
-        while (!context.wasActionExecuted()) {
+        while (!context.actionExecuted()) {
             this.rootNode.tick(context);
         }
 

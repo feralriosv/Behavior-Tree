@@ -4,10 +4,8 @@ import java.util.List;
 
 /**
  * A generic loader interface for converting a list of strings into a specific type.
- * Implementations define how textual configuration lines are parsed into objects.
  *
  * @param <T> the type of object produced by this loader
- *
  * @author ubpst
  */
 public interface Loader<T> {

@@ -163,17 +163,10 @@ public class CommandExecuter<M, K extends Enum<K> & Keyword<M>> {
      *
      * @return the {@link IORessources} instance backing this executer
      */
-    public ConsoleIORessources getIoRessources() {
+    protected ConsoleIORessources getIoRessources() {
         return this.ioRessources;
     }
 
-    /**
-     * Prints an error message to the error output stream of this executer.
-     * <p>
-     * The message is prefixed with the error prefix before being printed to the error stream.
-     *
-     * @param errorMessage the error message to print
-     */
     private void printError(String errorMessage) {
         this.ioRessources.getErrorStream().println(ERROR_PREFIX + errorMessage);
     }

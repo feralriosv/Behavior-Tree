@@ -55,26 +55,26 @@ public final class BoardDisplayer {
             }
         }
 
-        return getDecoratedBoard(buffer, width);
+        return borderBoard(buffer);
     }
 
-    private String getDecoratedBoard(char[][] buffer, int width) {
+    private String borderBoard(char[][] buffer) {
         StringBuilder decoratedBoard = new StringBuilder();
-        decoratedBoard.append(horizontalEdge(width)).append(System.lineSeparator());
+        decoratedBoard.append(horizontalEdge()).append(System.lineSeparator());
 
         for (char[] charsRow : buffer) {
             decoratedBoard.append(BOARD_VERTICAL_BORDER);
-            for (int col = 0; col < width; col++) {
+            for (int col = 0; col < boardView.width(); col++) {
                 decoratedBoard.append(charsRow[col]);
             }
             decoratedBoard.append(BOARD_VERTICAL_BORDER).append(System.lineSeparator());
         }
 
-        decoratedBoard.append(horizontalEdge(width));
+        decoratedBoard.append(horizontalEdge());
         return decoratedBoard.toString();
     }
 
-    private String horizontalEdge(int width) {
-        return BOARD_CORNER + BOARD_HORIZONTAL_BORDER.repeat(width) + BOARD_CORNER;
+    private String horizontalEdge() {
+        return BOARD_CORNER + BOARD_HORIZONTAL_BORDER.repeat(boardView.width()) + BOARD_CORNER;
     }
 }

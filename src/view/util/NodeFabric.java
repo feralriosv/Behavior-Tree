@@ -3,17 +3,12 @@ package view.util;
 import model.decisiontree.NodeNaming;
 import model.decisiontree.Node;
 import view.configuration.loader.LoadCallBack;
-import view.configuration.loader.LoadingException;
 
 import java.util.List;
 import java.util.Optional;
 
 /**
  * Factory aggregator that can create decision-tree nodes from a textual label.
- * <p>
- * Delegates to a set of {@link NodeFactory} implementations (composite and leaf)
- * in order until one recognizes the label and returns a concrete {@link Node}.
- * If no factory accepts the label, a {@link LoadingException} is thrown.
  *
  * @author ubpst
  */

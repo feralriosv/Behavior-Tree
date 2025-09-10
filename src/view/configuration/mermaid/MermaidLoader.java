@@ -14,8 +14,8 @@ import java.util.Set;
 
 /**
  * Loader for Mermaid flowchart definitions.
- *
- * <p>Parses lines of a Mermaid diagram into a {@link MermaidData} object
+ * <p>
+ * Parses lines of a Mermaid diagram into a {@link MermaidData} object
  * containing node definitions, edges, and references.
  *
  * @author ubpst

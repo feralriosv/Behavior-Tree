@@ -154,14 +154,19 @@ public class Arguments {
             throw new InvalidArgumentException(ERROR_TOO_FEW_ARGUMENTS);
         }
 
-        StringBuilder sb = new StringBuilder(arguments[argumentIndex++]);
+        StringBuilder argumentContent = new StringBuilder(arguments[argumentIndex++]);
 
-        if (sb.indexOf(NODE_LABEL_OPEN) != -1 && !sb.toString().endsWith(NODE_LABEL_CLOSE)) {
-            while (!isExhausted() && !sb.toString().endsWith(NODE_LABEL_CLOSE)) {
-                sb.append(EMPTY_SPACE).append(arguments[argumentIndex++]);
+        if (hasUnclosedLabel(argumentContent)) {
+            while (!isExhausted() && !argumentContent.toString().endsWith(NODE_LABEL_CLOSE)) {
+                argumentContent.append(EMPTY_SPACE).append(arguments[argumentIndex++]);
             }
         }
 
-        return sb.toString();
+        return argumentContent.toString();
+    }
+
+
+    private boolean hasUnclosedLabel(StringBuilder argumentContent) {
+        return argumentContent.indexOf(NODE_LABEL_OPEN) != -1 && !argumentContent.toString().endsWith(NODE_LABEL_CLOSE);
     }
 }

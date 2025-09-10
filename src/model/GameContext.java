@@ -73,7 +73,7 @@ public class GameContext {
      *
      * @return true if an action was executed, false otherwise
      */
-    public boolean wasActionExecuted() {
+    public boolean actionExecuted() {
         return this.actionExecuted;
     }
 
