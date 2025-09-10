@@ -13,7 +13,6 @@ import java.util.List;
  * Represents a node in a decision tree.
  *
  * @param <T> the type of node, extending {@link NodeType}
- *
  * @author ubpst
  */
 public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
@@ -83,6 +82,18 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
     }
 
     /**
+     * Inserts a new sibling node into the children list of this node,
+     * placing it immediately to the right of the specified {@code childNode}.
+     *
+     * @param childNode  the existing child node that will serve as the reference point;
+     *                   the new sibling is inserted after this node
+     * @param newSibling the new node to insert as a sibling
+     * @return {@code true} if the sibling was successfully inserted,
+     *         {@code false} otherwise.
+     */
+    public abstract boolean insertSibling(Node<?> childNode, Node<?> newSibling);
+
+    /**
      * Saves the given tick state in the context and updates the last state of this node.
      *
      * @param context the game context
@@ -97,9 +108,8 @@ public abstract class Node<T extends NodeType<?>> implements Iterable<Node<?>> {
      * Returns the unique identifier of this node.
      *
      * @return the node identifier
-     *
      */
-    public NodeNaming getNaming() {
+    public NodeNaming getNodeNaming() {
         return this.nodeNaming;
     }
 

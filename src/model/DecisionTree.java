@@ -40,24 +40,17 @@ public class DecisionTree {
     /**
      * Attempts to insert a new sibling node immediately after a given target node in the decision tree.
      *
-     * @param targetNode the node after which the new sibling should be inserted
+     * @param childNode the node after which the new sibling should be inserted
      * @param newSibling the node to insert as a sibling
      * @return {@code true} if the sibling was successfully inserted; {@code false} otherwise
      */
-    public boolean addSibling(Node<?> targetNode, Node<?> newSibling) {
-        if (targetNode.isRoot() || this.containsNode(newSibling.getNaming())) {
+    public boolean addSibling(Node<?> childNode, Node<?> newSibling) {
+        if (childNode.isRoot() || this.containsNode(newSibling.getNodeNaming())) {
             return false;
         }
 
-        Node<?> parent = targetNode.getParent();
-        int indexOfTarget = parent.getChildren().indexOf(targetNode);
-
-        if (indexOfTarget < 0) {
-            return false;
-        }
-
-        parent.insertChildAt(indexOfTarget + 1, newSibling);
-        return true;
+        Node<?> parent = childNode.getParent();
+        return parent.insertSibling(childNode, newSibling);
     }
 
     /**
@@ -148,7 +141,7 @@ public class DecisionTree {
 
     private void assignTree(Node<?> node) {
         node.setTree(this);
-        this.nodeIndex.put(node.getNaming(), node);
+        this.nodeIndex.put(node.getNodeNaming(), node);
 
         for (Node<?> child : node.getChildren()) {
             assignTree(child);

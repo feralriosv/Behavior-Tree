@@ -4,7 +4,7 @@ import model.Game;
 import model.DecisionTree;
 import model.ladybug.LadyBug;
 import model.TickResult;
-import view.BoardDisplayer;
+import model.board.BoardDisplayer;
 import view.Command;
 import view.Result;
 

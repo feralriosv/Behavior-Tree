@@ -1,7 +1,6 @@
-package view;
+package model.board;
 
 import model.ladybug.LadyBug;
-import model.board.BoardView;
 import model.ladybug.Vector2D;
 
 import java.util.Collections;

@@ -6,7 +6,6 @@ import model.GameContext;
  * Strategy interface for defining the execution behavior of decision tree nodes.
  *
  * @param <T> the concrete node type this behavior targets; must extend {@link Node}
- *
  * @author ubpst
  */
 @FunctionalInterface

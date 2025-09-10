@@ -41,6 +41,6 @@ public class Head implements Command<Game> {
         }
 
         Node<?> activeNode = handle.getBugActiveNode(ladyBug);
-        return Result.success(activeNode.getNaming().toString());
+        return Result.success(activeNode.getNodeNaming().toString());
     }
 }

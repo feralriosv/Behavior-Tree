@@ -6,7 +6,6 @@ import model.GameContext;
  * Strategy-bearing type for decision tree nodes.
  *
  * @param <T> the concrete node class this type applies to
- *
  * @author ubpst
  */
 public interface NodeType<T extends Node<?>> {

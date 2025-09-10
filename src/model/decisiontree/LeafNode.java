@@ -92,6 +92,11 @@ public class LeafNode extends Node<LeafType> {
     }
 
     @Override
+    public boolean insertSibling(Node<?> childNode, Node<?> newSibling) {
+        return false;
+    }
+
+    @Override
     public void handleReset() {
 
     }

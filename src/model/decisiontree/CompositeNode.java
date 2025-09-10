@@ -130,9 +130,16 @@ public class CompositeNode extends Node<CompositeType> {
     }
 
     @Override
-    public void insertChildAt(int index, Node<?> child) {
-        child.setParent(this);
-        super.insertChildAt(index, child);
+    public boolean insertSibling(Node<?> childNode, Node<?> newSibling) {
+        int indexOfTarget = getChildren().indexOf(childNode);
+
+        if (indexOfTarget < 0) {
+            return false;
+        }
+
+        childNode.setParent(this);
+        insertChildAt(indexOfTarget + 1, newSibling);
+        return true;
     }
 
     @Override
