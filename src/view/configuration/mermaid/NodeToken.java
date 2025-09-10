@@ -1,4 +1,4 @@
-package view.configuration;
+package view.configuration.mermaid;
 
 import java.util.Optional;
 

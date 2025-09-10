@@ -54,10 +54,10 @@ public final class BoardDisplayer {
             }
         }
 
-        return borderBoard(buffer);
+        return putBorders(buffer);
     }
 
-    private String borderBoard(char[][] buffer) {
+    private String putBorders(char[][] buffer) {
         StringBuilder decoratedBoard = new StringBuilder();
         decoratedBoard.append(horizontalEdge()).append(System.lineSeparator());
 

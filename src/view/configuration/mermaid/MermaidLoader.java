@@ -1,7 +1,6 @@
 package view.configuration.mermaid;
 
 import model.decisiontree.NodeNaming;
-import view.configuration.NodeToken;
 import view.configuration.loader.Loader;
 
 import java.util.ArrayList;

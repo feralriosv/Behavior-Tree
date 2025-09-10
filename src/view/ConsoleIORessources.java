@@ -9,7 +9,7 @@ import java.util.Scanner;
  *
  * @author ubpst
  */
-public class ConsoleIORessources {
+public final class ConsoleIORessources {
 
     private final Scanner inputSource;
     private final PrintStream defaultStream;

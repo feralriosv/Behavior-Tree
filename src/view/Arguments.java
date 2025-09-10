@@ -6,7 +6,7 @@ package view;
 import model.decisiontree.NodeNaming;
 import model.ladybug.BugIdentifier;
 import model.ladybug.Vector2D;
-import view.configuration.NodeToken;
+import view.configuration.mermaid.NodeToken;
 
 import java.nio.file.Path;
 import java.util.ArrayList;

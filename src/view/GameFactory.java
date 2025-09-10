@@ -40,7 +40,6 @@ public class GameFactory {
         }
 
         Configuration gameConfig = setupHandler.getConfig();
-
         return new Game(gameConfig);
     }
 }

@@ -121,7 +121,7 @@ public class Game {
      * @param bug the ladybug attempting to place a leaf
      * @return true if the leaf was successfully placed, false otherwise
      */
-    public boolean placeLeaf(LadyBug bug) {
+    protected boolean placeLeaf(LadyBug bug) {
         if (!board.isInside(bug.positionAhead())) {
             return false;
         }
@@ -214,7 +214,7 @@ public class Game {
      * @param position the position to check for a ladybug
      * @return {@code true} if a ladybug is at the given position, {@code false} otherwise
      */
-    public boolean hasLadybugAt(Vector2D position) {
+    protected boolean hasLadybugAt(Vector2D position) {
         for (LadyBug ladyBug : this.bugsInGame) {
             if (ladyBug.getLocation().equals(position)) {
                 return true;
