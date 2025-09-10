@@ -166,6 +166,6 @@ public class Arguments {
     }
 
     private boolean isInsideBrackets(String argument) {
-        return argument.startsWith(NODE_LABEL_OPEN) && argument.endsWith(NODE_LABEL_CLOSE);
+        return argument.contains(NODE_LABEL_OPEN) && argument.endsWith(NODE_LABEL_CLOSE);
     }
 }
